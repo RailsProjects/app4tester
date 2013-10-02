@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <!-- Title and other stuffs -->
+  <title>MacBeath</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+
+
+
+   <%= javascript_include_tag "application", "jquery.complete-placeholder.min.js" %> <!-- then this line got the javascript working (for the slider, at least) after i dumped all the js files in -->
+  <%= stylesheet_link_tag    "application", :media => "all" %>  <!-- this line got all the CSS files in I think, from Erica; without it, it was unstyled completely (above stylesheet links not working) -->
+  
+  <!-- HTML5 Support for IE -->
+  <!--[if lt IE 9]>
+  <script src="js/html5shim.js"></script>
+  <![endif]-->
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/assets/img/favicon/favicon.png">
+</head>
+
+<body>
+
+<!-- Header starts -->
+  <header>
+    <div class="container">
+      <div class="row">
+
+        <div class="span4">
+          <!-- Logo. Use class "color" to add color to the text. -->
+          <div class="logo">
+            <h1><a href="#">Name<span class="bold">Coach</span></a></h1>
+            <p class="meta">hear the name, say it right</p>
+          </div>
+        </div>
+
+        <div class="span8">
+          <!-- Navigation -->
+          <div class="navbar">
+           <div class="navbar-inner">
+             <div class="container">
+               <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+               </a>
+               <div class="nav-collapse collapse">
+                 <ul class="nav">
+                   <li><a href="<%= root_path %>">Home</a></li>
+                   
+                   <% if !signed_in? %>
+                    <li> <%= link_to "Plans & Pricing", pricing_path %></li>
+                    <li><%= link_to "Reset Password", new_password_reset_path %></li>
+                    <li>
+                          <%= form_for(:session, url: sessions_path, :html => {:class => "navbar-form pull-right"} ) do |f| %>
+
+                          
+                              <%= f.text_field :email, :class => "span2", :placeholder => "Email" %>
+
+                         
+                              <%= f.password_field :password, :class => "span2", :placeholder => "Password" %>
+
+                              <%= button_tag(type: 'submit', class: "btn btn-primary btn-small") do %>
+                               Sign in <i class="icon-chevron-right icon-white"></i> 
+                              <% end %>
+
+                        <% end %>       
+                    </li>
+
+                  <% end %>
+
+
+                   <% if signed_in? %>
+                    <li><%= link_to "Profile", current_user %></li>
+                    <li id="fat-menu" class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Account <b class="caret"></b>
+                      </a>
+                       <ul class="dropdown-menu">
+                        <li><%= link_to account_user_path(current_user) do %><i class="icon-pencil"></i> Change Password<% end%> </li>
+                        <li><%= link_to edit_user_path(current_user) do %><i class="icon-pencil"></i> Edit User Name/Email<% end %></li>
+                        <li class="divider"></li>
+                        <li><%= link_to existing_user_purchase_path do %><i class="icon-shopping-cart"></i> Buy Event Pages<% end %></li>
+                        <% if !customer_has_active_subscription? %><li><%= link_to purchase_sub_existing_path do %><i class="icon-shopping-cart"></i> Purchase Subscription<% end %></li> <% end %> 
+                        <% if customer_has_active_subscription? %><li><%= link_to change_subscription_path do %><i class="icon-tags"></i> Change Subscription<% end %></li>
+                        <li><%= link_to cancel_path do %><i class="icon-ban-circle"></i> Cancel Subscription<% end %></li><% end %> 
+                        <li class="divider"></li>
+                        <li> <%= link_to signout_path, method: "delete" do %><i class="icon-signout"></i> Sign out<% end %></li>
+                      </ul>
+                     </li>
+                   <% end %>
+
+
+                   <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pages <b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="404-1.html">404</a></li>
+                        <li><a href="about1.html">About</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="features2.html">Features</a></li>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="pricing1.html">Pricing Table</a></li>
+                        <li><a href="process.html">Process</a></li>
+                        <li><a href="project.html">Project</a></li>
+                        <li><a href="register.html">Register</a></li>
+                        <li><a href="support.html">Support</a></li>
+                        <li><a href="testimonials.html">Testimonials</a></li>
+                      </ul>
+                   </li>
+                   <li><a href="service2.html">Service</a></li>
+                   <li><a href="resume.html">Resume</a></li>
+                   <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog <b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="blog1.html">Blog</a></li>
+                        <li><a href="blog3.html">Blog Box</a></li>
+                        <li><a href="blog-3col.html">Blog 3 Column</a></li>
+                        <li><a href="blog-single.html">Blog Single</a></li>
+                      </ul>
+                    </li>
+                                        
+                   <li><a href="portfolio1.html">Portfolio</a></li>
+                   <li><a href="contactus1.html">Contact</a></li>
+                 </ul>
+               </div>
+              </div>
+           </div>
+         </div>
+
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Seperator -->
+
+  <div class="sep"></div>
+
+  <!-- Header ends -->
+
+<!-- Slider starts -->
+  <div class="parallax-slider">
+          <!-- Slider (Parallax Slider) -->            
+            <div id="da-slider" class="da-slider">
+              <!-- Each slide should be enclosed inside "da-slide" class -->
+              <div class="da-slide">
+                <div class="slide-details">
+                  <!-- Heading -->
+                  <h2><span>When Saying it Right Really Matters.</span></h2>
+                  <!-- Para -->
+                  <p>Graduations. Weddings. Banner events at which every name, no matter how  difficult or deceptively easy, must be announced perfectly. <br/> Still dealing with low-fidelity phonetic spellings?</p>
+                  <!-- Read more link -->
+                 
+                  <!-- Image -->
+                  <div class="da-img"><img src="/assets/hand2.jpg" alt="image01" /></div>
+                </div>
+              </div>
+              <div class="da-slide">
+                <h2><span>NameCoach makes it Easy...</span></h2>
+                <p>Individuals voice-record their names on an Event Page, where the announcer can hear and practice them - <em>as they actually say it</em> - making spot-on pronunciation possible, easy, and hassle-free. </p>
+               
+                <div class="da-img"><img src="/assets/podium1.jpg" alt="image01" /></div>
+              </div>
+              <div class="da-slide">
+                <h2><span>Request Names</span></h2>
+                <p><br/>Just give out a link to your Event Page, all generated for you.</p>
+                <a href="#" class="da-link">Demo Link</a>
+                <div class="da-img"><img src="/assets/step1_6.png" alt="image01" class="vert-align"/></div>
+              </div>
+              <div class="da-slide">
+                <h2><span>Record Names</span></h2>
+                <p>One click goes to our quick and easy-to-use online audio recorder, where individuals voice-record their names for the Event Page.</p>
+                <a href="#" class="da-link">Recorder</a>
+                <div class="da-img"><img src="/assets/record_2_3.png" alt="image01" class="vert-align"/></div>
+              </div>
+              <div class="da-slide">
+                <h2><span>Hear and Practice Names</span></h2>
+                <p>The announcer can play recordings as needed before the event, allowing for perfectly easy, easily perfect pronunciations on the big day!</p>
+                <a href="#" class="da-link">Demo Page</a>
+                <div class="da-img"><img src="/assets/event_page_22.png" alt="image01" class="vert-align"/></div>
+              </div>
+              <nav class="da-arrows">
+                <span class="da-arrows-prev"></span>
+                <span class="da-arrows-next"></span>
+              </nav>
+             
+            </div>
+            
+  </div>
+  <div class="tp-bannershadow tp-shadow1"></div>
+<!-- Slider ends -->
+
+<br/>
+
+<!-- Recent Posts Starts -->
+
+<div class="recent-posts">
+  <div class="container">
+    <div class="row">
+
+      <div class="span7">
+        <ul>
+            <!-- Recent posts #1 -->
+            <!-- Each carousel should be enclosed inside "li" tag -->
+            <li>
+                <div class="rp-item span3"> 
+                  <!-- Image. -->
+                  <div class="rp-image">        
+                    <a href="#"><img src="/assets/graduation_000_2.jpg" alt=""/></a>
+                  </div>
+                  <div class="rp-details">
+                    <!-- Title and para -->
+                    <h5><a href="#">Graduation Ceremonies </a></h5>
+
+                  </div>                
+                </div>        
+            </li>
+            <!-- Recent posts #2 -->
+            <li>
+                <div class="rp-item span3"> 
+                  <div class="rp-image">        
+                    <a href="#"><img src="/assets/wed2.jpeg" alt=""/></a>
+                  </div>
+                  <div class="rp-details">
+                    <h5><a href="#">Wedding Receptions</a></h5>
+                            
+                  </div>                
+                </div>        
+            </li>                                                                          
+        </ul>
+      </div>
+
+      <div class="span5 home-block">
+          <div class="grey-box hero-block-2">
+              <h2><a href="#">Graduation Season Offer</a></h2>
+              <p>The climax of their educational career. Get your graduands recording now to ensure the moment is perfect for them and their families! </p><br/>
+              <p>&nbsp;&nbsp;<i class="icon-ok light-blue"></i>&nbsp;&nbsp;Unlimited Recordings per Event</p>
+              <p>&nbsp;&nbsp;<i class="icon-ok light-blue"></i>&nbsp;&nbsp;Full Tech and Customer Support</p>
+              <p>&nbsp;&nbsp;<i class="icon-ok light-blue"></i>&nbsp;&nbsp;100-day, 100% money-back guarantee. No hassles.</p>
+              <a href="#" class="btn btn-warning"><i class="icon-shopping-cart"></i>Purchase Service for $75</a>
+          </div>
+          <div class="tp-bannershadow tp-shadow3"></div>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+<!-- Recent Posts ends -->
+<div class="sep"></div>
+<!-- How to 2 starts -->
+<div class="content process">
+  <div class="container">
+    <div class="row">
+
+        <h2> <i class="icon-cogs"></i>&nbsp;&nbsp;<span class="light-blue">How NameCoach Works</span></h2>
+        <div class="text-divider6">
+          <span></span>
+        </div> 
+        <br/>
+
+
+                        <div class="span6">
+                           <!-- Step 1 -->
+                           <div class="onethree-left">
+                             <div class="process-meta">
+                              <!-- Process number. Like one, two, three -->
+                                <span>1</span>
+                             </div>
+                           </div>
+                           <div class="onethree-right">
+                            <!-- Title and para -->
+                             <h3><i class="icon-edit"></i>&nbsp;Create an Event Page </h3>
+                             <p><span>Just enter a name (like 'The Harvard Quincy House Commencement'), and a date for the event.  You're Event Page is ready-to-go.</span></p>
+                            
+                           </div>
+                        </div>
+
+                        <div class="span6">
+                           <!-- Step 2 -->
+                           <div class="onethree-left">
+                             <div class="process-meta">
+                                <span>2</span>
+                             </div>
+                           </div>
+                           <div class="onethree-right">
+                             <h3><i class="icon-envelope"></i>&nbsp;Invite Other Admins&nbsp;<span class="muted">(optional)</span></h3>
+                               <p><span>You will be an 'Admin' for the Event Page: you can request and listen to name recordings, and make others Admins (just enter their email.) This is useful if an administrator is putting the recording-link in the commencement instructions webpage or email, and a dean will be announcing names.</span></p>
+                           </div>                        
+                        </div>
+     </div> 
+
+     <br/><br/>
+
+     <div class="row">                   
+                        <div class="span6">
+                           <!-- Step 3 -->
+                           <div class="onethree-left">
+                             <div class="process-meta">
+                                <span>3</span>
+                             </div>
+                           </div>
+                           <div class="onethree-right">
+                             <h3><i class="icon-link"></i>&nbsp;Invite Attendees to Record Names</h3>
+                              <p><span>Admins have two options for requesting names:</span></p><br/>
+                                <ol>
+                                  <li><span>Give out a unique link (generated for your event) with your general event instructions (e.g., your commencement webpage). We give you the link and suggested text, just copy and paste!</span></li><br/>
+                                  <li><span>Or, enter email addresses to send personal name requests with one click. </span></li>
+                                </ol>
+                           </div>                       
+                        </div> 
+
+                       
+
+                        <div class="span6">
+                           <!-- Step 4 -->
+                           <div class="onethree-left">
+                             <div class="process-meta">
+                                <span>4</span>
+                             </div>
+                           </div>
+                           <div class="onethree-right">
+                              <h3><i class="icon-volume-up"></i>&nbsp;Attendees Record their Names</h3>
+                              <p><span>Whichever method you use, attendees click a link to record their names using our online voice-recorder.  They can also enter exactly how they want to be announced (middle names, nicknames), and notes to help with pronounciation ('last name rhymes with.. ').</span></p>
+                           </div>
+                        </div>
+
+       </div>
+
+       <br/><br/>
+
+       <div class="row">
+                        <div class="span6">
+                           <!-- Step 5 -->
+                           <div class="onethree-left">
+                             <div class="process-meta">
+                                <span>5</span>
+                             </div>
+                           </div>
+                           <div class="onethree-right">
+                             <h3><i class="icon-play-circle"></i>&nbsp;Hear and Practice Names!</h3>
+                              <p><span>After an attendee records their name, Announcers/Admins can hear those names on the Event Page and see any attendees' pronunciation notes. They can also enter their own helpful notes.</span></p>   
+                           </div>                        
+                        </div>
+
+                        <div class="span6 home-block">
+                          <div class="grey-box hero-block-2">
+                              <h3 class="light-blue">We Make it Easy to Make Their Once-in-a-Lifetime Moment Perfect.  Try it Today!</h3>
+                              <a href="#" class="btn btn-primary">See Demo Event Page</a>&nbsp;&nbsp;<a href="#" class="btn btn-warning"><i class="icon-shopping-cart"></i>Purchase Service for $75</a>
+                          </div>
+                         
+                      </div>
+
+
+    </div>
+    
+    <br/><br/>
+
+    <div class="row">
+      <div class="text-divider5">
+       <span></span>
+       </div>  
+    </div>
+
+  </div>
+</div>
+
+<!-- How to 2 ENDS -->
+
+
+
+
+
+<!-- Footer starts -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+
+            <div class="row">
+
+              <div class="span4">
+                <div class="widget">
+                  <h5>Contact</h5>
+                  <hr />
+                  <i class="icon-home"></i> &nbsp; 566 Arguello Way, No. 455, Stanford, CA 94305.
+                  <hr />
+                  <i class="icon-phone"></i> &nbsp; (650) 394-6263
+                  <hr />
+                  <i class="icon-envelope-alt"></i> &nbsp; <a href="mailto:#">info@name-coach.com</a>
+                  <hr />
+                    <div class="social">
+                      <a href="#"><i class="icon-facebook facebook"></i></a>
+                      <a href="#"><i class="icon-twitter twitter"></i></a>
+                      <a href="#"><i class="icon-linkedin linkedin"></i></a>
+                      <a href="#"><i class="icon-google-plus google-plus"></i></a> 
+                    </div>
+                </div>
+              </div>
+
+
+
+              
+            </div>
+
+            <hr />
+            <!-- Copyright info -->
+            <p class="copy">Copyright &copy; 2013 | <a href="#">NameCoach</a> - <a href="#">Home</a> |<a href="#">Terms and Conditions</a> </p>
+      </div>
+    </div>
+  <div class="clearfix"></div>
+  </div>
+</footer> 	
+
+<!-- Footer ends -->
+
+<!-- Scroll to top -->
+<span class="totop"><a href="#"><i class="icon-chevron-up"></i></a></span> 
+
+
+</body>
+</html>

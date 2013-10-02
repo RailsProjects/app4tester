@@ -1,0 +1,40 @@
+<div class="jumbotron">
+      <h1> Edit User Details </h1>
+  </div>
+             <% flash.each do |key, value| %>
+              <div class="alert alert-block alert-<%=key%>"> 
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= value %> 
+              </div>
+            <% end %>
+
+<div class="container">
+
+
+<br/>
+<br/>
+
+      <div class="row">
+
+                 <div class="well span6 offset3">
+                       <h4><i class="icon-edit blue"></i>&nbsp;&nbsp;Update Your Info Here</h4>
+                      <%= simple_form_for(@user, :html => {:class => "form-horizontal"}) do |f| %>
+                      <br/>
+                      <%= f.error_notification %>
+                          <%= f.input :first_name %>
+                          <%= f.input :last_name %>
+                          <%= f.input :email %>  
+                        
+                          <div class="form-actions">
+                           
+                          <%= f.button :submit, "Update", class: "btn btn-large btn-primary", disable_with: "updating..." %>
+                       
+                          </div>
+
+                      <% end %>
+
+
+                </div>
+      </div>
+
+</div>

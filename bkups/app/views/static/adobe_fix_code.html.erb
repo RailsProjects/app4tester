@@ -1,0 +1,43 @@
+<script>
+$(document).ready( function() {
+  repositionContentContainer();
+});
+
+function repositionContentContainer() {
+  // this routine is a complete hack to work around the flash "Allow" button bug
+  if ( $("#_GPL_e6a00_parent_div").length > 0 ) {
+
+    //Adjust the #content left-margin, since by default it likely isn't an int
+    setLeftMargin();
+    //If the User resizes the window, adjust the #content left-margin
+    $(window).bind("resize", function() { setLeftMargin(); });
+  }
+}
+
+function setLeftMargin() {
+  var newWindowWidth = $(window).width();
+  var mainWellWidth = $("#_GPL_e6a00_parent_div").width();
+  // create an integer based left_offset number
+  var left_offset = parseInt((newWindowWidth - mainWellWidth)/2.0);
+  if (left_offset < 0) { left_offset = 0; }
+  $("#_GPL_e6a00_parent_div").css("margin-left", left_offset);
+}
+</script>
+
+
+<script>
+$(document).ready( function() {
+  registerMozillaFlashFix();
+});
+
+function registerMozillaFlashFix() {
+ if ($.browser.mozilla) {
+   $(window).resize(function() {
+      $(".flash").each(function(ii, e) {
+        var $e = $(e);
+        $e.css('margin-left', $e.position().left % 1 === 0 ? '0' : '0.5px');
+      });
+   });
+ }
+}
+</script>

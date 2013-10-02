@@ -1,0 +1,20 @@
+<%= simple_form_for(@plan) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :my_plan_id %>
+    <%= f.input :events_number %>
+    <%= f.input :unlimited %>
+     <br/>
+    <%= f.input :event_type %>
+   
+    <%= f.input :trial_period %>
+    <%= f.input :monthly_cost_cents %>
+    <%= f.input :annual_cost_cents %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

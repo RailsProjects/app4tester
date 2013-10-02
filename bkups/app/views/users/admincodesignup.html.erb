@@ -1,0 +1,141 @@
+<div class="jumbotron">
+      <h1> Register to Admin an Event</h1>
+  </div>
+
+<div id="newadmininfo" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel"><em>What's going on here?</em></h3>
+            </div>
+            <div class="modal-body">
+            <ul>
+            <li> Someone involved in planning an upcoming event needs your help ensuring that some attendees' names will be announced correctly.</li> <br/>
+            <li> As an admin, you can invite event attendees to voice-record their name on our site, and hear those recordings.
+                 <ul>
+                      <br/>
+                      <li> You may have been asked to be an admin because <strong>you're doing the announcing at the event</strong>: this means you can easily ensure you get all the names right by hearing their recordings and reading any helpful notes they've provided (rhymes, phonetic pronunciations). </li> <br/>
+                      <li> Or you may have been asked to be an admin so that <strong>you can invite attendees to record their names on our site</strong>, so someone else can practice them. (It's easy, you just need their email addresses.  Or, you can just publish or mass email a recording link, which you will get on the Event Page.)   </li><br/>
+                      <li> You can also invite others to be admins for this event.  </li>
+                  </ul> 
+              </li> <br/>
+            </ul>
+            <div class="cent"><em><strong><h3 class="blue"> Get Started! </h3></strong></em></div>
+                <ol>
+                  <br/>
+                  <li> On the registration page: enter the admin code you were given, name and email, and choose a password. <br/> (Or if you have already registered on our site, please sign in under 'Already Registered on our Site?')</li><br/>
+                  <li> Clicking 'Register!' will then direct you to your profile page. Here you can see the events you administer (if you're new to this service, it's probably just one event).  From here you can go to your event page. </li> <br/>
+                   <li> On your event page you can invite other admins, invite attendees (to register and record their name), and hear their recorded names! </li><br/>
+                   <li> Thanks to your help, the attendees will have the pleasure of hearing their names announced correctly on the day of the event! </li><br/>
+                 </ol>
+            
+           
+            <small> More questions? Please contact us below. <em>Thank you!</em> </small>
+            
+
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" data-dismiss="modal">Done</button>
+             
+            </div>
+        </div> <%# end modal %>
+<div class="alert alert-block alert-info">
+ 
+    <button type="button" class="close" data-dismiss="alert">×</button>
+ 
+
+              <h4> You've been asked to be an admin for an upcoming event. &nbsp;&nbsp;&nbsp;<a data-toggle="modal" href="#newadmininfo" class="btn btn-info">More Info <i class="icon-info-sign icon-white"></i></a> </h4>     
+</div>  
+
+             <% flash.each do |key, value| %>
+              <div class="alert alert-block alert-<%=key%>"> 
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= value %> 
+              </div>
+            <% end %>
+
+<div class="container">
+
+
+<br/>
+
+<div class="accordion" id="accordion3">
+                                    <div class="accordion-group bg-signup">
+                                      <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseOne">
+                                         <h5 class="white">New Admin Registration</h5>
+                                        </a>
+                                      </div>
+                                      <div id="collapseOne" class="accordion-body collapse in">
+                                        <div class="accordion-inner">
+                                          <div class="well span5 offset3">
+                                                <h4><i class="icon-user">&nbsp;</i><span class="blue">Admin Registration for New Users</span></h4>
+                                                <br/>
+                                                <%= simple_form_for(@user, :url => admincodesignupcreate_path, :html => {:class => "form-horizontal"}) do |f| %>
+                                                <br/>
+                                                <%= f.error_notification %>
+                                                    <%= f.input :access_code, label: "Admin Code" %>            
+                                                    <%= f.input :first_name, label: "First Name"  %>
+                                                    <%= f.input :last_name, label: "Last Name" %>
+                                                    <%= f.input :email %>
+                                                    <%= f.input :password, hint: "(minimum 6 characters)", label: "Create Password" %>
+                                                    <%= f.input :password_confirmation, label: "Confirm Password" %>
+
+                                                  
+                                                    <div class="form-actions">
+                                                     
+                                                    <%= f.button :submit, "Register!", class: "btn btn-large btn-primary" %>
+                                                 
+                                                    </div>
+                                                  <h6>By registering you agree to our <%= link_to "Terms and Conditions", terms_path, :target => "_blank" %>.</h6>
+                                                <% end %>
+
+                                           </div>
+                                        </div><%# end accordion inner %>
+                                      </div><%# end collapse one %>
+                                      </div><%# end accordigion group %>
+                                        <div class="accordion-group bg-signup">
+                                          <div class="accordion-heading">
+                                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseTwo">
+                                              <h5 class="white">Already Registered on our Site?</h5>
+                                            </a>
+                                          </div>
+                                          <div id="collapseTwo" class="accordion-body collapse">
+                                            <div class="accordion-inner">
+                                                  
+                                                <div class="well span5 offset3">
+                                                    <h4><i class="icon-user">&nbsp;</i><span class="blue">Admin Registration for Existing Users</span></h4>
+                                                                    <br/> 
+                                                               
+                                                      <%= form_for(:session, url: addcodeadmin_path, :html => {:class => "form-horizontal"} ) do |f| %>
+
+                                                          
+                                                           <span class="blue"><em>If you're registering as an admin for an event with an admin code, but have previously registered on our site, please enter the admin code for that event and sign in here:</em></span> <br/> <br/>
+                                                           <%= f.text_field :access_code, :class => "span3", :placeholder => "Admin Code" %> 
+                                                          <br/>
+                                                          <br/>
+                                                          <%= f.text_field :email, :class => "span3", :placeholder => "Email" %>
+                                                          <br/>
+                                                          <br/>
+
+                                                          <%= f.password_field :password, :class => "span3", :placeholder => "Password" %>
+
+                                                            <br/>
+                                                            <br/>
+                                                              <%= button_tag(type: 'submit', class: "btn btn-primary btn-small pull-right") do %>
+                                                               Sign In <i class="icon-chevron-right icon-white"></i> 
+                                                              <% end %>
+
+                                                        <% end %> <%# end well %>
+                                                  </div>
+                                               <br/>
+                                            </div>
+                                          </div>
+                                      </div> <%# end accordion group%>
+                                  </div>   <%# end accordion%>
+
+
+
+</div>
+
+
+ 

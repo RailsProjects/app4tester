@@ -1,0 +1,85 @@
+
+ <ul id="myTab" class="nav nav-tabs">
+	  <li class="active"><a href="#ev" data-toggle="tab"><strong>Your Events</strong></a></li>
+	  <li><a href="#nw" data-toggle="tab"><strong>Your VoiceGem<% if !current_user.voicegems.nil? && current_user.voicegems.count > 1 %>s<% end %></strong></a></li>
+</ul>
+          
+<div id="myTabContent" class="tab-content">
+      <div class="tab-pane active" id="ev">
+			
+
+				 <div class="row">
+				    <div class="span12">
+				      <div class="well">
+
+				            <h4><span class="blue"><i class="icon-list icon-white"></i></span>&nbsp;<strong>Event pages you administer: </strong></h4>
+				            <br/>
+				            <table class="table table-striped event">
+				              <% @user.adminevents.each do |e| %>
+				                <tr>  
+				                  <td><strong><%= link_to e.title, e %></strong> </td>
+				                  <td> <% unless e.date.nil? %><%= e.date.strftime("%b %d, %Y") %><% end %> </td> 
+				                    <td><a  href="<%= edit_event_path(e) %>"><span class="label label-info"><i class="icon-pencil icon-white"></i>&nbsp;edit event</span></a>	 </td> 
+				              	  <td><em>Invited to admin by:</em><% if !e.admininvites.nil? %><% if e.admininvites.find_by_user_id(@user.id) %> <% if User.find_by_id(e.admininvites.find_by_user_id(@user.id).admin_id) %>  <%= User.find_by_id(e.admininvites.find_by_user_id(@user.id).admin_id).first_name %> <%= User.find_by_id(e.admininvites.find_by_user_id(@user.id).admin_id).last_name %><% else %>  --<% end %><% else %>  --<% end %><% else %>  --<% end %></td> 
+				                
+				                  <td> 
+				                  			 <div id="<%= e.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                          <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                            <h3>Admins<% if e.title %> for <%= e.title %><% end %></h3>
+                                                          </div>
+                                                          <div class="modal-body">
+
+                                                                <br/>
+                                                                  <table class="table table-condensed table-striped">
+                                                                    <thead>
+                                                                      <th>First Name</th>
+                                                                      <th>Last Name</th>
+                                                                      <th>Email</th>                                                                      
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <% e.admins.each do |a| %>
+                                                                      <tr>
+                                                                        <td> <%= a.first_name %> </td>
+                                                                        <td> <%= a.last_name %> </td>
+                                                                        <td> <%= a.email %> </td>
+                                                                      </tr>
+                                                                    <% end %>
+                                                                  </tbody> 
+                                                                  </table> 
+                                                               
+                                                          </div>
+
+                                                          <div class="modal-footer">
+                                                            <button class="btn" data-dismiss="modal">Close</button>
+                                                              
+                                                      
+                                                            </div>
+                                                        </div>
+
+                                                          
+                                                           
+                                                              <a data-toggle="modal" href="#<%= e.id %>" class="btn btn-info btn-small">See All Event Admins</a>
+                                                         
+                                                         
+                                                </td>
+				                  
+				                  <td> <a href="<%= events_path%>/<%= e.id %>" class="btn btn-info btn-small">go <i class="icon-chevron-right icon-white"></i> </a>
+				                  </td>
+				                
+
+				                </tr>
+				              <% end %>
+				            </table> 
+				      </div>
+				    </div>
+
+				  </div>   			               
+				      </div>
+
+	
+      <div class="tab-pane" id="nw">
+		 <%= render 'users/vgregularshow' %> 	               
+     </div>
+
+</div>

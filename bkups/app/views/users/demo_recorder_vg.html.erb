@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>App4</title>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= javascript_include_tag "application", "jRecorder" %>
+  <%= csrf_meta_tags %>
+  <!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+</head>
+
+<body>
+
+   <script type="text/javascript">
+   
+   $.jRecorder(
+     
+     {  host : '<%= saveupload_url %>',           
+        callback_started_recording:     function(){callback_started(); },
+        callback_stopped_recording:     function(){callback_stopped(); },
+        callback_activityLevel:          function(level){callback_activityLevel(level); },
+        callback_activityTime:     function(time){callback_activityTime(time); },
+        
+        callback_finished_sending:     function(time){ callback_finished_sending() },
+        
+        
+        swf_path : '<%= asset_path('jrec/jRecorder.swf') %>',
+     
+     }
+     
+   
+        
+   
+   );
+   
+    
+   
+   </script>
+
+
+<div class="container">
+
+
+             <% flash.each do |key, value| %>
+              <div class="alert alert-block alert-<%=key%>"> 
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= value %> 
+              </div>
+            <% end %>
+
+
+          <div class="span1" id="levelbase" style="width:200px;height:20px;background-color:#f89406">
+             <div id="levelbar" style="height:19px; width:2px;background-color:red"></div>
+          </div>
+
+        <p>
+          &nbsp;<span class="red">MIC LEVEL</span> 
+        </p>
+        <p>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elapsed Time: <span id="time">00</span>/30 seconds 
+       </p>
+        
+       
+        <hr/> 
+
+      
+          
+          <div class = "span4 well">
+          &nbsp;&nbsp;&nbsp;&nbsp;
+           <%= button_tag(type: 'submit', class: "btn btn-danger btn-small btn-record", id: "record", :disabled => false) do %>
+                              RECORD <i class="icon-caret-right"></i> 
+                            <% end %>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+
+          <%= button_tag(type: 'submit', class: "btn btn-warning btn-small btn-record", id: "stop", :disabled => true) do %>
+                              STOP  <i class="icon-stop"></i> 
+                            <% end %>
+           &nbsp;&nbsp;&nbsp;&nbsp;
+            <%= button_tag(type: 'submit', class: "btn btn-warning btn-small btn-record", id: "send", :disabled => true ) do %>
+                                    UPLOAD <i class="icon-upload"></i> 
+                                  <% end %>              
+
+          </div>
+          <br/>
+                   
+          <br/> 
+          
+
+    <div class="span5">
+        <span class="red">STATUS:</span> <span id="status"><strong>Press RECORD to begin.</strong> If asked for permission to access your microphone, <strong>click 'Allow.'</strong> </span>
+    </div> 
+          
+   
+
+
+</div>
+
+
+   <script type="text/javascript">
+
+                  
+      
+      
+      
+                  $('#record').click(function(){
+                    
+                       
+                      $.jRecorder.record(30);
+                     
+                      
+                      
+                    
+                    
+                  })
+                  
+                  
+                  $('#stop').click(function(){
+                    
+                    
+                    
+                     $.jRecorder.stop();
+                      
+
+    
+                    
+                    
+                  })
+                  
+                  
+                   $('#send').click(function(){
+                    
+                    
+                    
+                     $.jRecorder.sendData();
+                    
+                    
+                  })
+                  
+
+                   function callback_finished()
+                  {
+      
+                      $('#status').html('Recording is finished. ');
+                    
+                  }
+                  
+                  function callback_started()
+                  {
+      
+                      $('#status').html('Recording started. <strong>Press STOP when you finish saying your name.</strong> (Recording will stop automatically in 30 seconds.)');
+                      $('#send').attr("disabled",true); 
+                      $('#stop').attr("disabled",false); 
+                      $('#record').attr("disabled",true); 
+                      $('#record').html('Recording...');
+                      $('#send').html('UPLOAD&nbsp;<i class="icon-upload"></i>'); 
+                  }
+                  
+                  
+                  
+                  
+                  function callback_error(code)
+                  {
+                      $('#status').html('Error, code:' + code);
+                  }
+                  
+                  
+                  function callback_stopped()
+                  {
+                      $('#status').html('Recording stopped. You should hear your recording automatically play back. <strong>Press UPLOAD if satisfied (disabled for demo)</strong>, otherwise re-record by pressing RECORD again.');
+                       $('#send').attr("disabled",true); 
+                       $('#record').attr("disabled",false); 
+                       $('#stop').attr("disabled",true);
+                       $('#record').html('RECORD&nbsp;<i class="icon-caret-right"></i>');  
+                  }
+
+                  function callback_finished_recording()
+                  {
+                    
+                      $('#status').html('Recording event is finished');
+                    
+                    
+                  }
+                  
+                  function callback_finished_sending()
+                  {
+                    
+                      $('#status').html('Recording uploaded! <strong>Press the Done button</strong> below. Note: You may need to wait a minute and refresh your profile page to hear this recording in your NameGuide.');
+                      $('#send').html('<i class="icon-check"</i>&nbsp;UPLOADED');
+                      $('#send').attr("disabled",true);
+                      
+                  }
+                  
+                  function callback_activityLevel(level)
+                  {
+                    
+                    $('#level').html(level);
+                    
+                    if(level == -1)
+                    {
+                      $('#levelbar').css("width",  "2px");
+                    }
+                    else
+                    {
+                      $('#levelbar').css("width", (level * 2)+ "px");
+                    }
+                    
+                    
+                  }
+                  
+                  function callback_activityTime(time)
+                  {
+                   
+                   //$('.flrecorder').css("width", "1px"); 
+                   //$('.flrecorder').css("height", "1px"); 
+                    $('#time').html(time);
+                    
+                  }
+
+    
+        </script>
+
+
+
+ </body>
+ </html>

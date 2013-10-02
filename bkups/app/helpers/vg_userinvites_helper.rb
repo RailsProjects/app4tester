@@ -1,0 +1,2 @@
+module VgUserinvitesHelper
+end

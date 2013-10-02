@@ -1,0 +1,53 @@
+<%= form_for(@practiceobject) do |f| %>
+  <% if @practiceobject.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@practiceobject.errors.count, "error") %> prohibited this practiceobject from being saved:</h2>
+
+      <ul>
+      <% @practiceobject.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br />
+    <%= f.number_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :event_id %><br />
+    <%= f.number_field :event_id %>
+  </div>
+  <div class="field">
+    <%= f.label :first_name %><br />
+    <%= f.text_field :first_name %>
+  </div>
+  <div class="field">
+    <%= f.label :last_name %><br />
+    <%= f.text_field :last_name %>
+  </div>
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :admin_notes %><br />
+    <%= f.text_field :admin_notes %>
+  </div>
+  <div class="field">
+    <%= f.label :userinvite_id %><br />
+    <%= f.number_field :userinvite_id %>
+  </div>
+  <div class="field">
+    <%= f.label :admin_id %><br />
+    <%= f.number_field :admin_id %>
+  </div>
+  <div class="field">
+    <%= f.label :token %><br />
+    <%= f.text_field :token %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

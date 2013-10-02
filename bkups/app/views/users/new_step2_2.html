@@ -1,0 +1,209 @@
+
+
+<div class="jumbotron">
+      <h1> Invited Name Registration <% if !@po.nil? %><% if !@po.event.nil? %><% if @po.event.title %>for<em> <%= @po.event.title %> </em> <% end %> <% end %><% end %></h1>
+      <br/>
+      <h3>  <% if !@po.nil? %><% if !@po.event.nil? %><% if @po.event.date %><%= @po.event.date.strftime("%b %d, %Y")  %> <% end %> <% end %><% end %></h3>
+  </div>
+
+
+ <div id="newinfo" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel"><em>What's going on here?</em></h3>
+            </div>
+            <div class="modal-body">
+            <ul>
+            <li> This quick and easy service is FREE for you. </li> <br/>
+            <li> You've been asked to record your name in your own voice, so that someone who will announce your name at an upcoming event can make sure they pronounce it correctly.  (Someone involved in planning this event sent you the invitation email.) </li> <br/>
+            <li> The process is simple!
+                <ol>
+                  <br/>
+                  <li> On the registration page: fill out your name and email, and choose a password.<br/> (Or if you have already registered on our site, please sign in under 'Already Registered on our Site?') </li><br/>
+                  <li> Clicking 'Register!' will then direct you to a page on which you can record your name (through our online voice recorder).  Don't worry, this part is super-easy too.  </li><br/>
+                   <li> Thanks to your help, the person announcing your name can now hear your recording and make sure it's pronounced correctly on the day of the event! </li><br/>
+                 </ol>
+            </li> 
+           
+            <li> More questions? See our 'Help' page. When you're ready to register, just click on the link in your invitation email again. <em> Otherwise, please register now! Thank you!</em> </li>
+            </ul>
+
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" data-dismiss="modal">Done</button>
+                
+               
+
+             
+            </div>
+          </div>
+
+
+<div class="alert alert-block alert-info">
+ 
+    <button type="button" class="close" data-dismiss="alert">×</button>
+              <% if !@po.nil? %>  
+           <% if !@po.event.nil? %> 
+
+              <p> <h3>Now just record your name, and you're done!</done>&nbsp;&nbsp;&nbsp;<a data-toggle="modal" href="#newinfo" class="btn btn-info btn-small">More Info <i class="icon-info-sign icon-white"></i></a> </h3>  </p>
+
+          <% end %>
+          <% end %>
+     
+            
+         
+    </div>  
+<div class="container">
+    
+
+
+<br/>
+
+<div class="row">
+      <div class="well span5 offset2">
+      <h4 class="blue">  <% if signed_in? %><i class="icon-check">&nbsp;<% else %><i class="icon-check-empty">&nbsp;<% end %></i>STEP 1: Basic Info (required) </h4>
+          <%= simple_form_for(@user, :html => {:class => "form-horizontal"}) do |f| %>
+          <br/>
+          <%= f.error_notification %>
+          
+            <%= f.hidden_field :invite_token %>
+
+
+              <%= f.input :first_name, label: "First Name" %>
+              <%= f.input :last_name, label: "Last Name" %>
+              <%= f.input :email %>
+               <hr/>
+              
+       <h4 class="blue">  <% if signed_in? %><i class="icon-check">&nbsp;<% else %><i class="icon-check-empty">&nbsp;<% end %></i>STEP 2: NameGuide Info (optional) </h4> 
+        <br/>      
+                     <%= f.input :phonetic, :class => "span3 fl-left", label: "Enter your name as you would like it announced", hint: "(e.g., 'Dr. Henry Jones, Jr.')"  %>
+                    
+
+                      
+                      <%= f.input :notes, :class => "span3", label: "Enter any notes to aid in pronunciation", hint: "(e.g., 'first name sounds like Ravine' or 'last name pronounced GLI-cough')" %>
+                     
+                      <hr/>
+
+              
+              <h4 class="blue">  <% if signed_in? %><i class="icon-check">&nbsp;<% else %><i class="icon-check-empty">&nbsp;<% end %></i>STEP 3: Save Info (required) </h4> <br/>
+
+              <div class="row">
+               <div class="span2 offset2">
+                <%= f.button :submit, "Save Info", class: "btn btn-large btn-primary", disable_with: "saving..." %>
+              </div>
+            </div>
+              
+               <hr/>
+            
+            <h4 class="blue">  <i class="icon-check-empty">&nbsp;</i>STEP 4: Record Your Name (<em>highly</em> recommended) </h4> <br/>
+
+              <div class="row">
+               <div class="span2 offset2">
+
+                      
+                         <div id="recordmodal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                              <h3 id="myModalLabel"><em>Please record your name here</em></h3>
+                            </div>
+
+                            <div class="modal-body">
+            
+            
+                                <iframe src='<%= test_user_path(current_user) %>' width="100%" height="230" frameborder="0" scrolling='no'  marginheight="200x" ></iframe>
+            
+                                  <div class="accordion" id="accordion2">
+                                    <div class="accordion-group">
+                                      <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                                          <h4><span class="blue">Instructions<span/></h4> 
+                                        </a>
+                                      </div>
+                                      <div id="collapseOne" class="accordion-body collapse">
+                                        <div class="accordion-inner">
+                                          Note: <em>if the recorder isn't working, please ensure your browser's <strong>Javascript and Flash are enabled</strong></em> <br/><br/>
+                                          <ol>
+                                            <li><strong>Press 'RECORD', then click 'Allow'</strong> if asked for permission to use your computer's microphone.</li>
+                                            <li> You will have 10 seconds maximum recording time. <strong>Please say your name clearly and slowly, then immediately press 'STOP'</strong>, to make it easier for the person hearing/practicing your name.</li>
+                                            <li>Your recording will automatically play back to you:</li>
+                                               <ul>
+                                                   <li>If it sounds good, <strong>press 'UPLOAD.'</strong></li>  
+                                                    <li>If you're not happy with it, press 'RECORD' to try again.</li>
+                                                </ul>
+                                            </ol> 
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="accordion-group">
+                                      <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                                          <h4><span class="blue">Please Note<span/></h4>
+                                        </a>
+                                      </div>
+                                      <div id="collapseTwo" class="accordion-body collapse">
+                                        <div class="accordion-inner">
+                                            <ul>
+                                             <li>You will need to <strong>wait a minute and refresh your profile page</strong> to see the changes take effect in your NameGuide. </li>
+                                             <li>If you're re-recording your name, pressing 'UPLOAD' will over-write the previous recording. </li>
+                                             <li>If the recording doesn't play back or sound good:
+                                              <ul>
+                                                <li> Please ensure you have a quiet environment. </li>
+                                                <li> Check your computer's mic settings to see that it is enabled (as well as any options such as noise-cancellation).</li>
+                                                <li> Check to make sure your speaker volume is up. </li>
+                                              </ul>
+                                             </li>
+                                          </ul>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>  
+             
+
+                             </div> <%# End modal body %> 
+            
+                             <div class="modal-footer">
+                                  <button class="btn btn-primary" data-dismiss="modal">Done</button>
+                             </div>
+
+                         </div> <%# end modal %>
+
+
+               <button data-toggle="modal" href="#recordmodal" class="btn btn-danger btn-large">Record Your Name <i class="icon-caret-right icon-white"></i> </button> <br/>
+               <span class="blue"><em>(this is easy and takes just a few seconds!) </em></span>
+              </div>
+            </div>
+          <% end %>
+        
+
+      </div>
+
+      <div class="well span3 offset1">
+        <h4> <span class="label label-info"> <i class="icon-user icon-white">&nbsp;</i> Already Registered on our site?</span> </h4>
+                  <br/> 
+                  <% flash.each do |key, value| %>
+                      <%= content_tag(:div, value, class: "alert alert-#{key}") %>
+                    <% end %>
+                <%= form_for(:session, url: addpo_path, :html => {:class => "form-horizontal"} ) do |f| %>
+
+                    <%= f.hidden_field :token, :value => @user.invite_token %>
+                     <span><em>If you've been invited for an event and have previously registered on our site, please sign in here:<em></span> <br/> <br/>
+                    <%= f.text_field :email, :class => "span3", :placeholder => "Email" %>
+                    <br/>
+                    <br/>
+
+                    <%= f.password_field :password, :class => "span3", :placeholder => "Password" %>
+
+                      <br/>
+                      <br/>
+                        <%= button_tag(type: 'submit', class: "btn btn-primary btn-small pull-right") do %>
+                         Sign In <i class="icon-chevron-right icon-white"></i> 
+                        <% end %>
+
+                  <% end %>
+      </div>
+
+
+</div>
+
+<%= link_to 'Home Page', root_path %>
+</div>

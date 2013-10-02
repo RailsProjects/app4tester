@@ -1,0 +1,51 @@
+
+<% flash.each do |key, value| %>
+	<div class="alert alert-block alert-<%=key%>"> 
+	<button type="button" class="close" data-dismiss="alert">×</button>
+	<%= value %> 
+	</div>
+<% end %>
+<br />
+<br/>
+
+<div class="container">
+<div class="row">
+	<div class="span8 offset2">
+ 		<h4>OPTIONAL: Please enter graduation years/dates to create a drop-down menu for your students to select when they register for your Student Name Directory: </h4>
+ 	</div>
+</div> <br/>
+
+	<div class="row">
+		<div class="well span8 offset2">
+
+	            <div class="row"> <a href="<%= event_path(@event) %>" class="btn btn-primary pull-right"> Skip this Step <i class="icon-caret-right icon-white"></i> </a> </div>
+     <div class="row"><div class="fl-right">(You can create a drop-down later if you wish.)</div></div> <br/>
+
+			<p><strong>Enter the possible graduation years/dates for your current and incoming students (ONE PER FIELD).</strong> For high schools, this is often four values (2014, 2015, 2016, 2017).  For grade schools, this is often two values (2014, 2015).  For university departments, this may be a few values (Fall 2013, Spring 2014, Fall 2014).</p>
+			<p><strong>Whatever values you enter will appear in a drop-down list for your students to select when they record their names for your master list (your school/department's Student Name Directory).</strong>  This information will be used to automatically generate your default Commencement Name Pages.</p>
+
+				<%= form_for(:ms, url: master_set_input_path) do |y| %>
+				  
+				 
+
+					<input type="textbox" name="grad_array[years][]"> (examples: 2014 or Fall 2013) <br/>
+					<input type="textbox" name="grad_array[years][]" > (examples: 2015 or Spring 2014)  <br/>
+					<input type="textbox" name="grad_array[years][]" > (etc.) <br/>
+					<input type="textbox" name="grad_array[years][]" > <br/>
+					<input type="textbox" name="grad_array[years][]" > <br/>
+					<input type="textbox" name="grad_array[years][]" > <br/>
+					<input type="textbox" name="grad_array[years][]" > <br/>
+					<input type="textbox" name="grad_array[years][]" > <br/>
+					<input type="textbox" name="grad_array[years][]" > <br/>
+
+
+					<%= y.hidden_field :event_id, :value => @event.id %>
+				   <%= y.submit "Submit Values (Graduation Dates)", class: "btn btn-primary"  %> 
+				 <% end %>  
+
+	
+	    </div>
+	</div>
+</div>
+
+<%# <%= y.text_field :grad_array2, name: "[years2][]" %>

@@ -1,0 +1,8 @@
+Hi there<% if !@vg.user.first_name.nil? %><%= @vg.user.first_name %><% end %>! 
+
+The admin for the event <%= @vg.event.title %> is requesting that you please re-record your VoiceGem. Your recording may not have been clear, so please double-check it and record again. 
+
+Please sign in: <%= @url %>
+
+Thank you!
+- The team at NameCoach

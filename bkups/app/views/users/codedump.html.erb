@@ -1,0 +1,1112 @@
+ <table class="table">
+             	<caption><em>(this is what will appear on an admin's event page, and will be used to practice your name)</em></caption>
+             </table>
+			<div class="row">
+				<div class="well span12">
+					
+						
+				<div class="span2">
+						<a href="#" rel="tooltip" data-placement="right" title="Attendee's registered name and email address."><span class="label label-info">Attendee Name/Email</span></a>
+					</div>
+						
+		
+						<div class="span2">
+						<a href="#" rel="tooltip" data-placement="right" title="Any notes attendee entered to help with pronouncing their name.  They may have left this blank."><span class="label label-info">Attendee's Notes</span></a>
+						</div>
+			
+
+					<div class="span3">
+						<a href="#" rel="tooltip" data-placement="right" title="How the attendee would like their name announced. Click the play button next to their name to hear it in their own voice."><span class="label label-info">Name To be announced</span></a><br/>
+						<em>(press play button to hear)</em>
+					</div>
+
+					<div class="span3">
+						<a href="#" rel="tooltip" data-placement="right" title="Your notes for this attendee. Click a text field below to enter notes or update them."><span class="label label-default">Admin Notes (Your Notes)</span></a>
+														
+					</div>	
+
+						<div class="span1 ">
+						<span class="label label-default ">Actions</span>
+					</div>
+
+				</div>	
+
+			</div>
+
+
+			<% @user.practiceobjects.each do |f| %>					    	
+			<div class="row">
+				<div class="well span12">
+					<div class="span2">
+						<%= f.user.first_name %> <%= f.user.last_name %> <br/>
+						(<%= f.user.email %>) <br/>
+						
+					</div>
+	
+
+					<div class="span2">
+					 		<% if f.user.notes.blank?%>--<% else %><%= f.user.notes %><%end%>
+					</div>
+
+		
+	
+						<div class="span2">
+							<table>
+							 <tbody>
+							 	<tr>
+							 	<td class="rec-cell"> <audio src="https://s3-us-west-1.amazonaws.com/namewaves/<%= f.user.id %>.mp3" /> 
+							 	</td>
+							 	<td> &nbsp;&nbsp;<strong><% if !f.user.phonetic.blank? %><%= f.user.phonetic %> <% else %><%= f.first_name %> <%= f.last_name %><% end %> </strong>
+							 	</td>
+							 	<tr>
+							 </tbody>
+							</table>
+						
+						
+					</div>
+
+					<div class="span2">
+						<a href="<%= edit_practiceobject_path%>/<%= f.id %>" class="btn btn-info btn-small"> Edit PO <i class="icon-chevron-right icon-white"></i> </a>
+					</div>
+
+					<div class="span2">
+						<%= f.event.title %> 
+					</div>
+			
+				</div>		
+			</div>
+			<% end %> 					    			
+
+
+
+
+
+
+
+
+
+			-----------------------
+
+
+
+<div class="row">
+    <div class="span12">
+          <h4><span class="label label-info"><i class="icon-volume-up icon-white"></i></span><strong> Your <em>Namewave</em>: </strong></h4>
+    </div>
+
+</div>
+
+ <table class="table">
+              <caption><em>(this is what will appear on the admin's event page, and will be used to practice your name)</em></caption>
+             </table>
+      <div class="row">
+        <div class="well span10">
+          
+            
+            <div class="span3">
+                <a href="#" rel="tooltip" data-placement="right" title="Your registered name and email address."><span class="label label-info">Attendee Name/Email</span></a>
+              </div>
+                
+        
+                <div class="span3">
+                <a href="#" rel="tooltip" data-placement="right" title="Any notes you think might help with pronouncing your name."><span class="label label-info">Attendee's Notes</span></a>
+                </div>
+          
+
+              <div class="span3">
+                <a href="#" rel="tooltip" data-placement="right" title="This is how you would like your name announced at the event. Click the play button to hear your current recording for that event."><span class="label label-info">Name To be announced</span></a><br/>
+                <em>(press play button to hear)</em>
+              </div>
+
+        </div>
+
+              <div class="span2">
+              	<br/>
+              	 <a href="#" rel="tooltip" data-placement="right" title="This is the event at which your name will be announced."><span class="label label-info">Event</span></a>
+              </div> 
+
+             
+
+      </div>
+
+
+            
+      <div class="row">
+        <div class="well span10">
+                <div class="span3">
+                  <%= @user.first_name %> <%= @user.last_name %> <br/>
+                  (<%= @user.email %>) <br/>
+                  
+                </div>
+        
+
+                <div class="span3">
+                    <% if @user.practiceobject.notes.blank?%>--<% else %><%= @user.practiceobject.notes %><%end%>
+                </div>
+
+          
+        
+                  <div class="span3">
+                    <table>
+                     <tbody>
+                      <tr>
+                      <td class="rec-cell"> <audio src="https://s3-us-west-1.amazonaws.com/namewaves/<%= f.recording %>.mp3" /> 
+                      </td>
+                      <td> &nbsp;&nbsp;<strong><% if !@user.practiceobject.phonetic.blank? %><%= @user.practiceobject.phonetic %> <% else %><%= @user.first_name %> <%= @user.last_name %><% end %> </strong>
+                      </td>
+                      <tr>
+                     </tbody>
+                    </table>
+                  </div>
+          </div>  
+
+          
+
+              <div class="span2">
+                <br/>
+                <strong><%= link_to @user.practiceobject.event.title, @user.practiceobject.event %></strong>
+              </div>
+
+             
+          
+          
+      
+          
+      </div>
+
+--------------------------------
+
+ <div class="form-row">
+                <label>Expiration (MM/YYYY)</label>
+                <input type="text" size="2" class="card-expiry-month"/>
+                <span> / </span>
+                 <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", class:  "card-expiry-year"} %>
+               
+            </div>
+
+
+            <div class="<%=alert_stub%><%=key%>"> 
+            vs.
+            <div class="alert alert-block alert-<%=key%>"> 
+
+<div class="row">
+  <div class="span1"><span class="red">MIC LEVEL</span> </div>
+          <div class="span1" id="levelbase" style="width:200px;height:20px;background-color:#f89406">
+             <div id="levelbar" style="height:19px; width:2px;background-color:red"></div>
+          </div>
+Time: <span id="time">00:00</span> 
+</div>
+
+
+<div class="row">
+  <div class="span1"><span class="red">MIC LEVEL</span> </div>
+          <div class="span1" id="levelbase" style="width:200px;height:20px;background-color:#f89406">
+             <div id="levelbar" style="height:19px; width:2px;background-color:red"></div>
+          </div>
+Elapsed Time: <span id="time">00</span>/10 seconds 
+</div>
+       
+
+
+          <div class="span1" id="levelbase" style="width:200px;height:20px;background-color:#f89406">
+             <div id="levelbar" style="height:19px; width:2px;background-color:red"></div>
+          </div>
+
+        <p>
+          &nbsp;<span class="red">MIC LEVEL</span> 
+        </p>
+        <p>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elapsed Time: <span id="time">00</span>/10 seconds 
+       </p>
+
+
+       host : '<%= posaveupload_url(:x => @po.id)  %>', 
+------------------------------------------------
+
+        </br>
+        <%= form_for(f.userinvites.build, url: userinvites_path) do |u| %>
+                        <%= u.hidden_field :practiceobject_id %>
+                        <a href="#" rel="tooltip" data-placement="right" title="Click to remind the attendee to register on this site and record their name"><button type="submit" class="btn btn-info btn-small"> Send Reminder Email </button></a>                    
+                       <% end %>
+
+---------------------------------------------------
+
+           <div id="<%= f.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                          <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                            <h3>Reminders Already Sent</h3>
+                                                          </div>
+                                                          <div class="modal-body">
+
+                                                                <br/>
+                                                                  <table class="table table-condensed table-striped">
+                                                                    <thead>
+                                                                      <th>Sent To:</th>
+                                                                      <th>On:</th>
+                                                                                                                                            
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <% f.userinvites.each do |a| %>
+                                                                      <tr>
+                                                                        <td> <%= a.recipient_email %> </td>
+                                                                        <td> <%= a.sent_at %> </td>
+                                                                        
+                                                                      </tr>
+                                                                    <% end %>
+                                                                  </tbody> 
+                                                                  </table> 
+                                                               
+                                                          </div>
+
+                                                          <div class="modal-footer">
+                                                            <button class="btn" data-dismiss="modal">Close</button>
+                                                              
+                                                      
+                                                            </div>
+                                                        </div>
+
+                                                          
+                                                           
+                                                              <a data-toggle="modal" href="#<%= f.id %>" class="btn btn-info btn-small">See Reminders Sent</a>
+
+--------------------------------------------------------------
+
+                                  <li> <%= form_for(f.userinvites.build, url: userinvites_path) do |u| %>
+                                      <%= u.hidden_field :practiceobject_id %>
+                                            <a href="#" rel="tooltip" data-placement="right" title="Click to remind the attendee to register on this site and record their name"><button type="submit" class="btn btn-primary btn-small"> Send Reminder Email </button></a>                    
+                                           <% end %> </li>
+
+
+------------------------------------------------------------------
+
+
+<div class="btn-group">
+                          <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
+                            Action
+                            <span class="caret"></span>
+                          </a>
+                          <ul class="dropdown-menu">
+                         
+                                           
+                               
+                                                           
+                          </ul>
+                        </div> 
+
+--------------------------------------------------------
+
+<button id= "popover_hide_entry<%= f.id %>" rel="popover" data-placement="left" data-content="Click to hide the attendee's entry." data-original-title="Hide Attendee's Entry" data-toggle="modal" href="#hide_entry<%= f.id %>" class="btn btn-info btn-small"><i class="icon-trash"></i></button>
+
+-------------------------
+
+ <%= button_to "4", {:controller => :users,
+                                      :action => 'hide', :class => 'btn btn-primary' }, :method => :post %>
+
+----------------------------------
+
+       <%= form_for(:session, url: addcodeadmin_path, :html => {:class => "form-horizontal"} ) do |f| %>                        
+
+<%= button_tag(type: 'submit', class: "btn btn-info btn-small", id: "send") do %>
+                        <i class="icon-upload"></i> 
+                 <% end %>
+  <% end %> 
+
+                                 <%= link_to f, confirm: 'Are you sure?', disable_with: 'deleting...', method: :delete, class: 'btn-mini btn-info btn-small' do %>
+                                  <i class="icon-trash icon-white"></i>
+                                <% end %>
+
+                        <%= button_to('x', users_path, :class => 'btn btn-small btn-primary')  %>
+                              
+                                                      <%= button_to "4", {:controller => :users,
+                                      :action => 'hide', :class => 'btn btn-primary' }, :method => :post %>
+
+                                                   <a href="<%= practiceobjects_path%>/<%= f.id %>" class="btn btn-info btn-small"><i class="icon-chevron-right icon-white"></i> </a>
+
+                                                   
+
+
+
+                                <button id= "popover_hide_entry<%= f.id %>" rel="popover" data-placement="left" data-content="Click to delete the attendee's entry.<br/></br> Note: Deleted entries will appear only to you and other admins under 'Deleted Entries' tab, where they can be undeleted." data-original-title="Hide Attendee's Entry" data-toggle="modal" href="#hide_entry<%= f.id %>" class="btn btn-info btn-small"><i class="icon-trash"></i></button>
+
+-------------------------
+
+ <%= form_for(@event.admininvites.build, :html => {:class => 'form-inline'}) do |f| %>
+
+                                
+                                      <%= f.hidden_field :event_id %>
+                                                                          
+                                      <%= f.text_field :first_name, :placeholder => "First Name", :class => "span2" %>
+                                                            
+                                    
+                                      <%= f.text_field :last_name, :placeholder => "Last Name", :class => "span2" %>
+                                  
+                                                                            
+                                      <%= f.text_field :recipient_email, :placeholder => "Email (required)", :class => "span2"  %>
+
+                                      <div  style="text-align:center; margin:10px" >
+                                                
+                                        <%= f.submit "Invite Admin", class: "btn btn-primary"  %>
+                                        </div>
+
+                                    <% end %>
+
+--------------------------------------------
+
+                                     <%= form_for(f) do |x| %>
+                                      <%= x.hidden_field :hidden, :value => false %>                    
+                                      <%= button_tag(type: 'submit', class: "btn btn-info" ) do %>
+                                        <i class="icon-plus-sign"></i> 
+                                       <% end %>
+                                      <% end %>
+------------------------------------
+
+
+ <div id="restore_entry<%= f.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                                                          <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                            <h3>Restore Entry for <%= f.email %> </h3>
+                                                          </div>
+                                                          
+                                                          <div class="modal-body left">
+                                                          
+
+                                                            <h4> Please confirm you would like to restore this entry </h4> 
+                                                            
+                                                 <hr/>
+                                                <%= form_for(f) do |x| %>
+                                                  <%= x.hidden_field :hidden, :value => false %>                    
+                                                  <%= button_tag(type: 'submit', class: "btn btn-info" ) do %>
+                                                    <i class="icon-plus-sign"></i> 
+                                                   <% end %>
+                                                  <% end %>
+                                              <br/>
+                                              <br/>
+                                                               
+
+                                                          </div>
+
+                                                          <div class="modal-footer">
+                                                            <button class="btn" data-dismiss="modal">Cancel</button>
+                                                          </div>
+
+                                                 </div>         
+
+                                                            
+                        
+                              
+                              <button id= "popover_restore<%= f.id %>" rel="popover" data-placement="left" data-content="Click to undelete this attendee's entry." data-original-title="Restore this Entry" data-toggle="modal" href="#restore_entry<%= f.id %>" class="btn btn-info"><i class="icon-plus-sign"></i></button>
+
+---------------------------------
+
+ <div id="restore_entry<%= f.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                                                          <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                            <h3>Restore Entry for <%= f.email %> </h3>
+                                                          </div>
+                                                          
+                                                          <div class="modal-body left">
+                                                          
+
+                                                            <h4> Please confirm you would like to restore this entry </h4> 
+                                                          
+                                                 <hr/> <br/>
+                                                  <%= form_for(f) do |x| %>
+                                                      <%= x.hidden_field :hidden, :value => false %>                    
+                                                     
+                                                       <%= x.submit "Restore", class: "btn btn-primary btn-large btn-modal", disable_with: 'Restoring...' %>
+                                                      <% end %>
+                                              <br/>
+                                              <br/>
+                                                               
+
+                                                          </div>
+
+                                                          <div class="modal-footer">
+                                                            <button class="btn" data-dismiss="modal">Cancel</button>
+                                                          </div>
+
+                                                 </div>         
+
+                                                            
+                        
+                              
+                              <button id= "popover_restore<%= f.id %>" rel="popover" data-placement="left" data-content="Click to undelete this attendee's entry." data-original-title="Restore this Entry" data-toggle="modal" href="#restore_entry<%= f.id %>" class="btn btn-info"><i class="icon-plus-sign"></i></button>
+                                                                          
+  --------------------------------------------------------------
+
+      <%= form_tag('/rerecord', :method => 'post') do %>
+                                  <%= hidden_field_tag(:x, f.id) %>
+                                  
+                                  <a href="#" rel="tooltip" data-placement="right" title="If you don't like this name recording, clicking here will ask the attendee to re-record"><button type="submit" class="btn btn-info btn-small pull-right">Request Recording</button></a>   
+                                                                
+                                <% end %>
+
+  ----------------------------------------------------------
+  <div class="btn-group">
+
+                        
+
+                                                          
+                              <div id="regrec_send_reminder<%= f.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h3>Request to Re-Record</h3>
+                                  </div>
+                                  
+                                  <div class="modal-body left">
+                                  
+
+                                    <h4> The following email will be sent to <%= f.email %>: </h4> <hr/>
+
+
+                                         <div class="well">
+                                            <p> Hi there <% if !@f.user.first_name.nil? %><%= @f.user.first_name %> <% end %>! </p>
+
+                                            <p>The admin for the event <%= f.event.title %> is requesting that you please re-record your name at NameCoach. Your recording may not have been clear, so please double-check it and record again, to ensure your name is announced right!</p>
+
+                                            <p>Please sign in at www.name-coach.com</p>
+
+                                            <p>Thank you!<p>
+                                            - The team at NameCoach
+                                         </div>
+                                
+                                                  <%= form_for(:po, url: rerecord_path) do |y| %>
+                                                      <%= y.hidden_field :x, :value => f.id %>
+                                                       <%= y.submit "Request Re-Recoding", class: "btn-primary btn-large btn-modal", disable_with: 'sending request...' %>
+                                                      <% end %>  
+
+                                     <br/>
+                                     <br/>
+                                                               
+
+                                  </div>
+
+                                  <div class="modal-footer">
+                                    <button class="btn" data-dismiss="modal">Cancel</button>
+                                  </div>
+
+                           </div>       
+
+
+                                   <div id="regrec_reminders_sent<%= f.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                                                          <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                            <h3>Requests Already Sent</h3>
+                                                          </div>
+
+                                                          <div class="modal-body">
+                                                               <br/>
+                                                                  <table class="table table-condensed table-striped">
+                                                                    <thead>
+                                                                      <th>Sent To:</th>
+                                                                      <th>By Admin:</th>
+                                                                      <th>On:</th>
+                                                                      <th> Type: </th>
+                                                                                                                                            
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <% f.userinvites.each do |a| %>
+                                                                      <tr>
+                                                                        <td> <%= a.recipient_email %> </td>
+                                                                        <td> <% if !a.admin_id.blank? %><%= User.find_by_id(a.admin_id).email %><% end %> </td>
+                                                                        <td> <%= a.sent_at.strftime("%b %d, %Y") %> </td>
+                                                                        <td> <%= a.type) %> </td>
+                                                                      </tr>
+                                                                    <% end %>
+                                                                  </tbody> 
+                                                                  </table> 
+                                                               
+                                                          </div>
+
+                                                          <div class="modal-footer">
+                                                            <button class="btn" data-dismiss="modal">Close</button>
+                                                          </div>
+
+                                                 </div>               
+
+
+                                  <div id="regrec_hide_entry<%= f.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                                                          <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                            <h3>Delete Entry for <%= f.email %> </h3>
+                                                          </div>
+                                                          
+                                                          <div class="modal-body left">
+                                                          
+
+                                                            <h4> Please confirm you would like to delete this entry </h4> 
+                                                            <h5> (Deleted entries are accessible under your 'Deleted Entries' tab) </h5>
+                                                 <hr/>
+                                                  <%= link_to f, disable_with: 'deleting...', method: :delete, class: 'btn btn-danger btn-large btn-modal' do %>
+                                                <i class="icon-trash icon-white"></i>&nbsp;Delete
+                                              <% end %>
+                                              <br/>
+                                              <br/>
+                                                               
+
+                                                          </div>
+
+                                                          <div class="modal-footer">
+                                                            <button class="btn" data-dismiss="modal">Cancel</button>
+                                                          </div>
+
+                                                 </div>         
+
+                                                            
+                               
+                              <button id= "regrec_popover_send_reminder<%= f.id %>" rel="popover" data-placement="left" data-content="If the voice-recording is unclear, click here to send an email asking this attendee to record their name.<br/><br/> You will see a preview of the email to be sent." data-original-title="Ask to Re-Record" data-toggle="modal" href="#regrec_send_reminder<%= f.id %>" class="btn btn-info btn-small"><i class="icon-envelope"></i></button>
+
+                              <button id= "regrec_popover_reminders_sent<%= f.id %>" rel="popover" data-placement="left" data-content="Click to see the requests/reminders already emailed to this attendee." data-original-title="Emails already Sent" data-toggle="modal" href="#regrec_reminders_sent<%= f.id %>" class="btn btn-info btn-small"><i class="icon-inbox"></i></button>
+                              
+                              <button id= "regrec_popover_hide_entry<%= f.id %>" rel="popover" data-placement="left" data-content="Click to delete this attendee's entry.<br/></br> Note: Deleted entries will appear only to you and other admins under 'Deleted Entries' tab, where they can be undeleted." data-original-title="Delete this Entry" data-toggle="modal" href="#regrec_hide_entry<%= f.id %>" class="btn btn-info btn-small"><i class="icon-trash"></i></button>
+                                                                                 
+
+                      </div>  
+---------------------------------------------
+                  <script>  
+                    $(function ()  
+                    { $("#regrec_popover_reminders_sent<%= f.id %>").popover();  
+                    });  
+                    $(function ()  
+                    { $("#regrec_popover_send_reminder<%= f.id %>").popover();  
+                    });  
+                    $(function ()  
+                    { $("#regrec_popover_hide_entry<%= f.id %>").popover();  
+                    });  
+                    </script>
+-------------------------------------
+<%= form_for(f.userinvites.build, url: userinvites_path) do |u| %>
+                                      <%= u.hidden_field :practiceobject_id %>
+                                      
+                                      <%= u.submit "Send Reminder", class: "btn-large btn-primary btn-modal", disable_with: 'Sending...' %> 
+                                          <% end %>
+
+                                          <%= form_tag('/rerecord', :method => 'post') do %>
+                                          <%= hidden_field_tag(:x, f.id) %>
+                                           <button type="submit" class="btn btn-primary pull-right">Request Re-recording</button>  
+                                           % end %>
+
+                                        <%= form_for(f.userinvites.build, url: userinvites_path) do |u| %>
+                                      <%= u.hidden_field :practiceobject_id %>
+                                      
+                                      <%= u.submit "Send Reminder", class: "btn-large btn-primary btn-modal", disable_with: 'Sending...' %> 
+                                          <% end %>
+-----------------------------------------------------------
+
+                        <%= form_tag('/reminder', :method => 'post') do %>
+                          <%= hidden_field_tag(:x, f.id) %>
+                            
+                            <a href="#" rel="tooltip" data-placement="right" title="Click to remind the attendee to record their name"><button type="submit" class="btn btn-info btn-small pull-right"> Request Recording </button></a> 
+                          <% end %> 
+----------------------------------------------------------------
+
+<%= form_for(:a, url: removeadmin_path) do |x| %>                    
+     <%= x.hidden_field :a_id, :value => a.id %>
+     <%= x.hidden_field :event_id, :value => @event.id %>
+     <%= x.submit "Remove Admin", class: "btn-primary btn-large btn-modal", disable_with: 'removing...' %>
+ <% end %>
+
+
+  --------------------------------------------------
+
+                          <div id="remove_admin<%= a.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                                   <div class="modal-header">
+                                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                       <h3>Remove Admin <%= a.email %> </h3>
+                                   </div>
+                                                            
+                                   <div class="modal-body left">
+                                
+                                       <h4> Please confirm you would like to remove this person's admin privileges for @event.title. </h4> 
+                                      
+                                
+                                       <hr/> <br/>
+                                        <%= form_for(:a, url: removeadmin_path) do |x| %>                    
+                                             <%= x.hidden_field :a_id, :value => a.id %>
+                                             <%= x.hidden_field :event_id, :value => @event.id %>
+                                             <%= x.submit "Remove Admin", class: "btn-primary btn-large btn-modal", disable_with: 'removing...' %>
+                                         <% end %>
+                                     <br/>
+                                     <br/>
+                                  
+                                   </div>
+
+                                   <div class="modal-footer">
+                                       <button class="btn" data-dismiss="modal">Cancel</button>
+                                   </div>
+
+                                 </div>  <%# END modal body %>      
+
+-------------------------------------------------------------------------------------
+
+
+<div class="tab-pane fade" id="admins">
+     <table class="table  table-striped table-condensed event">
+       
+          <% @event.admins.each do |a| %>
+                        <tr>
+                          <td> <%= a.first_name %> </td>
+                          <td> <%= a.last_name %> </td>
+                          <td> <%= a.email %> </td>
+                          <% if @event.customerkeys.find_by_user_id(current_user.id) %>
+                          <td> 
+                            <div id="remove_admin<%= a.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                                               <div class="modal-header">
+                                                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                   <h3>Remove Admin <%= a.email %> </h3>
+                                               </div>
+                                                            
+                                                <div class="modal-body left">
+                                
+                                                    <h4> Please confirm you would like to remove this person's admin privileges for <%= @event.title %>. </h4> <br/>
+                                      
+                                                <h5> To restore this person's admin privileges, they will have to be invited as an admin again. </h5>
+                                                    <hr/> <br/>
+                                                    <%= form_for(:a, url: removeadmin_path) do |x| %>                    
+                                                         <%= x.hidden_field :a_id, :value => a.id %>
+                                                         <%= x.hidden_field :event_id, :value => @event.id %>
+                                                         <%= x.submit "Remove Admin", class: "btn-danger btn-large btn-modal", disable_with: 'removing...' %>
+                                                     <% end %>
+                                                   <br/>
+                                                   <br/>
+                                  
+                                                 </div>
+
+                                                 <div class="modal-footer">
+                                                     <button class="btn" data-dismiss="modal">Cancel</button>
+                                                 </div>
+
+                                            </div>  <%# END modal body %>      
+
+                            <% unless a.id == current_user.id %> <a id= "popover_delete_admin<%= a.id %>" rel="popover" data-placement="left" data-content="Click to remove this admin's privileges." data-original-title="Remove Admin" data-toggle="modal" href="#remove_admin<%= a.id %>"><i class="icon-ban-circle red"></i></a> <% end %>
+                          <td> 
+                          <% end %> 
+                        </tr>
+                          <script>  
+                           $(function ()  
+                            { $("#popover_delete_admin<%= a.id %>").popover();  
+                            });  
+                
+                             </script>
+                      <% end %>
+
+     </table>
+        
+
+
+ </div>  <%# end admin tab pane %>
+
+  ----------------------------------------------------
+
+POPOVER EXAMPLE:
+
+<a href="#" id="example" class="btn btn-danger" rel="popover" data-content="It's so simple to create a tooltop for my website!" data-original-title="Twitter Bootstrap Popover">hover for popover</a>  
+
+
+<script>  
+$(function ()  
+{ $("#example").popover();  
+});  
+</script>
+
+
+-----------------------------------------
+
+  <div class="row">     
+          <h4 class="blue">  <i class="icon-check-empty">&nbsp;</i>STEP 3: Save Info (required) </h4> <br/>
+          <div class="span2 offset2">
+           <a data-toggle="modal" href="#recordmodal" class="btn btn-danger btn-large">Record Your Name <i class="icon-caret-right icon-white"></i> </a>
+         </div>     
+       </div>
+-------------------
+
+      if params[:user][:password] == nil?
+        @user.password=params[:user][:invite_token]
+        @user.password_confirmation=params[:user][:invite_token]
+     else 
+        @user.password=params[:user][:password]
+        @user.password_confirmation=params[:user][:password_confirmation]
+     end 
+
+
+                  <%= f.hidden_field :password, :value => :invite_token%>
+             <%= f.hidden_field :password_confirmation, :value => :invite_token%>
+
+
+----------------------------
+
+<div class="row">
+    <div class="span8 offset3">
+        
+         <% if !@user.recording.blank? %><button href="<%= setpassword_user_path(current_user) %>" class="btn btn-primary btn-large span5" > DONE <i class="icon-caret-right icon-white"></i> </button> <% else %><button href="<%= setpassword_user_path(current_user) %>" class="btn btn-primary btn-large span5" disabled="true" > DONE <i class="icon-caret-right icon-white"></i> </button>  <% end %>
+    </div>
+</div>
+
+
+--------------------------------
+
+                                                                   <div class="row">
+                                                                      <div class="span3">
+                                                                        <h4 class="blue">&nbsp;&nbsp;&nbsp;Please remember to press 'Done' </h4>
+                                                                      </div>
+                                                                   </div>
+
+----------------------
+
+<%= signup_url(:token => @event.event_code) %>
+
+-------------------------------
+
+background="<%= image_path('navy_blue.png')%>"
+
+-------------------------------------------------
+
+.bg-purple {
+
+  color: #fff;
+  background: #020031; /* Old browsers */
+  background: -moz-linear-gradient(45deg, #020031 0%, #6d3353 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#020031), color-stop(100%,#6d3353)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(45deg, #020031 0%,#6d3353 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(45deg, #020031 0%,#6d3353 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(45deg, #020031 0%,#6d3353 100%); /* IE10+ */
+  background: linear-gradient(45deg, #020031 0%,#6d3353 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#020031', endColorstr='#6d3353',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  -webkit-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+     -moz-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+          box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+} 
+
+------------------------------------------------------------
+!@event.customerkeys.nil? && User.find_by_id(@event.customerkeys.first.user_id).customer == true 
+
+def customer_has_active_subscription
+    if !current_user.subscriptions.nil?
+        current_user.subscriptions.each do |s|
+            if s.active == true
+              return true
+            end
+        end 
+    else
+      return false
+    end 
+end
+
+def customer_has_active_subscription?
+    if !current_user.subscriptions.nil?
+        current_user.subscriptions.each do |s|
+          s.active == true
+        end 
+    end
+
+end
+
+
+def customer_has_active_subscription?
+    if !current_user.subscriptions.nil?
+        current_user.subscriptions.any? {|s| s.active == true }  
+    end
+
+end
+
+def customer_has_active_subscription?
+   !current_user.subscriptions.nil? && current_user.subscriptions.any? {|s| s.active == true }  
+end
+
+def customer_has_purchased_pages?
+
+end 
+
+def customer_only_has_active_subscription?
+    customer_has_active_subscription && 
+end
+
+
+       <%# customer only has purchased pages, purchased events > 0, no active subscription  %>
+       <% if !customer_has_active_subscription? && current_user.purchased_events > 0 %>
+
+       <%# END customer only has purchased pages, purchased events > 0 %>
+       <% end %>  
+
+
+       <%# customer only has active subscription, no remaining purchased pages %>
+       <% if customer_has_active_subscription? && !current_user.purchased_events > 0 %>
+
+       <%# END customer only has subscription %>
+       <% end %>
+
+
+       <%# customer has both subscription and purchased pages, purchased events > 0 %>
+       <% if customer_has_active_subscription? && current_user.purchased_events > 0 %>
+
+       <%# END customer has both subscription and purchased pages, purchased events > 0  %>
+       <% end %>
+
+
+       <%# customer has no active subscription, purchased events = 0 %>
+       <% if !customer_has_active_subscription? && !current_user.purchased_events > 0 %>
+
+       <%# END customer has no active subscription, purchased events = 0  %>
+       <% end %>
+
+
+
+-----------------------------------------------------------------------------------
+       <%# customer has both subscription and purchased pages, purchased events = 0 %>
+       <% if  %>
+
+
+       <%# END customer has both subscription and purchased pages, purchased events = 0  %>
+       <% end %>
+
+----------------------------------------------------------------------
+
+<%= f.hidden_field :purchase_type, :value => 'subscription' %>
+
+
+ <% if purch_and_sub_pages_left? %>
+                                        <span class="help-block">(<%= current_user.purchased_events %> p pages remaining)</span>   <span class="help-block">(<%= sub_pages_left %> s pages remaining) </span>
+                                      <% end %>
+
+
+                                        <%= f.radio_button :purchase_type, :checked => true, :id => 'purchased', :value => 'purchased' %> 
+                                        <%= label :purchase_type_purchased, "#{current_user.purchased_events}dpurchased" %>   
+                                        <%= f.radio_button :purchase_type, :id => 'subscription', :value => 'subscription'   %> 
+                                        <%= label :purchase_type_subscription, 'subscription' %> 
+
+
+
+--------------------------
+
+THIS WAS THE EXISTING EVENT#CREATE CODE (for the most part)
+              # RUN EXISTING CODE
+                 #generate the event_code 
+                 if @event.event_code.blank?
+                  generate_event_code(@event)
+                    if  @event.save  
+                     @event.customerkeys.create!(user_id: current_user.id)
+                     @event.adminkeys.create!(user_id: current_user.id)
+                     redirect_to @event, notice: "Welcome to your event page for #{@event.title}."
+                  else
+                  flash[:error] = 'Please enter a title and date for your event.'
+                  redirect_to current_user
+                  end
+
+                 else
+                  if Event.find_by_event_code(@event.event_code.upcase.delete(' '))
+                         redirect_to current_user, notice: "This event code,#{@event.event_code.upcase.delete(' ')}, has already been taken. Please choose another."
+                  else 
+                        e = @event.event_code.upcase.delete(' ')
+                        @event.event_code = e 
+                        if  @event.save  
+                         @event.customerkeys.create!(user_id: current_user.id)
+                         @event.adminkeys.create!(user_id: current_user.id)
+                         redirect_to @event, notice: "Welcome to your event page for #{@event.title}."
+                      else
+                      redirect_to current_user, notice: 'Please enter a title and date for your event.'
+                      end
+                end 
+              end 
+             #END RUN EXISTING CODE
+-------------------------------------
+THIS IS THE CODE STRUCTURE I WANTED TO INTEGRATE TO IMPLEMENT CHECKING AND DECREMENTING P AND S EVENT TYPES
+
+  def create
+       @event = Event.new(params[:event])
+       @user = current_user
+
+       if  @event.purchase_type == 's'
+         if customer_has_active_subscription? && sub_pages_left > 0  #double-check to see if has some sub pages
+          @s = current_user.subscriptions.select {|s| s.active == true}.first
+          @s.decrement(:events_remaining)
+          if @s.save
+
+          else #should't happen because subscription should save
+            flash[:error] = 'Something went wrong.  Please try again or contact tech support.'
+            redirect_to current_user
+          end 
+         else #shouldn't happen because event creation well shouldn't allow incoming s event_type if no s pages are left
+          flash[:error] = 'No event pages remaining.  Please purchase more.'
+          redirect_to current_user
+         end 
+       else
+        if @event.purchase_type == 'p'
+          if @user.purchased_events > 0
+            @user.decrement(:purchased_events)
+            if @user.save
+
+
+            else #shouldn't happen because @user should save
+              flash[:error] = 'Something went wrong.  Please try again or contact tech support.'
+              redirect_to current_user
+            end 
+            
+          else #shouldn't happen because event creation well shouldn't allow incoming p event_type if no p pages are left
+            flash[:error] = 'No event pages remaining.  Please purchase more.'
+            redirect_to current_user
+          end
+        else #this shouldn't happen, just a catch all in case an event_type comes in that isn't p or s
+          flash[:error] = 'Something went wrong.  Please try again or contact tech support.'
+          redirect_to current_user
+        end 
+       end 
+
+
+
+  end
+
+------------------------------------------
+          @s = current_user.subscriptions.select {|s| s.active == true}.first
+          @s.decrement(:events_remaining)
+          if @s.save
+
+          else #should't happen because subscription should save
+            flash[:error] = 'Something went wrong.  Please try again or contact tech support.'
+            redirect_to current_user
+          end 
+
+
+
+            @user.decrement(:purchased_events)
+            if @user.save
+
+
+            else #shouldn't happen because @user should save
+              flash[:error] = 'Something went wrong.  Please try again or contact tech support.'
+              redirect_to current_user
+            end 
+
+--------------------------------
+AND THIS WAS THE RESULT OF INTEGRATING THE TWO ABOVE:
+
+  def create
+       @event = Event.new(params[:event])
+       @user = current_user
+
+       if  @event.purchase_type == 's'
+         if customer_has_active_subscription? && sub_pages_left > 0  #double-check to see if has some sub pages
+           # RUN MODIFIED FOR subscription events EXISTING CODE
+                   #generate the event_code 
+                   if @event.event_code.blank?
+                    generate_event_code(@event)
+                      if  @event.save  
+                        #try decrementing s
+                          @s = current_user.subscriptions.select {|s| s.active == true}.first
+                    @s.decrement(:events_remaining)
+                    if @s.save
+                       @event.customerkeys.create!(user_id: current_user.id)
+                           @event.adminkeys.create!(user_id: current_user.id)
+                           redirect_to @event, notice: "Welcome to your event page for #{@event.title}."
+                    else #should't happen because subscription should save
+                      flash[:error] = 'Something went wrong.  Please try again or contact tech support.'
+                      redirect_to current_user
+                    end  
+                  # end try decrementing s
+                    else
+                    flash[:error] = 'Please enter a title and date for your event.'
+                    redirect_to current_user
+                    end
+
+                   else
+                    if Event.find_by_event_code(@event.event_code.upcase.delete(' '))
+                           redirect_to current_user, notice: "This event code,#{@event.event_code.upcase.delete(' ')}, has already been taken. Please choose another."
+                    else 
+                          e = @event.event_code.upcase.delete(' ')
+                          @event.event_code = e 
+                          if  @event.save  
+                          #try decrementing s
+                            @s = current_user.subscriptions.select {|s| s.active == true}.first
+                      @s.decrement(:events_remaining)
+                      if @s.save
+                         @event.customerkeys.create!(user_id: current_user.id)
+                             @event.adminkeys.create!(user_id: current_user.id)
+                             redirect_to @event, notice: "Welcome to your event page for #{@event.title}."
+                      else #should't happen because subscription should save
+                        flash[:error] = 'Something went wrong.  Please try again or contact tech support.'
+                        redirect_to current_user
+                      end  
+                    # end try decrementing s
+                          else
+                          redirect_to current_user, notice: 'Please enter a title and date for your event.'
+                          end
+                  end 
+                end 
+               #END RUN MODIFIED for subscription events EXISTING CODE
+
+         else #shouldn't happen because event creation well shouldn't allow incoming s event_type if no s pages are left
+          flash[:error] = 'No event pages remaining.  Please purchase more.'
+          redirect_to current_user
+         end 
+       else
+        if @event.purchase_type == 'p'
+          if @user.purchased_events > 0
+                 # RUN MODIFIED for purchased events EXISTING CODE
+                     #generate the event_code 
+                     if @event.event_code.blank?
+                      generate_event_code(@event)
+                        if  @event.save  
+                          # try decrementing p
+                           @user.decrement(:purchased_events)
+                       if @user.save
+                            @event.customerkeys.create!(user_id: current_user.id)
+                              @event.adminkeys.create!(user_id: current_user.id)
+                              redirect_to @event, notice: "Welcome to your event page for #{@event.title}."
+                 else #shouldn't happen because @user should save
+                            flash[:error] = 'Something went wrong.  Please try again or contact tech support.'
+                            redirect_to current_user
+                       end 
+                       # END try decrementing p
+                      else
+                      flash[:error] = 'Please enter a title and date for your event.'
+                      redirect_to current_user
+                      end
+
+                     else
+                      if Event.find_by_event_code(@event.event_code.upcase.delete(' '))
+                             redirect_to current_user, notice: "This event code,#{@event.event_code.upcase.delete(' ')}, has already been taken. Please choose another."
+                      else 
+                            e = @event.event_code.upcase.delete(' ')
+                            @event.event_code = e 
+                            if  @event.save  
+                            # try decrementing p
+                             @user.decrement(:purchased_events)
+                         if @user.save
+                              @event.customerkeys.create!(user_id: current_user.id)
+                                @event.adminkeys.create!(user_id: current_user.id)
+                                redirect_to @event, notice: "Welcome to your event page for #{@event.title}."
+                   else #shouldn't happen because @user should save
+                              flash[:error] = 'Something went wrong.  Please try again or contact tech support.'
+                              redirect_to current_user
+                         end 
+                         # END try decrementing p
+                          else
+                          redirect_to current_user, notice: 'Please enter a title and date for your event.'
+                          end
+                    end 
+                  end 
+                 #END RUN MODIFIED for purchased pages EXISTING CODE
+
+
+            
+          else #shouldn't happen because event creation well shouldn't allow incoming p event_type if no p pages are left
+            flash[:error] = 'No event pages remaining.  Please purchase more.'
+            redirect_to current_user
+          end
+        else #this shouldn't happen, just a catch all in case an event_type comes in that isn't p or s
+          flash[:error] = 'Something went wrong.  Please try again or contact tech support.'
+          redirect_to current_user
+        end 
+       end 
+
+
+
+  end
+
+  -----------------------------

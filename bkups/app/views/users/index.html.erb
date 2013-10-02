@@ -1,0 +1,50 @@
+<h1>Listing users</h1>
+
+<div class="container">
+<table class="table table-striped">
+  <tr>
+    <th> ID </th>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Password digest</th>
+    <th>Email</th>
+    <th>Remember token</th>
+    <th>Recording</th>
+    <th>Phonetic</th>
+    <th>Notes</th>
+    <th>Admin?</th>
+    <th>Customer?</th>
+    <th>Customer ID</th>
+    <th>Purchased Events</th>
+    <th>Event Type</th>
+    <th>Grad Date</th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr>
+        <td><%= user.id %></td>
+    <td><%= user.first_name %></td>
+    <td><%= user.last_name %></td>
+    <td><%= user.password_digest %></td>
+    <td><%= user.email %></td>
+    <td><%= user.remember_token %></td>
+    <td><%= user.recording %></td>
+    <td><%= user.phonetic %></td>
+    <td><%= user.notes %></td>
+    <td><%= user.admin %></td>
+    <td><%= user.customer %></td>
+    <td><%= user.customer_id %> </td>
+    <td><%= user.purchased_events %> </td>
+    <td><%= user.event_type %> </td>
+    <td><%= user.grad_date %> </td>
+    <td><%= link_to 'Show', user %></td>
+    <td><%= link_to 'Edit', edit_user_path(user) %></td>
+    <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New User', new_user_path %>
+</div>

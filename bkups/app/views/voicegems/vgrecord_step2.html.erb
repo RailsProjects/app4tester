@@ -1,0 +1,164 @@
+<div class="jumbotron">
+      <h1>VoiceGem Recording <% if !@event.nil? %><% if !@event.title.nil? %>for<em> <%= @event.title %> </em> <% end %> <% end %></h1>
+      
+      <% if !@event.nil? %><% if !(@event.title == 'the ETL Seminar') %><br/><h3>  <% if !@event.nil? %><% if !@event.date.nil? %><%= @event.date.strftime("%b %d, %Y")  %> <% end %><% end %></h3><% end %><% end %>
+  </div>                                
+
+<% flash.each do |key, value| %>
+    <div class="alert alert-block alert-<%=key%>"> 
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <%= value %> 
+    </div>
+<% end %>
+
+
+
+
+<div class="container">  
+<br/>
+
+
+<script type="text/javascript">
+    $(window).load(function(){
+        $('#recordmodal').modal('show');
+    });
+</script>
+
+                        <div id="recordmodal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-header">
+                              
+                              <h3 id="myModalLabel"><em>Please record your VoiceGem here</em></h3>
+                            </div>
+
+                            <div class="modal-body">
+            
+                              <script>
+                                  function reloadPage() {
+                                    document.getElementById('recorder').contentWindow.location.reload();
+                                  }
+                                </script>
+            
+                                <input type="image" src="/assets/refresh-recorder.png" onclick="reloadPage()"> 
+                                
+                                <iframe id="recorder" src='<%= vgtest_voicegem_path(@vg) %>' width="100%" height="230" frameborder="0" scrolling='no'  marginheight="200x" ></iframe>
+
+                                <div class="modal-footer">
+                                 <div class="right"><strong>(click 'SAVE' after you click 'UPLOAD')</strong> <%= link_to setpassword_path(:id => current_user.id, :event => @event, :event_code => @event_code, :vg => @vg), disable_with: 'please wait...', confirm: 'Did you remember to Upload your recording?  If you did, press OK to go on. Otherwise, Cancel to go back.',  class: 'btn btn-primary span2' do %> SAVE&nbsp;<i class="icon-caret-right icon-white"></i>
+                                  <% end %></div> 
+                                  
+                                </div>
+            
+                                <div class="accordion" id="accordionrec">
+
+                                  <div class="accordion-group">
+                                    <div class="accordion-heading">
+                                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionrec" href="#collapserec1">
+                                        <h4><span class="blue">Instructions<span/></h4> 
+                                      </a>
+                                    </div>
+                                    <div id="collapserec1" class="accordion-body collapse">
+                                      <div class="accordion-inner">
+                                        Note: <em>if the recorder isn't working, please ensure your browser's <strong>Javascript and Flash are enabled</strong></em> <br/><br/>
+                                        <ol>
+                                          <li><strong>Press 'RECORD', then click 'Allow'</strong> if asked for permission to use your computer's microphone.</li> <br/>
+                                          <li> You will have 30 seconds maximum recording time. <strong>Please record your message, then immediately press 'STOP'.</strong></li> <br/>
+                                          <li>Your recording will automatically play back to you:</li>
+                                             <ul>
+                                                 <li>If it sounds good, <strong>press 'UPLOAD.'</strong></li>  
+                                                  <li>If you're not happy with it, press 'RECORD' to try again.</li>
+                                              </ul>
+                                          </ol> 
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="accordion-group">
+                                    <div class="accordion-heading">
+                                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionrec" href="#collapserec2">
+                                        <h4><span class="blue">Problems?<span/></h4>
+                                      </a>
+                                    </div>
+                                    <div id="collapserec2" class="accordion-body collapse">
+                                      <div class="accordion-inner">
+                                          <h4><i class="icon-warning-sign red"></i>&nbsp;&nbsp;<a href="<%= flashissue_path %>.htm#collapseOne" target="_blank"><span class="red">I can't click 'Allow'</span></a></h4>
+                                          
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;<a href="<%= flashissue_path %>.htm#collapseOne" target="_blank">Please click here</a></h5>
+                                             <hr/>
+                                          <h4 class="red"><i class="icon-warning-sign red"></i>&nbsp;&nbsp;Nothing happens when I press 'Record'</h4>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Using Chrome? If there is a small 'Allow/Deny' bar at the top of your browser, click allow and then try recording again (or refresh the page). <center><img src="<%= image_path('chrome-warn-small.png')%>"></center> Click <a href="https://support.google.com/chrome/answer/2696491?hl=en" target="_blank">here</a> for instructions on changing the advanced settings. </h5>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please make sure a microphone is plugged in, especially if you are using a desktop computer.</h5>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please make sure <a href="http://helpx.adobe.com/flash-player/kb/find-version-flash-player.html" target="_blank">the latest version of Adobe Flash Player is enabled</a> on your browser.</h5> 
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;If you have a Flash-blocker installed on your browser, please <a href="<%= flashissue_path %>.htm#collapseFive" target="_blank">temporarily disable it</a> (you may need to restart browser to disable) or try a different browser. These blockers normally do not allow microphone access.</h5> 
+                                              <hr/>
+                                          <h4 class="red"><i class="icon-warning-sign red"></i>&nbsp;&nbsp;I accidentally clicked 'Deny'</h4>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please refresh this page and try again.</h5>
+                                              <hr/>
+                                          <h4 class="red"><i class="icon-warning-sign red"></i>&nbsp;&nbsp;My recording does not play back/sound good</h4>
+                                               <h5><i class="icon-wrench"></i>&nbsp;&nbsp;If you are using Chrome on a Mac, try a different browser.</h5>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please ensure you have a quiet environment.</h5>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Check your computer's mic settings to see that it is enabled (as well as any options such as noise-cancellation).</h5>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Check to make sure your speaker volume is up.</h5>
+                                      </div>
+                                    </div>
+                                  </div>    
+
+                                  <div class="accordion-group">
+                                    <div class="accordion-heading">
+                                      <a class="accordion-toggle"  data-parent="#accordionrec" href="<%= flashissue_path %>.htm#collapseOne" target="_blank"><h4><span class="blue">Can't click 'Allow'?</span></h4></a>
+                                    </div>
+                                  </div>      
+
+
+                                </div>   <!-- end accordion -->    
+             
+
+                             </div> <%# End modal body %> 
+
+
+                         </div> <%# end modal %>
+
+
+
+                          <div class="accordion" id="accordion3">
+                                    <div class="accordion-group bg-signup">
+                                      <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseOne">
+                                         <h5 class="white">VoiceGems for New Users</h5>
+                                        </a>
+                                      </div>
+                                      <div id="collapseOne" class="accordion-body collapse in">
+                                        <div class="accordion-inner">
+                                                   <div class="row">
+                                                     
+
+                                                          <div class="well span3 offset4">
+                                                              <h4> <i class="icon-check-empty">&nbsp;</i><span class="blue">STEP 3: Record Your VoiceGem</span> </h4> <br/>
+                                                                  <br/><br/><br/> <br/>
+                                                                  <div class="row">
+                                                                 
+                                                                     <button data-toggle="modal" href="#recordmodal" class="btn btn-danger btn-large span3">Record Your VoiceGem </button>
+                                                                                                                                           
+                                                                     <br/>
+                                                                     
+                                                                  
+                                                                 </div>
+
+                                                                   <br/>
+                                                                <br/><br/><hr/>
+                                                                
+                                                            
+
+                                                          </div> 
+                                                  
+                                                    </div><%# end row %>
+                                                    <%= link_to "Skip to Profile Page", {:controller => "users", :action => "setpassword", :id => current_user.id, :x => "skip" }, {:class => "btn btn-primary btn-small span2 fl-right"}%>
+                                        </div>
+                                      </div>
+                                    </div>
+                                        
+                                  </div>  <%# end accordion %>
+
+
+
+
+</div><%# end container %>

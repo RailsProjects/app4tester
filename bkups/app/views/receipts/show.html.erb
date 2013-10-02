@@ -1,0 +1,80 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @receipt.user_id %>
+</p>
+
+<p>
+  <b>Subscription:</b>
+  <%= @receipt.subscription_id %>
+</p>
+
+<p>
+  <b>Sub my plan:</b>
+  <%= @receipt.sub_my_plan_id %>
+</p>
+
+<p>
+  <b>Sub plan name:</b>
+  <%= @receipt.sub_plan_name %>
+</p>
+
+<p>
+  <b>Sub events number:</b>
+  <%= @receipt.sub_events_number %>
+</p>
+
+<p>
+  <b>Sub reg monthly cost in cents:</b>
+  <%= @receipt.sub_reg_monthly_cost_in_cents %>
+</p>
+
+<p>
+  <b>Sub actual monthly cost in cents:</b>
+  <%= @receipt.sub_actual_monthly_cost_in_cents %>
+</p>
+
+<p>
+  <b>Sub reg annual cost in cents:</b>
+  <%= @receipt.sub_reg_annual_cost_in_cents %>
+</p>
+
+<p>
+  <b>Sub actual monthly cost in cents:</b>
+  <%= @receipt.sub_actual_annual_cost_in_cents %>
+</p>
+
+<p>
+  <b>Unlimited:</b>
+  <%= @receipt.Unlimited %>
+</p>
+
+<p>
+  <b>Sub coupon name:</b>
+  <%= @receipt.sub_coupon_name %>
+</p>
+
+<p>
+  <b>Events number:</b>
+  <%= @receipt.events_number %>
+</p>
+
+<p>
+  <b>En regular cost in cents:</b>
+  <%= @receipt.en_regular_cost_in_cents %>
+</p>
+
+<p>
+  <b>En actual cost in cents:</b>
+  <%= @receipt.en_actual_cost_in_cents %>
+</p>
+
+<p>
+  <b>En coupon name:</b>
+  <%= @receipt.en_coupon_name %>
+</p>
+
+
+<%= link_to 'Edit', edit_receipt_path(@receipt) %> |
+<%= link_to 'Back', receipts_path %>

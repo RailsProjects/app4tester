@@ -1,0 +1,8 @@
+Hi there<% if !@po.user.first_name.nil? %> <%= @po.user.first_name %><% end %> !
+
+The admin for the event <%= @po.event.title %> is requesting that you please re-record your name at NameCoach. Your recording may not have been clear, so please double-check it and record again, to ensure your name is announced right!
+
+Please sign in: <%= @url %>
+
+Thank you!
+- The team at NameCoach

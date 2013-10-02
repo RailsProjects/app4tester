@@ -1,0 +1,124 @@
+
+<div class="jumbotron">
+      <h1> Edit Event Details for <%= @event.title %> </em> </h1>
+    
+  </div>
+             <% flash.each do |key, value| %>
+            	<div class="alert alert-block alert-<%=key%>"> 
+            	<button type="button" class="close" data-dismiss="alert">×</button>
+            	<%= value %> 
+            	</div>
+            <% end %>
+
+<br/>
+<br/>
+
+<div class="container">
+
+<script>
+$(function() {
+  $('#event_date').datepicker({ dateFormat: 'yy-mm-dd' });
+});
+</script>
+
+<div class="span6 offset3">
+				            <div class="well">
+				              <h4> <span class="blue"><i class="icon-edit icon-white"></i></span>&nbsp;<strong>Edit event page:</strong> </h4> </br>
+
+				                   <%= form_for(@event, :html => {:class => "form-horizontal"}) do |f| %>
+				                      
+				                        <%= f.label :title, "Event Title" %>
+				                        <%= f.text_field :title, :class => "span3" %>
+
+				                        <br/>
+				                        <% if @event.event_type == 'graduation' %>
+				                        <span class="help-block">(e.g., "The Harvard Quincy House Commencement")</span>
+				                        <% else %>
+				                        <span class="help-block">(e.g., "The Jones-Ravenwood Wedding")</span>
+				                        <% end %>
+				                         <br/>
+				                         <br/>
+				                        
+				                        <%= f.label :date %> 
+				                        <% if !@event.date.nil? %>
+				                        <%= f.text_field :date, :class => "span2", :value => @event.date.strftime("%b %d, %Y") %>
+				                        <% else %>
+				                        <%= f.text_field :date, :class => "span2", :value => @event.date %>
+				                        <% end %>
+				                 
+				                        <br/>
+				                        <br/>
+
+				                        <%= f.label :event_code %>
+				                        <%= f.text_field :event_code, :class => "span2" %>
+				                        				<div id="info-code2" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										            <div class="modal-header">
+										              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+										              <h3 id="myModalLabel">What's the Event Code?</h3>
+										            </div>
+										            <div class="modal-body">
+										             <% if bigdaddyevent %>
+										             	<p> Attendees can record VoiceGems for this event through a unique link, such as:
+										            	<br/><br/>
+										            	<i class="icon-caret-right"></i>&nbsp;&nbsp;www.name-coach.com/record/ExampleEventCode<br/>
+										              	</p> 
+
+											       		<p> The link will be available once you create the Event Page, and you can just copy and paste the link into the web page for your event (if you have one), or an email to your attendees. </p> 
+											       		
+
+											       		<p>You can use this in addition to, or as an alternative to, inviting attendees by entering their email on the Event Page and pressing the 'Invite Attendee' button. </p>	<br/>								
+
+											 			<h4>So What's the Event Code? </h4>	<br/>
+														<p> It's the code that represents your event in the link.</p>
+
+														<p> If you want, you can choose an event code now and enter it in the field here. It should not have special characters or spaces. Pick something unique and descriptive. For example, if the event is in Boston on December 6th, you might choose 'BOSTONDEC6.' </p>
+
+														<p> <strong>If you leave this field blank, we will choose a unique 5-character code for you</strong> (which will appear in the event link). </p>
+										             <% else %>
+											             <p> Attendees can record their names for this event through a unique link, such as:
+											            	<br/><br/>
+											            	<i class="icon-caret-right"></i>&nbsp;&nbsp;www.name-coach.com/record/ExampleEventCode<br/>
+											              </p> 
+
+											       		<p> The link will be available once you create the Event Page, and you can just copy and paste the link into the web page for your event (if you have one), or an email to your attendees. </p> 
+											       		
+
+											       		<p>You can use this in addition to, or as an alternative to, inviting attendees by entering their email on the Event Page and pressing the 'Invite Attendee' button. </p>	<br/>								
+
+											 			<h4>So What's the Event Code? </h4>	<br/>
+														<p> It's the code that represents your event in the link.</p>
+
+														<p> If you want, you can choose an event code now and enter it in the field here. It should not have special characters or spaces. Pick something unique and descriptive. For example, if the event is in Boston on December 6th, you might choose 'BOSTONDEC6.' </p>
+
+														<p> <strong>If you leave this field blank, we will choose a unique 5-character code for you</strong> (which will appear in the event link). </p>
+													<% end %>
+										            </div>
+
+										            <div class="modal-footer">
+										              <button class="btn" data-dismiss="modal">Close</button>
+										                
+										        
+										              </div>
+										           </div>
+				                 			<a data-toggle="modal" href="#info-code2" ><i class="icon-info-sign "></i></a>
+
+
+
+				                        	 <div class="form-actions">
+     
+    										 <%= f.submit "Save Changes", class: "btn btn-primary", confirm: 'Are you sure?', disable_with: 'saving changes...'  %> 
+    										 &nbsp; 
+ 											<a href="<%= users_path%>/<%= current_user.id %>" class="btn btn-small">Cancel Edits </a>
+											</div>
+
+
+				                    <% end %>
+				                 
+				              </div>
+				          </div>
+
+</div>
+				    
+
+
+

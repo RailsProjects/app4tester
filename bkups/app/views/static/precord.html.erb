@@ -1,0 +1,90 @@
+                    <div class="container">
+                          <%= form_for @practiceobject, :html => {:multipart => true} do |f| %>
+
+                        <p>
+
+
+    <input id="practiceobject_vidrec" accept="video/*" name="practiceobject[vidrec]" type="file"  />
+
+
+  </p>
+ 
+  <p> <%= f.submit "CONVERT VIDEO TO AUDIO RECORDING", class: "btn btn-info btn-large span8", disable_with: 'please wait...'  %>
+  						  	</p>
+							  <% end %>
+
+							  
+<div class="progress progress-striped active span7">
+   <div class="bar" style="width: 0;"></div>
+</div>
+<br/>
+<%= @practiceobject.rec_file_size %>
+<table>
+	<tr>
+ <td class="rec-cell invisible"> <audio src="https://s3-us-west-1.amazonaws.com/<%= ENV['BUCKET_NAME'] %>/<%= @practiceobject.id %>.mp3" /> 
+                                    </td>
+  </tr>
+</table>
+                    </div>
+<script>
+
+var jobId = "<%= @practiceobject.rec_file_size %>";
+
+function poll() {
+  setTimeout(function() {
+    $.ajax({
+      url: 'https://app.zencoder.com/api/v2/jobs/' + jobId + '/progress',
+      type: 'GET',
+      headers: { "Zencoder-Api-Key": "<%= ENV['ZEN_API_KEY'] %>" },
+      //dataType: 'json',
+      success: function(data) {
+        parseResponse(data);
+      },
+      error: function(data) {
+        console.log(data)
+      }
+    });
+  }, 3000);
+}
+
+function parseResponse(data) {
+  switch(data.state) {
+    case 'pending':
+      console.log('Pending');
+      poll();
+      break;
+    case 'waiting':
+      console.log('Waiting');
+      poll();
+      break;
+    case 'processing':
+      console.log('processing');
+      $('.progress .bar').css('width', Math.round(data.progress) + '%');
+      poll();
+      break;
+    case 'finished':
+      console.log('Finished');
+      $('.progress').removeClass('active');
+      $('.progress .bar').css('width', '100%');
+      $('.rec-cell').attr("class","rec-cell");
+      break;
+    case 'failed':
+      console.log('Failed');
+      break;
+    case 'cancelled':
+      console.log('Cancelled');
+      break;
+    default: 
+      console.log("Wat?");
+  }
+}
+</script>
+<script>
+$(document).ready(function(){
+
+  poll();
+
+});
+
+</script>
+

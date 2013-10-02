@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Recipient email:</b>
+  <%= @email.recipient_email %>
+</p>
+
+<p>
+  <b>From email:</b>
+  <%= @email.from_email %>
+</p>
+<p>
+  <b>Subject</b>
+  <%= @email.subject %>
+</p>
+<p>
+  <b>Body:</b>
+  <%= @email.body %>
+</p>
+
+<p>
+  <b>Sent at:</b>
+  <%= @email.sent_at %>
+</p>
+
+<p>
+  <b>Cc email:</b>
+  <%= @email.cc_email %>
+</p>
+
+
+<%= link_to 'Edit', edit_email_path(@email) %> |
+<%= link_to 'Back', emails_path %>

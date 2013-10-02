@@ -1,0 +1,21 @@
+<h1>Listing CustomerKeys</h1>
+
+<table  class="table table-striped">
+  <tr>
+    <th>ID</th>
+    <th>User ID</th>
+    <th>Event ID</th>
+    
+  </tr>
+
+<% @keys.each do |k| %>
+  <tr>
+        <td><%= k.id %></td>
+    <td><%= k.user_id %></td>
+    <td><%= k.event_id %></td>
+    
+<% end %>
+</table>
+
+<br />
+

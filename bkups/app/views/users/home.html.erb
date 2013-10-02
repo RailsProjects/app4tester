@@ -1,0 +1,318 @@
+<% provide(:path, 'assets/') %>
+
+            <% flash.each do |key, value| %>
+              <div class="alert alert-block alert-<%=key%>"> 
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= value %> 
+              </div>
+            <% end %>
+
+
+<!-- Slider starts -->
+  <div class="parallax-slider">
+          <!-- Slider (Parallax Slider) -->            
+            <div id="da-slider" class="da-slider">
+              <!-- Each slide should be enclosed inside "da-slide" class -->
+              <div class="da-slide">
+                <div class="slide-details">
+                  <!-- Heading -->
+                  <h2><span>When Saying it Right Matters.</span></h2>
+                  <!-- Para -->
+                  <p>Classrooms. Graduations. Weddings. Critical settings at which every name, no matter how difficult or unique, must be pronounced perfectly. <br/> <br/> We provide the crucial supplement to low-fidelity phonetic spellings...</p><br/>
+                  <!-- Read more link -->
+                 
+                  <!-- Image -->
+                  <div class="da-img"><img src="/assets/hand2.jpg" alt="image01" /></div>
+                </div>
+              </div>
+              <div class="da-slide">
+                <h2><span>HiFi Pronunciation</span></h2>
+                <p>Individuals voice-record their names on a Name Page, where others (teachers, MC's) can hear and practice them - <em>exactly as they say it</em> - making spot-on pronunciation possible, easy, and hassle-free. </p>
+               <a href="<%= students_path %>" class="da-link" target="_blank">The Value..</a>
+                <div class="da-img"><img src="/assets/podium1.jpg" alt="image01" /></div>
+              </div>
+              <div class="da-slide">
+                <h2><span>Request Names</span></h2>
+                <p><br/>Just give out a link to your Name Page, all generated for you.</p>
+                <a href="<%= @url %>" target="_blank" class="da-link">Demo Link</a>
+                <div class="da-img"><img src="/assets/grad_link_4_3.png" alt="image01" class="vert-align"/></div>
+              </div>
+              <div class="da-slide">
+                <h2><span>Record Names</span></h2>
+                <p>One click goes to our quick and easy-to-use online audio recorder, where individuals voice-record their names on your Name Page.  They can enter phonetic spellings too.</p>
+                <a href="<%= @url %>" target="_blank" class="da-link">Recorder</a>
+                <div class="da-img"><img src="/assets/record_2_3.png" alt="image01" class="vert-align"/></div>
+              </div>
+              <div class="da-slide">
+                <h2><span>Hear and Practice Names</span></h2>
+                <p>Teachers or MC's play back recordings as needed before an event or the first day of class, allowing for perfectly easy, easily perfect pronunciations.<br/>Simple and effective.</p>
+                
+                <a href="<%= demo_directory_path %>" target="_blank" class="da-link">Demo Page</a>
+                <div class="da-img"><img src="/assets/event_page_22.png" alt="image01" class="vert-align"/></div>
+              </div>
+              <nav class="da-arrows">
+                <span class="da-arrows-prev"></span>
+                <span class="da-arrows-next"></span>
+              </nav>
+             
+            </div>
+            
+  </div>
+  <div class="tp-bannershadow tp-shadow1"></div>
+<!-- Slider ends -->
+
+
+
+<!-- Recent Posts Starts -->
+
+<div class="recent-posts">
+  <div class="container">
+    <div class="row">
+
+      <div class="span10 offset1">
+        <ul>
+            <!-- Recent posts #1 -->
+            <!-- Each carousel should be enclosed inside "li" tag -->
+            <!-- Recent posts #3 -->
+            <li>
+                <div class="rp-item span3"> 
+                  <div class="rp-image">        
+                    <a href="<%= students_path %>"><img src="/assets/students_children.jpg" alt=""/></a>
+                  </div>
+                  <div class="rp-details">
+                    <h5><a href="<%= students_path %>">Student Name Directory</a></h5>
+                            
+                  </div>                
+                </div>        
+            </li>    
+            <li>
+                <div class="rp-item span3"> 
+                  <!-- Image. -->
+                  <div class="rp-image">        
+                    <a href="<%= commencements_path %>"><img src="/assets/graduation_000_2.jpg" alt=""/></a>
+                  </div>
+                  <div class="rp-details">
+                    <!-- Title and para -->
+                    <h5><a href="<%= commencements_path %>">Commencement Service</a></h5>
+
+                  </div>                
+                </div>        
+            </li>
+            <!-- Recent posts #2 -->
+            <li>
+                <div class="rp-item span3"> 
+                  <div class="rp-image">        
+                    <a href="<%= weddings_path %>"><img src="/assets/wed2.jpeg" alt=""/></a>
+                  </div>
+                  <div class="rp-details">
+                    <h5><a href="<%= weddings_path %>">Wedding Receptions</a></h5>
+                            
+                  </div>                
+                </div>        
+            </li>                                                                         
+        </ul>
+      </div>
+
+
+  </div>
+</div>
+
+<div class="sep"></div>
+<br/><br/>
+
+<script type="text/javascript" charset="utf-8">
+  $(window).load(function() {
+    $('.flexslider').flexslider({
+      itemMargin: 50
+    });
+  });
+</script>
+
+  <div class="container">
+    <div class="row">
+
+      
+          <div class="span6">
+
+            <!-- Slider (Flex Slider -->
+            <div class="flexslider">
+              <ul class="slides">
+
+
+              <li>
+                  <div class="test">
+                      <strong><span class="qstart">&#8220;</span>A creative way to address a very real (all-too-real) problem.<span class="qend">&#8221;</span></strong>
+                 </div>
+                 <div class="test-arrow"></div>
+                 <div class="tauth"><i class="icon-user"></i> Daniel Regan, <span class="color">Faculty, Johnson State College </span></div>               
+                </li>
+
+                <li> 
+                  <div class="test">
+                      <strong><span class="qstart">&#8220;</span>NameCoach was a huge asset to the success of our graduation ceremony.  <span class=" black">It's a simple, intuitive, and most importantly helpful tool </span> to make sure that each person hears their name pronounced correctly during their moment of honor. I look forward to continuing to use the service to make sure that students are respected and announced accurately at our future events.<span class="qend">&#8221;</span></strong>
+                  </div>
+                  <div class="test-arrow"></div>
+                  <div class="tauth"><i class="icon-user"></i> Mike Wilson, <span class="color">Faculty, Haltom High School</span></div>
+                </li>
+                
+               <li> 
+                  <div class="test">
+                      <strong><span class="qstart">&#8220;</span>Brilliant! I can 100% say I would be a different person if I had not had a "weird" name growing up in the US.  I wish they had had this when I was in school. I now teach, and I just wanted to say thank you to everyone who was involved in making this."<span class="qend">&#8221;</span></strong>
+                  </div>
+                  <div class="test-arrow"></div>
+                  <div class="tauth"><i class="icon-user"></i> Nelleke Spanjaard Harris, <span class="color">Kindergarten Teacher, Somerville, MA</span></div>
+                </li>
+
+
+                <li>
+                  <div class="test">
+                      <strong><span class="qstart">&#8220;</span><span class=" black">NameCoach was a wonderful resource for our faculty, staff and students for our Commencement ceremony.</span> Easy to use, and it was helpful to have our students record their name pronuciations for our faculty. It was one less thing we had to worry about! This is such an important event for our students, and using NameCoach certainly contributed to the success of our program. <span class=" black">Their customer service was exceptional</span> and they replied to our questions/concerns in a timely manner.  We are excited to use the new Student Name Directory service for upcoming orientation and recruitment events!<span class="qend">&#8221;</span></strong>
+                  </div>
+                  <div class="test-arrow"></div>
+                  <div class="tauth"><i class="icon-user"></i> Olgalydia Winegar, <span class="color">Student Services Manager, Stanford BioE Dept.</span></div>
+                </li>
+
+                <li>
+                  <div class="test">
+                      <strong><span class="qstart">&#8220;</span> <span class=" black">The Commencement Service is a very nice program. But it's one thing to have your name mispronounced at Graduation; it's another to have your name mispronounced every day in class.</span> I look forward to inviting all of my students to use the resource in anticipation of the first day of school.  My teachers will be asked to review their class rosters and if they come across a name they feel would be hard to pronounce, they can listen to the name before the student even enters class!  <span class=" black">This, I feel, would go a long way to helping to create an inclusive, safe learning environment.</span><span class="qend">&#8221;</span></strong>
+                  </div>
+                  <div class="test-arrow"></div>
+                  <div class="tauth"><i class="icon-user"></i> Greg Louie, <span class="color">Principal, Santa Teresa High School</span></div>
+                </li>
+
+                <li>
+                  <div class="test">
+                      <strong><span class="qstart">&#8220;</span>We found your service very useful, as my name is hard to pronounce from  an English-speaking standpoint. I think the people who are most benefited from this are the presenters.<span class="qend">&#8221;</span></strong>
+                 </div>
+                 <div class="test-arrow"></div>
+                 <div class="tauth"><i class="icon-user"></i> David Arrambide, <span class="color">Stanford BioE Graduate, & CEO, FosteringTech </span></div>               
+                </li>
+
+              </ul>
+            </div>  <!-- END Slider (Flex Slider -->
+
+
+          </div>  <!-- END SPAN FOR SLIDER -->
+
+
+
+      <div class="recent-posts">
+
+
+      <div class="span4 offset1">
+        <strong><em><span class="help-block">Some of Our Users</span></em></strong>
+        <div class="clearfix"></div>
+        <ul class="rps-carousel">
+            <!-- Recent posts #1 -->
+            <!-- Each carousel should be enclosed inside "li" tag -->
+            <li>
+                <div class="rp-item"> 
+              
+               
+                  <div class="rp-details">
+                    <!-- Title and para -->
+                    <h5>Stanford University</h5>
+                    <p>Department of BioEngineering</p>         
+                  </div>                
+                </div>        
+            </li>
+            <!-- Recent posts #2 -->
+            <li>
+                <div class="rp-item"> 
+    
+                  <div class="rp-details">
+                    <h5>Haltom High School</h5>
+                    <p>Fort Worth, Texas</p>         
+                  </div>                
+                </div>        
+            </li>
+            <!-- Recent posts #3 -->
+            <li>
+                <div class="rp-item"> 
+  
+                  <div class="rp-details">
+                    <h5> University of Southern California </h5>
+                    <p>Leventhal School</p>         
+                  </div>                
+                </div>        
+            </li>
+            <!-- Recent posts #4 -->
+            <li>
+                <div class="rp-item"> 
+
+                  <div class="rp-details">
+                    <h5>Iolani High School </h5>
+                    <p>Honolulu, Hawaii</p>         
+                  </div>                
+                </div>        
+            </li>
+            <!-- Recent posts #5 -->
+            <li>
+                <div class="rp-item"> 
+
+                  <div class="rp-details">
+                    <h5>Stanford Univeristy </h5>
+                    <p>Department of Statistics</p>         
+                  </div>                
+                </div>        
+            </li>    
+            <!-- Recent posts #6 -->
+            <li>
+                <div class="rp-item"> 
+
+                  <div class="rp-details">
+                    <h5>Santa Teresa High School </h5>
+                    <p>San Jose, California</p>         
+                  </div>                
+                </div>        
+            </li> 
+            <!-- Recent posts #7 -->
+                                                                                                         
+        </ul>
+
+          <div class="carousel_nav pull-right">
+        
+          <!-- Carousel navigation -->
+          <a class="prev" id="car_prev" href="#"><i class="icon-chevron-left"></i></a>
+          <a class="next" id="car_next" href="#"><i class="icon-chevron-right"></i></a>
+        </div>
+
+      </div>
+
+
+</div>
+
+<!-- Recent Posts ends -->
+
+
+
+
+
+
+    </div>
+  </div>
+            
+
+<br/>
+<div class="sep"></div>
+<br/>
+
+
+
+
+     
+<br/>
+<br/>
+
+
+
+ 
+           
+<br/>
+
+
+
+
+
+
+

@@ -1,0 +1,89 @@
+<div class="jumbotron">
+        <h1>Change Subscription</h1>
+  </div>
+               
+<!-- This is exactly the same as stripetest, except for the jumbotron stuff -->
+             
+             <% flash.each do |key, value| %>
+              <div class="alert alert-block alert-<%=key%>"> 
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= value %> 
+              </div>
+            <% end %>
+
+<br/>
+<br/>
+
+        <div class="container">
+        
+<br/>
+
+
+<div class="row">
+
+        <div class="well span6 offset3">
+   
+        <hr/>
+        <div class="accordion" id="accordionsub">
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionsub" href="#collapsechange">
+                     <h3> <span class="help-block">Current Subscription Plan</span></h3>
+                    </a>
+                  </div>
+                  <div id="collapsechange" class="accordion-body collapse in">
+                      <div class="accordion-inner">
+
+
+                  
+              
+                  <h4><% if !@plan.nil? %><% if !@plan.name.nil? %><%= @plan.name.titleize %><% end %> ($<% if !@plan.monthly_cost_cents.nil? %><%= @plan.monthly_cost_cents/100 %><% end %>.00/month)<% end %></h4>
+                  <% if !@new_price.nil?  %>
+                     <h4> <icon class="icon-caret-right"></i>&nbsp;<em>Discounted Price (<%= @coupon.percent_off %>% off): only $<%= number_with_precision((@new_price.to_f)/100, :precision => 2) %>/month!</em></h4>
+                  <% end %>
+                  <br/>
+                  <h4><icon class="icon-ok-sign">&nbsp;<%= @plan.events_number %> Events / Year  </h4>
+                  <h4><icon class="icon-ok-sign">&nbsp;Unlimited Name Recordings </h4> 
+                  <br/>
+                  <p>Customer: <strong><%=current_user.first_name%> <%= current_user.last_name %></strong></p>
+                  <p>Free Trial Period Start: <strong><%= @firstsub.created_at.strftime("%b %d, %Y") %></strong></p>
+                  <p>Free Trial Period End: <strong><%= @firstsub_end.strftime("%b %d, %Y") %></strong></p>
+                  <p>Event Pages remaining this year (through <%= @s_year.strftime("%b %d, %Y") %>): <strong><%= @s.events_remaining %></strong></p>
+
+                            <!-- catch case in which @plan is empty and choose plan;-->    
+
+                      </div><%# end accordion inner %>
+                  </div><%# end collapsechange %>
+                </div><%# end accordigion group %>
+
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionsub" href="#collapsechange2">
+                      <h5><span class="blue">Choose New Plan</span></h5>
+                    </a>
+                  </div>
+                  <div id="collapsechange2" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                          <%= form_for(:sub, url: changesubscription_choose_path) do |y| %>
+                                               <%= y.select :newplan,  options_for_select([["Silver Plan (25 pages/yr, $35/mo)", 1], ["Gold Plan (50 pages/yr, $55/mo)", 2], ["Platinum (100 pages/yr, $85/mo)", 3] ]) %>
+                                                <%= y.hidden_field :currentplan, :value => @plan.my_plan_id %>
+                                               <%= y.submit "Go to Checkout", class: "btn btn-primary"  %> 
+                                             <% end %>  
+                      </div><%# end accordion inner %>
+                  </div><%# end collapsechange2 %>
+                </div><%# end accordion group %>
+                                        
+            </div>   <%# end accordion%>
+
+
+        <hr/>
+  
+        
+     
+
+        <br/>
+  
+</div>
+</div>
+
+</div>

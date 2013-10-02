@@ -1,0 +1,220 @@
+<div class="jumbotron">
+        <h1>Purchase Event Pages</h1>
+  </div>
+
+             
+             <% flash.each do |key, value| %>
+              <div class="alert alert-block alert-<%=key%>"> 
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= value %> 
+              </div>
+            <% end %>
+
+<br/>
+<br/>
+
+<div class="container">
+        
+<br/>
+
+
+<div class="row">
+
+        <div class="well span6 offset3">
+   
+        <hr/>
+        <div class="accordion" id="accordionsub">
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionsub" href="#collapsechange">
+                     <h3> <span class="help-block">Your Order</span></h3>
+                    </a>
+                  </div>
+                  <div id="collapsechange" class="accordion-body collapse in">
+                      <div class="accordion-inner">
+                        <% if !@number.nil? && @number.to_i > 0 %>
+                                <%= @number %> Event Page<% if @number.to_i > 1 %>s<% end %> @ <%= @price %>/Event
+                                <br/>
+                                <strong>Total: $<%= @cost %>.00</strong>
+                        <% else %>
+                         Please select number of pages again (click 'Change Order')
+                        <% end %>
+                            <!-- catch case in which @cost or @number is empty and change order;-->    
+
+                      </div><%# end accordion inner %>
+                  </div><%# end collapsechange %>
+                </div><%# end accordion group %>
+
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionsub" href="#collapsechange2">
+                      <h5><span class="blue">Change Order</span></h5>
+                    </a>
+                  </div>
+                  <div id="collapsechange2" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                        <div class="fltlft PlanBox3">
+                              <div class="PlanBoxHeading">Event Page Pricing </div>
+                              <div class="PlanBoxContent">
+                                <ul>
+                                  <li><strong>1 to 5</strong> Events: <strong>$<%= tier_one_price %> / Event</strong></li>
+                                  <li><strong>6 to 10</strong> Events: <strong>$<%= tier_two_price %> / Event</strong></li>
+                                  <li><strong>11+</strong> Events: <strong>$<%= tier_three_price %> / Event</strong></li>
+                                  <li>
+                                    Select number of events:
+                                         <%= form_for(:pur, url: existing_changepur_path) do |y| %>
+                                               <%= y.select :number, (1..24), {:selected => "#{@number}"} %>
+                                               <%= y.submit "Change Order", class: "btn btn-primary"  %> 
+                                             <% end %>  
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                         
+                      </div><%# end accordion inner %>
+                  </div><%# end collapsechange2 %>
+                </div><%# end accordigion group %>
+
+              <% if @number.to_i == 1 %>
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionsub" href="#collapsechange3">
+                      <h5><span class="blue">Promo Code?</span></h5>
+                    </a>
+                  </div>
+                  <div id="collapsechange3" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                          
+                                   Enter code here:
+                                   <%= form_for(:coup, url: existing_coupon_purchase_path) do |y| %>
+                                               <%= y.text_field :code %>
+                                               <%= y.hidden_field :number, :value => @number %>
+                                               <%= y.submit "Apply Coupon", class: "btn btn-primary"  %> 
+                                             <% end %>  
+                        
+                      </div><%# end accordion inner %>
+                  </div><%# end collapsechange3 %>
+                </div><%# end accordion group %>
+             <% end %>  
+   
+
+
+            </div>   <%# end accordion%>
+
+
+        <hr/>
+  
+  <% if !@number.nil? && @number.to_i > 0 %>  <%#  not an issue anyway (preventing cc checkout) b/c redirecting to existing_user_purchase upon cc processing failure %>
+
+        <% if !current_user.customer_id.blank? %> 
+
+            <div class="accordion" id="accordioncheckout">
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordioncheckout" href="#collapsecurrent">
+                     <h3><span class="help-block">Checkout with Card on File</span></h3>
+                    </a>
+                  </div>
+                  <div id="collapsecurrent" class="accordion-body collapse in">
+                      <div class="accordion-inner">
+
+                          <p>Use <strong><%= @cardtype %></strong> ending in <strong><%= @last4 %></strong>.</p>
+                          
+                          <%= form_for(:peu, url: purchase_events_existing_card_path) do |y| %>
+                                               <%= y.hidden_field :number, :value => @number %>
+                                               <%= y.hidden_field :coupon, :value => @coupon %>
+                                               <%= y.hidden_field :cost, :value => @cost %>
+                                                      <% if current_user.email == 'startx@example.com' %>
+                                                      (disabled for demo account)
+                                                      <%= y.submit "Confirm Purchase!", class: "btn btn-primary", :disabled => true  %> 
+                                                      <% else %>
+                                                     <%= y.submit "Confirm Purchase!", class: "btn btn-primary", disable_with: 'Processing'  %> 
+                                                     <% end %>
+                                               <span class='help-block'>(Your card will be charged $<%= @cost %>.00)</span>
+                                             <% end %>  
+                         
+                      </div><%# end accordion inner %>
+                  </div><%# end collapsechange %>
+                </div><%# end accordion group %>
+
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordioncheckout" href="#collapsenew">
+                      <h5><span class="blue">Change Card on File and Checkout</span></h5>
+                    </a>
+                  </div>
+                  <div id="collapsenew" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                          <%= label_tag :pay_with_card do %>
+                          <%= image_tag "visa.png" %>
+                          <%= image_tag "mastercard.png" %>
+                          <%= image_tag "discover.png" %>
+                          <%= image_tag "american_express.png" %>
+                          <%= image_tag "jcb.png" %>
+                          <%= image_tag "diners.png" %>
+                        <% end %>
+                            <br/>
+                            
+                            <form action="<%= purchase_events_new_card_url %>" method="POST" id="payment-form">
+                                <input type="hidden" name="number" value="<%= @number %>">
+                                <input type="hidden" name="coupon" value="<%= @coupon %>">
+                                <input type="hidden" name="cost" value="<%= @cost %>">
+
+                                  <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
+                                        data-key="<%= ENV['PUBLISHABLE_KEY'] %>"  data-name="NameCoach" data-label="Enter New Card Details" data-amount="<%= @cost.to_i*100 %>"
+                                    data-description="<%= @number %> Event Page<% if @number > 1 %>s<% end %>"
+                                    data-image="<%= image_path('darkerbuttont_fav_2.png')%>"> </script> <%= image_tag "lockoverlay.png" %>&nbsp;<span class="help-block">Secure Payment with Stripe <a href="https://stripe.com/help/security" target="_blank" ><i class="icon-question-sign "></i></a></span> 
+                                <br/>
+                                <br/>
+                                    
+                                <p>Note: if you already have a subscription plan, payments for that subscription will now be charged to this card. </p>
+                                
+                                <br/>
+                               
+                            </form>
+                      </div><%# end accordion inner %>
+                  </div><%# end collapsechange2 %>
+                </div><%# end accordigion group %>
+                                        
+            </div>   <%# end accordion%>
+
+
+        <% else %> <%# PAYMENT WHEN USER NOT A STRIPE CUSTOMER %>
+                      <%= label_tag :pay_with_card do %>
+                          <%= image_tag "visa.png" %>
+                          <%= image_tag "mastercard.png" %>
+                          <%= image_tag "discover.png" %>
+                          <%= image_tag "american_express.png" %>
+                          <%= image_tag "jcb.png" %>
+                          <%= image_tag "diners.png" %>
+                        <% end %>
+                            <br/>
+                            
+                           <form action="<%= purchase_events_new_stripe_customer_url %>" method="POST" id="payment-form">
+                              <input type="hidden" name="number" value="<%= @number %>">
+                              <input type="hidden" name="coupon" value="<%= @coupon %>">
+                              <input type="hidden" name="cost" value="<%= @cost %>">
+
+                                <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
+                                      data-key="<%= ENV['PUBLISHABLE_KEY'] %>" data-amount="<%= @cost.to_i*100 %>" data-name="NameCoach"
+                                  data-description="<%= @number %> Event Page<% if @number > 1 %>s<% end %>"
+                                  data-image="<%= image_path('darkerbuttont_fav_2.png')%>"> </script> <%= image_tag "lockoverlay.png" %>&nbsp;<span class="help-block">Secure Payment with Stripe <a href="https://stripe.com/help/security" target="_blank" ><i class="icon-question-sign "></i></a></span> 
+                              <br/>
+                              <br/>
+                                  
+                              
+                              <br/>
+                             
+                          </form>
+        <% end %>
+
+     
+  <% end %>      
+
+        <br/>
+    
+</div>
+</div>
+
+</div>
+

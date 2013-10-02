@@ -1,0 +1,484 @@
+<p id="notice"><%= notice %></p>
+
+<h1> Your Event </h1>
+<p>
+  <%= @event.id %>
+</p>
+
+<h2>
+  <%= @event.title %>
+</h2>
+
+<p>
+  <%= @event.date %>
+</p>
+
+<h3> Invite users here: </h3>
+<%= form_for(@practiceobject) do |f| %>
+  <% if @practiceobject.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@practiceobject.errors.count, "error") %> prohibited this practiceobject from being saved:</h2>
+
+      <ul>
+      <% @practiceobject.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<table>
+	<div><%= f.hidden_field :event_id %></div>
+ <tr>
+	<td>
+	  <div class="field">
+	    <%= f.label :first_name %><br />
+	    <%= f.text_field :first_name %>
+	  </div>
+	</td>
+	<td>
+	  <div class="field">
+	    <%= f.label :last_name %><br />
+	    <%= f.text_field :last_name %>
+	  </div>
+	 </td>
+	 <td>
+	  <div class="field">
+	    <%= f.label 'email (required)' %><br />
+	    <%= f.text_field :email %>
+	  </div>
+	 </td>
+	 <td>
+	  <div class="actions">
+	    <%= f.submit "Invite user" %>
+	  </div>
+	 </td>
+</tr>
+</table>
+
+<% end %>
+
+<h2> Your event attendees: </h2> 
+
+<table>
+<%= form_for(@practiceobject) do |f| %>
+		<tr>
+			<td>
+			  <div class="field">
+			    <%= f.label :first_name %><br />
+			    
+			  </div>
+			</td>
+			<td>
+			  <div class="field">
+			    
+			    <%= f.label :last_name %><br />
+			  </div>
+			 </td>
+			 <td>
+			  <div class="field">
+			   
+			    <%= f.label :email %><br />
+			  </div>
+			 </td>
+		  </tr>
+			 
+	<% end %>
+
+
+<% @event.practiceobjects.each do |f| %>
+    <%= form_for(f) do |e| %>
+			
+		 <tr>
+			<td>
+			  <div class="field">
+			   
+			    <%= e.text_field :first_name,:disabled => true %>
+			  </div>
+			</td>
+			<td>
+			  <div class="field">
+			    
+			    <%= e.text_field :last_name,:disabled => true %>
+			  </div>
+			 </td>
+
+			 <td>
+			  <div class="field">
+			   
+			    <%= e.text_field :email,:disabled => true %>
+			  </div>
+			 </td>
+
+ 			<% if !f.user.nil? %>
+			 <td> 
+			 	<div class="field">
+			 	<%= form_for(f.user) do |t| %>
+			 	 <%= t.text_field :phonetic, :disabled => true %>
+			 	</div>
+			 	<% end %>
+			 </td>
+			<% end %>
+
+			 <% if !f.user.nil? %>
+			 <td> 
+			 	<div>
+			 	 <%= f.user.notes %>
+			 	</div>
+			 </td>
+			<% end %>
+
+			<% if !f.user.nil? %>
+			 <td> 
+			 	<div>
+			 	 <%= f.user.recording %>
+			 	</div>
+			 </td>
+			<% end %>
+
+			<% if f.user.nil? || f.user.recording.empty? %>
+			 <td>
+			  <div class="actions">
+			    <%= e.submit "Send reminder email" %>
+			  </div>
+			 </td>
+			<% end %>
+			 
+
+		</tr>
+	<% end %>
+
+<% end %>
+
+</table>
+
+ 
+				<% if @practiceobject.user.nil? %>
+				<p> recorded practice objects here -- somehow use f.user (@event.practiceobjects.each.user)
+						e.g., if !f.user.nil? then show f.user.phonetic, etc
+						or user 'where' to separate practiceobjects into those with user_id and those with user_id = nil
+				 </p>
+				<% end %>
+			 
+
+
+
+
+
+
+
+
+
+-----------------------
+
+
+
+
+			 <% else %> 
+						   <% if f.user.recording.nil? %>	
+									<div class="actions">
+										<%= f.submit "remind to record" %>
+									</div>
+						   <% else %>
+									<% if f.user.recording.empty? %>
+											<div class="actions">
+												<%= f.submit "remind to record" %>
+											</div>
+									<% end %>
+							<% end %>
+
+
+
+GRADIENTS
+
+ 	
+
+/* Note: This gradient may render differently in browsers that don't support the unprefixed gradient syntax */
+
+/* IE10 Consumer Preview */ 
+background-image: -ms-linear-gradient(bottom left, #C2CCFF 0%, #EF37E3 500%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(bottom left, #C2CCFF 0%, #EF37E3 500%);
+
+/* Opera */ 
+background-image: -o-linear-gradient(bottom left, #C2CCFF 0%, #EF37E3 500%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left bottom, right top, color-stop(0, #C2CCFF), color-stop(5, #EF37E3));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(bottom left, #C2CCFF 0%, #EF37E3 500%);
+
+/* W3C Markup, IE10 Release Preview */ 
+background-image: linear-gradient(to top right, #C2CCFF 0%, #EF37E3 500%);
+
+
+
+
+
+/* IE10 Consumer Preview */ 
+background-image: -ms-radial-gradient(center, circle farthest-corner, #FFE3FE 0%, #66035F 500%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-radial-gradient(center, circle farthest-corner, #FFE3FE 0%, #66035F 500%);
+
+/* Opera */ 
+background-image: -o-radial-gradient(center, circle farthest-corner, #FFE3FE 0%, #66035F 500%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(radial, center center, 0, center center, 506, color-stop(0, #FFE3FE), color-stop(5, #66035F));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-radial-gradient(center, circle farthest-corner, #FFE3FE 0%, #66035F 500%);
+
+/* W3C Markup, IE10 Release Preview */ 
+background-image: radial-gradient(circle farthest-corner at center, #FFE3FE 0%, #66035F 500%);
+
+
+FROM BOOSTRAP SITE (PURPLE)
+
+background: -moz-linear-gradient(45deg, rgb(2, 0, 49) 0%, rgb(109, 51, 83) 100%) repeat scroll 0% 0% transparent;
+    background-color: transparent;
+    background-image: -moz-linear-gradient(45deg, rgb(2, 0, 49) 0%, rgb(109, 51, 83) 100%);
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-size: auto auto
+
+/* IE10 Consumer Preview */ 
+background-image: -ms-linear-gradient(bottom left, #E9E3FF 0%, #D387FF 200%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(bottom left, #E9E3FF 0%, #D387FF 200%);
+
+/* Opera */ 
+background-image: -o-linear-gradient(bottom left, #E9E3FF 0%, #D387FF 200%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left bottom, right top, color-stop(0, #E9E3FF), color-stop(2, #D387FF));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(bottom left, #E9E3FF 0%, #D387FF 200%);
+
+/* W3C Markup, IE10 Release Preview */ 
+background-image: linear-gradient(to top right, #E9E3FF 0%, #D387FF 200%);
+
+
+EVEN LIGHTER PURPLE GRADIENT
+
+/* IE10 Consumer Preview */ 
+background-image: -ms-linear-gradient(bottom left, #F0E6FF 0%, #FFCFEF 100%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(bottom left, #F0E6FF 0%, #FFCFEF 100%);
+
+/* Opera */ 
+background-image: -o-linear-gradient(bottom left, #F0E6FF 0%, #FFCFEF 100%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left bottom, right top, color-stop(0, #F0E6FF), color-stop(1, #FFCFEF));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(bottom left, #F0E6FF 0%, #FFCFEF 100%);
+
+/* W3C Markup, IE10 Release Preview */ 
+background-image: linear-gradient(to top right, #F0E6FF 0%, #FFCFEF 100%);
+
+
+EVEN LIGHTER:
+
+/* IE10 Consumer Preview */ 
+background-image: -ms-linear-gradient(bottom left, #F0E6FF 0%, #FFE0F6 200%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(bottom left, #F0E6FF 0%, #FFE0F6 200%);
+
+/* Opera */ 
+background-image: -o-linear-gradient(bottom left, #F0E6FF 0%, #FFE0F6 200%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left bottom, right top, color-stop(0, #F0E6FF), color-stop(2, #FFE0F6));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(bottom left, #F0E6FF 0%, #FFE0F6 200%);
+
+/* W3C Markup, IE10 Release Preview */ 
+background-image: linear-gradient(to top right, #F0E6FF 0%, #FFE0F6 200%);
+
+
+AND YET LIGHTER
+
+/* IE10 Consumer Preview */ 
+background-image: -ms-linear-gradient(bottom left, #FAF7FF 0%, #FFE6FE 200%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(bottom left, #FAF7FF 0%, #FFE6FE 200%);
+
+/* Opera */ 
+background-image: -o-linear-gradient(bottom left, #FAF7FF 0%, #FFE6FE 200%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left bottom, right top, color-stop(0, #FAF7FF), color-stop(2, #FFE6FE));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(bottom left, #FAF7FF 0%, #FFE6FE 200%);
+
+/* W3C Markup, IE10 Release Preview */ 
+background-image: linear-gradient(to top right, #FAF7FF 0%, #FFE6FE 200%);
+
+
+ <%= button_tag(type: 'submit', class: "btn btn-warning btn-small btn-record", id: "send" ) do %>
+                      UPLOAD <i class="icon-upload"></i> 
+                    <% end %>
+
+
+    <%= form_tag('/upload', :method => 'post') do %> 
+                                       <%= button_tag(type: 'submit', class: "btn btn-warning btn-small btn-record", id: "send" ) do %>
+                      UPLOAD <i class="icon-upload"></i> 
+                    <% end %>
+  <% end %>    
+
+
+
+FROM USERS NEW PAGE
+
+  <%= simple_form_for(@user, :html => {:class => "form-horizontal"}) do |f| %>
+ 
+
+  <div><%= f.hidden_field :invite_token %></div>
+
+
+    
+   
+    <%= f.input :first_name, :id => "fn" %>
+     
+
+
+  <div class="control-group">
+    <%= f.label :last_name, "Last Name", :class => "control-label", :for => "ln" %>
+      <div class="controls">
+    <%= f.text_field :last_name, :id => "ln" %>
+    </div>
+  </div>
+
+<div class="control-group">
+    <%= f.label :email, "Email", :class => "control-label", :for => "em" %>
+     <div class="controls">
+    <%= f.text_field :email %>
+  </div>
+  </div>
+
+
+
+  <div class="control-group">
+    <%= f.label :password, "Password", :class => "control-label", :for => "pw" %>
+<div class="controls">
+	<%= f.input :password %>
+    </div>
+  </div>
+
+ <div class="control-group">
+	<%= f.label :password_confirmation, "Confirm Password", :class => "control-label", :for => "pc" %>
+  <div class="controls">
+	<%= f.password_field :password_confirmation %>
+</div>
+ </div>
+
+  <div class="control-group">
+    <div class="controls">
+    <%= f.submit "Register!", class: "btn btn-large btn-primary" %>
+  </div>
+</div>
+<% end %>
+
+</div>
+</div>
+
+<div class="row">
+<div class="well span6 offset3">
+  
+<%= simple_form_for(@user, :html => {:class => "form-horizontal"}) do |f| %>
+
+<%= f.error_notification %>
+<br/>
+  <%= f.hidden_field :invite_token %>
+   
+    <%= f.input :first_name  %>
+    <%= f.input :last_name %>
+    <%= f.input :email %>
+    <%= f.input :password, hint: "(miminum 6 characters)" %>
+    <%= f.input :password_confirmation, label: "Confirm Password" %>
+
+  
+    <div class="form-actions">
+     
+    <%= f.button :submit, "Register!", class: "btn btn-large btn-primary" %>
+ 
+</div>
+
+<% end %>
+
+</div>
+</div>
+
+
+ <script>
+
+ $(document).ready(function() {
+  /* Activating Best In Place */
+  jQuery(".best_in_place").best_in_place();
+});
+</script>
+
+
+
+jQuery ->
+  $('.best_in_place').best_in_place()
+
+<a href="#" rel="tooltip" data-placement="right" title="Click here to edit your notes"><button type="submit" id="editme" class="btn btn-info btn-small"> Edit Admin Notes</button></a>	
+
+
+
+<td><%= best_in_place f, :admin_notes, :type => :textarea, :ok_button => "Save Changes", :cancel_button => "Cancel", :activator => "#editme", :nil => "click me to add content" %></td>
+								    			<td>
+								    						
+																<%= form_tag('/reminder', :method => 'post') do %>
+																	<%= hidden_field_tag(:x, f.id) %>
+																	
+																	<a href="#" rel="tooltip" data-placement="right" title="If you don't like this name recording, clicking here will ask the attendee to re-record"><button type="submit" class="btn btn-info btn-small"> Request Recording </button></a>		
+																<% end %>
+
+																	
+
+																	<a id="editme" href="#">(edit me)</a>
+																			
+
+
+	<td> <a id="#{f.email}" href="#"><span class="label label-info">click text to edit</span></a><br/><%= best_in_place f, :admin_notes, :type => :textarea, :ok_button => "Save Changes", :cancel_button => "Cancel", :nil => "click me to add content", :activator => "##{f.email}" %></td>
+								    			<td>
+
+
+	THIS CODE SEEMS TO BE WORKING:
+	-------------------------------------------------
+	<td> <a id="<%= f.id %>" href="#"><span class="label label-info">click text to edit</span></a><br/><%= best_in_place f, :admin_notes, :type => :textarea, :ok_button => "Save Changes", :cancel_button => "Cancel", :nil => "click me to add content", :activator => "#{f.id}" %></td>
+								    			<td>
+								    						
+																<%= form_tag('/reminder', :method => 'post') do %>
+																	<%= hidden_field_tag(:x, f.id) %>
+																	
+																	<a href="#" rel="tooltip" data-placement="right" title="If you don't like this name recording, clicking here will ask the attendee to re-record"><button type="submit" class="btn btn-info btn-small"> Request Recording </button></a>		
+																<% end %>
+
+																	
+
+																	
+        <span class='best_in_place' id='best_in_place_user_name' data-url='/practiceobjects/<%= f.id %>' data-object='practiceobject' data-attribute='admin_notes' data-activator='#<%= f.id %>' data-type='textarea' ok_button="Save Changes"> <%= f.admin_notes %></span>
+      
+																		<a id="<%= f.id %>" href="#">(edit me)</a>	
+																
+														
+												</td>
+-------------------------------------------------------------------

@@ -1,0 +1,93 @@
+<div class="container">
+
+<div class="row"id="free_trial">
+  <div class="span9 offset1">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h1 class="light-blue cent"><em>Our Education Services:</em></h1>
+ </div>
+</div>
+
+<br/>
+
+
+<div class = "row" >
+  <div class="span9 offset2">
+       <!--SILVER-->
+        <div class="fltlft PlanBoxGold">
+          <div class="PlanBoxHeading"><strong><center>COMMENCEMENT SERVICE</center></strong></div>
+          <i><center>The culmination of their educational career. Get your graduates to record their names now to ensure the moment is perfect for them and their families!</center></i>
+          <br/>
+          <div class="PlanBoxContent">
+            <ul>
+              <li><strong>$<%= @commencement_plan.annual_cost_cents / 100 %> Annual Subscription</strong></li>
+              <li>As many Name Pages as needed for a successful commencement</li>
+              <li>Different lists for different announcers, degree programs, etc.</li>
+              <li>Unlimited name recordings</li>
+              <br/><br/><br/><br/><br/><br/>
+              <li>
+                <p class="PlanBoxSignUp"><%= form_for(:snc, url:  purchase_sub_existing_edu_bridge_path) do |y| %>
+                <%= y.hidden_field :plan, :value => @commencement_plan.my_plan_id %>
+                <%= y.hidden_field :event_type, :value => 'commencement' %>
+                  <%= y.submit "Start Free Trial!", class: "btn-primary btn-large" %><h6>&nbsp;&nbsp;14-Day Free Trial</h6> 
+                <% end %> </p>
+
+              </li>
+
+            </ul>
+          </div>
+        </div>
+
+        <!--Gold-->
+        <div class="fltlft PlanBoxGold">
+          <div class="PlanBoxHeading"><strong><center>STUDENT NAME DIRECTORY</center></strong></div>
+          <i><center>Build a sense of personal uniqueness. Ask your students to record their names to ensure correct pronunciations and an amazing start of term.</center></i>
+          <br/>
+          <div class="PlanBoxContent">
+            <ul>
+              <li><strong>$<%= @students_plan.annual_cost_cents / 100 %> Annual Subscription</strong></li>
+              <li>Create a master list for all students, current and incoming </li> <br/>
+              <li>Teachers and staff can use a built-in search bar to look up any student's name with ease</li>
+              <li>Unlimited name recordings</li>
+              <br/><br/><br/><br/><br/><br/>
+              <li>
+                <p class="PlanBoxSignUp"><%= form_for(:snc, url: purchase_sub_existing_edu_bridge_path) do |y| %>
+                <%= y.hidden_field :plan, :value => @students_plan.my_plan_id %>
+                <%= y.hidden_field :event_type, :value => 'students' %>
+                  <%= y.submit "Start Free Trial!", class: "btn-primary btn-large" %><h6>&nbsp;&nbsp;14-Day Free Trial</h6>
+                <% end %>  </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!--Platinum-->
+        <div class="fltlft PlanBoxGold">
+          <div class="PlanBoxHeading"><strong><center>STUDENT NAME DIRECTORY + COMMENCEMENT SERVICE + EVERYTHING ELSE!</center></strong></div>
+          <i><center> (awards ceremonies, interview day, sports announcing, etc.)</center></i>
+          <br/>
+          <div class="PlanBoxContent">
+            <ul>
+              <li><strong>$<%= @all_inclusive_plan.annual_cost_cents / 100 %> Annual Subscription</strong></li>
+              <li>All Commencement Service and Student Name Directory features</li>
+              <li>+ <em>Default commencement pages according to year of graduation/program</em></li>
+              <li>+ <em>Teachers can create Name Pages for their classes, and/or copy entries from the Name Directory, and enter their own pronunciation notes</em></li>
+              <li>+ <em>Unlimited Name Pages</em> (for any purpose)</li>
+              <li>
+                <p class="PlanBoxSignUp"><%= form_for(:snc, url:  purchase_sub_existing_edu_bridge_path) do |y| %>
+                <%= y.hidden_field :plan, :value => @all_inclusive_plan.my_plan_id %>
+                <%= y.hidden_field :event_type, :value => 'all_inclusive' %>
+                  <%= y.submit "Start Free Trial!", class: "btn-primary btn-large" %><h6>&nbsp;&nbsp;14-Day Free Trial</h6>
+                <% end %>  </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+  </div>
+</div>
+
+<div class = "row">
+  <div class="span7 offset2">
+    <center><p><h5>If you are interested in our services but have pressing budgetary constraints, please get in touch with us – we may be able to work with you on a case by case basis.</h5></p></center>
+  </div>
+</div>
+
+</div>

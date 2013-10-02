@@ -1,0 +1,261 @@
+<% if mobile_device? %>   
+
+<div class="container">
+<div class="row">
+  <div class="span8">
+      <h1> Mobile device detected.</h1>
+      <hr/>
+      <h1> Adobe Flash is not supported on many mobile devices.</h1> <br/>
+      <h1>Please click the link you received and record your name on non-mobile device (e.g., your laptop). </h1>
+      <hr/>
+       <h2> Look out for our soon to be released iPhone and Android Apps!</h2>
+    </div>
+</div>
+</div>
+
+<div class="row">
+  <div class="span8">
+  </div>
+</div>
+
+<% else %>
+                                     
+
+ <div id="newinfo" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel"><em>What's going on here?</em></h3>
+            </div>
+            <div class="modal-body">
+            <ul>
+            <li> This quick and easy service is FREE for you. </li> <br/>
+            <li> You've been asked to record your name in your own voice, so that teachers and staff at your school can know how to pronounce it perfectly, in class, around school, and at graduation. </li> <br/>
+            <li> The process is simple!
+                <ol>
+                  <br/>
+                  <li>Fill out your name and email (REQUIRED). If prompted, please select your graduation date or program. </li><br/> 
+                  <% if iolani %>
+                   <li>Enter your <strong>FULL NAME (first, middle, last)</strong> to be announced at the event (REQUIRED), and any notes to help with pronunciation (OPTIONAL).</li><br/>
+                  <% else %>
+                  <li>Enter your name as you would like it said (what you go by), and any notes to help with pronunciation. (OPTIONAL)</li><br/>
+                   <% end %>
+                  <li>Record your name with our online voice recorder.  Don't worry, this part is super-easy and takes just a few seconds. <strong>Just make sure to press 'Upload.'</strong> <br/><br/>
+                    <strong> Note: Please record on a laptop or desktop with a mic.  You can check that <a href="http://helpx.adobe.com/flash-player/kb/find-version-flash-player.html" target="_blank">Adobe Flash Player is enabled</a> on your browser (if you have a Flash-blocker installed, temporarily disable it).</strong>
+                    <br/><br/>
+                  <em>Thanks to your help, your teachers can now hear your recording and make sure it's pronounced correctly ahead of time!</em> </li><br/>
+                  
+                 </ol>
+            </li>  
+            <li> If you have previously registered on our site, please sign in under 'Already Registered on our Site?' </li><br/>
+            <li> More questions? Please contact us below. <em> Thank you!</em> </li>
+            </ul>
+
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" data-dismiss="modal">Done</button>
+                
+               
+
+             
+            </div>
+          </div>
+
+
+<div class="alert alert-block alert-info">
+ 
+    <button type="button" class="close" data-dismiss="alert">×</button>
+
+              <h3>Dear Student, you've been invited to voice-record your name for <% if !@event.nil? %><% if !@event.title.blank? %><%= @event.title %><% end %><% end %>. <br/> <em>Just 3 Easy Steps.</em>&nbsp;&nbsp;&nbsp;<a data-toggle="modal" href="#newinfo" class="btn btn-info">More Info <i class="icon-info-sign icon-white"></i></a><% if @event == Event.find(ENV['HALTOM']) %> &nbsp;&nbsp;&nbsp;HALTOM STUDENTS: Please remember to sign out when you're done! Thank you!<% end %> </h3>  
+
+          
+     
+            
+         
+    </div>  
+
+
+
+<div class="container">  
+
+<% flash.each do |key, value| %>
+    <div class="alert alert-block alert-<%=key%>"> 
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <%= value %> 
+    </div>
+<% end %>
+
+
+                          <div class="accordion" id="accordion3">
+                                    <div class="accordion-group bg-signup">
+                                      <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseOne">
+                                         <h5 class="white">New Name Registration</h5>
+                                        </a>
+                                      </div>
+                                      <div id="collapseOne" class="accordion-body collapse in">
+                                        <div class="accordion-inner">
+                                                   <div class="row">
+                                                     <%= simple_form_for(@user, :url => event_link_create_path, :html => {:class => 'form-inline'}) do |f| %>
+
+                                                         <div class="well span3 offset1">
+                                                          <h4> <i class="icon-check-empty">&nbsp;</i><span class="blue">STEP 1: Basic Info</span><span class="muted"> (required)</span>  </h4>
+                                                              
+                                                              <br/>
+                                                              <%= f.error_notification %>
+                                                              
+                                                                <%= f.hidden_field :event_code, :value => @event_code %>
+
+
+                                                                  <%= f.input :first_name, label: "First Name" %>
+                                                                  <%= f.input :last_name, label: "Last Name" %>
+                                                                  <%= f.input :email %>
+                                                                <% if !@event.blank? %>
+                                                                 <% unless @event.grad_array.empty? %>  
+                                                                      <%= f.input :grad_date, collection: @event.grad_array, prompt: 'Please select your graduation date', label: "Graduation Date:" %> 
+                                                                  <% end %>
+                                                                <% end %>
+                                                                <hr/>    
+                                                         </div>
+
+                                                         <% if iolani %>
+
+                                                         <div class="well span3">         
+                                                             <h4><i class="icon-check-empty">&nbsp;</i><span class="blue">STEP 2: NameGuide Info<span class="muted"></span> <span class="muted"> (required)</span> </h4> 
+                                                              <br/>      
+
+                                                                      
+                                                                        <%= f.input :phonetic, :class => "span3 fl-left", label: "Please enter your FULL NAME (first, middle, and last) to be announced:", placeholder: "e.g., Praveen Ramesh Shanbhag, Jr.)"  %>
+                                                                     
+                                                                  
+                                                                           
+                                                                            <br/>
+
+                                                                          <%= f.label :notes, "Enter any notes to aid in pronunciation (OPTIONAL):" %>
+                                                                          <%= f.text_area :notes, :class => "span3", :placeholder => "e.g., 'first name sounds like Ravine' or 'last name pronounced GLI-cough'" %>
+                                                                         
+                                                                     <hr/>
+                                                          </div>
+
+                                                        <% else %>
+
+                                                         <div class="well span3">         
+                                                             <h4><i class="icon-check-empty">&nbsp;</i><span class="blue">STEP 2: NameGuide Info<span class="muted"> (optional)</span> </h4> 
+                                                              <br/>      
+
+                                                                      <% if is_student_event?(@event)%>
+
+                                                                       <%= f.input :phonetic, :class => "span3 fl-left", label: "Enter your name as you would like it said (what you go by):", placeholder: "(e.g., a nickname or middle name)"  %>
+
+                                                                        <% else %>
+
+                                                                         <%= f.input :phonetic, :class => "span3 fl-left", label: "Enter your name as you would like it announced:", placeholder: "(e.g., 'Dr. Henry Jones, Jr.')"  %>
+
+                                                                      <% end %>
+
+                                                                            <br/>
+
+                                                                          <%= f.label :notes, "Enter any notes to aid in pronunciation:" %>
+                                                                          <%= f.text_area :notes, :class => "span3", :placeholder => "e.g., 'first name sounds like Ravine' or 'last name pronounced GLI-cough'" %>
+                                                                         
+                                                                     <hr/>
+                                                          </div>
+
+                                                        <% end %>  
+
+                                                          <div class="well span3">
+                                                              <h4><i class="icon-check-empty">&nbsp;</i><span class="blue">STEP 3: Record Your Name</span> </h4> <br/>
+                                                                  <br/><br/>
+                                                                  <div class="row">
+                                                                   <div class="span3">
+                                                                    <%= f.button :submit, "Record Your Name", class: "btn btn-danger btn-large span3", disable_with: "please wait..." %>
+                                                                    <span class="blue"><em>(this is easy and takes just a few seconds!) </em></span>
+                                                                   </div>
+                                                                 </div>
+                                                                  
+                                                                 
+                                                               <hr/></p><span class="red">If you can't record, you may need to ensure that <a href="<%= flashissue_path %>.htm#collapseTwo" target="_blank">Flash is enabled</a> on your browser.</span></p> 
+                                                      
+                                                              <!--<script type='text/javascript'
+                                                                src='//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js'> </script>
+
+                                                              <script type='text/javascript'>
+                                                                var isFlashExists = swfobject.hasFlashPlayerVersion('1') ? true : false ;
+                                                                if ( !isFlashExists) {
+                                                                  alert ('No Flash detected. Please enable or download Flash in order to record your name.');
+                                                                }
+                                                              </script>  -->
+
+                                                              <script>
+                                                              function callbackMethod(val) {
+                                                                if (val > 0) {
+                                                                  alert(val == 1 ? 'Flash may not be  installed or may be disabled on this browser. Please ensure Flash is installed or enabled to record.' : 'Flash is likely being blocked on this browser. Please ensure blash blockers are disabled to record.');
+                                                                } 
+                                                              }
+
+                                                              $(window).load(function(){
+                                                                flashBlockDetect(callbackMethod);
+                                                              });
+                                                              </script>
+
+                                                              <div class="invisible">
+                                                                <embed width="0" height="0" src="loader.swf" quality="high" pluginspage="http://www.adobe.com/go/getflashplayer" align="middle" play="true" loop="true" scale="showall" wmode="window" devicefont="false" bgcolor="#000000" name="loader" menu="true" allowfullscreen="false" allowscriptaccess="sameDomain" salign="" type="application/x-shockwave-flash"> 
+                                                              </div>
+
+                                                             
+
+
+                                                          </div> 
+
+                                                    <% end %>
+                                                    </div><%# end main row %>
+                                                     <h6>By registering you agree to our <%= link_to "Terms and Conditions", terms_path, :target => "_blank" %>.</h6>
+                                        </div>
+                                      </div>
+                                    </div>
+                                        <div class="accordion-group bg-signup">
+                                          <div class="accordion-heading">
+                                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseTwo">
+                                              <h5 class="white">Already Registered on our Site?</h5>
+                                            </a>
+                                          </div>
+                                          <div id="collapseTwo" class="accordion-body collapse">
+                                            <div class="accordion-inner">
+                                              <div class="well span4 offset3">
+                                                  <%= form_for(:session, url: event_code_add_path, :html => {:class => "form-horizontal"} ) do |f| %>
+
+                                                  <%= f.hidden_field :event_code, :value => @event_code %>
+                                                   <span class="blue"><em>If you have previously registered on our site, please sign in here:</em></span> <br/> <br/>
+                                                  <%= f.text_field :email, :class => "span3", :placeholder => "Email" %>
+                                                  <br/>
+                                                  <br/>
+
+                                                  <%= f.password_field :password, :class => "span3", :placeholder => "Password" %>
+
+                                                    <br/>
+                                                    <br/>
+                                                      <%= button_tag(type: 'submit', class: "btn btn-primary btn-small span2") do %>
+                                                       Sign In <i class="icon-chevron-right icon-white"></i> 
+                                                      <% end %>
+
+                                                <% end %>
+                                               </div>
+                                               <br/>
+                                            </div>
+                                          </div>
+                                        </div>
+                                  </div>  
+
+
+
+
+</div><%# end container %>
+
+
+<% end %>
+
+
+
+
+
+
+

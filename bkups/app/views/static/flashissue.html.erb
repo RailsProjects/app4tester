@@ -1,0 +1,186 @@
+
+<script>
+
+$(document).ready(function () {
+  location.hash && $(location.hash + '.collapse').collapse('show');
+});
+
+</script>
+<!-- Page heading starts -->
+
+<div class="page-head">
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <h2><span class="purple"> Common Flash & Recorder Questions </span></h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page Heading ends -->
+<br/>
+<!-- Page content starts -->
+<div class="container">
+
+<div class="content">
+  <div class="container">
+    <div class="row">
+      <div  class="span8 offset2">
+       <!-- FAQ -->
+              <div class="accordion biggertext" id="accordion2" >
+                 <!-- Each item should be enclosed inside the class "accordion-group". Note down the below markup. -->
+
+                 <!-- First Accordion -->
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                       <!-- Title with experience details. -->
+                      <h4>I can't click 'Allow'</h4>
+                    </a>
+                  </div>
+                  <div id="collapseOne" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      <p>On some systems (including newer Macs with retina displays), a long-standing bug in Adobe Flash Player occasionally prevents users from clicking the 'Allow' button when Flash asks for microphone access.  We apologize for if you are encountering this bug, and hope that Adobe fixes this issue soon.</p><br/>
+                      <h3> Please follow these steps to work around the issue on your system: </h3> <br/>
+                      <h5>1. Go to the Flash Player <a href="http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager06.html" target="_blank">Website Privacy Settings Panel</a>.</h5>
+                      <h5>2. Click on the entry for name-coach.com, and click on 'Always Allow.' </h5><br/>
+                      <center><h6> This is how it should appear: </h6></center>
+                      <center><%= image_tag "flash_settings_2.png" %></center><br/>
+                      <h5>3. Close the Flash Player page and refresh the name-coach.com page where you are attempting to record your name. </h5>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Second Accordion -->
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                      <h4>Is my Flash enabled?</h4>
+                    </a>
+                  </div>
+                  <div id="collapseTwo" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      <p>Can you see the animation automatically playing on the <a href="http://helpx.adobe.com/flash-player/kb/find-version-flash-player.html" target="_blank">Adobe Flash test page</a>? If so, then you do have Flash and it is working.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Third Accordion -->
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                      <h4>How do I install Flash?</h4>
+                    </a>
+                  </div>
+                  <div id="collapseThree" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      <p>Please see the <a href="http://get.adobe.com/flashplayer/" target="_blank">Adobe Flash downloads page</a> for instructions on downloading and installing the Adobe Flash Player.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Fourth accordion -->
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
+                      <h4>How do I enable Flash in my browser?</h4>
+                    </a>
+                  </div>
+                  <div id="collapseFour" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      <h5>Using Mozilla Firefox?</h4><br/>
+                        <div class="well well-sm">
+                          <h5>1. At the top of the Firefox window, click on the <span class="label">Firefox</span> button, and then click <span class="label">Add-ons</span>. The Add-ons Manager tab will open.</h5>
+                          <h5>2. In the Add-ons Manager tab, select the <span class="label">Plugins</span> panel.</h5>
+                          <h5>3. Select the Flash plugin and click the <span class="label">enable</span> button.</h5>
+                          <h5>4. Click "Restart now" if it pops up. Your tabs will be saved and restored after the restart.</h5><hr/>
+                          <h5><em><a href="https://support.mozilla.org/en-US/kb/disable-or-remove-add-ons" target="_blank">Resources</a> for managing add-ons and plugins in Firefox.</em></h5>
+                        </div>
+                      <h5>Using Google Chrome?</h4><br/>
+                        <div class="well well-sm">
+                          <h5>1. Type &nbsp;<kbd>chrome:plugins</kbd>&nbsp; into the address bar to open the Plug-ins page.</h5>
+                          <h5>2. On the Plug-ins page that appears, find the "Flash" listing.</h5>
+                          <h5>3. To enable Adobe Flash Player, click the <span class="label">enable</span> link under its name</h5><hr/>
+                          <h5><em><a href="https://support.google.com/chrome/answer/108086?hl=en" target="_blank">Resources</a> for managing the Adobe Flash plug-in in Chrome.</em></h5>
+                        </div>
+                      <h5>Using MS Internet Explorer?</h4><br/>
+                        <div class="well well-sm">
+                          <h5>1. Go to <span class="label">Manage Add-ons</span> in the browser toolbar.</h5>
+                          <h5>2. In the Manage Add-ons menu, select <span class="label">Toolbars and Extensions</span></h5>
+                          <h5>3. Select the Flash plugin, and click the <span class="label">enable</span> button.</h5><hr/>
+                          <h5><em><a href="http://windows.microsoft.com/en-us/internet-explorer/manage-add-ons#ie=ie-10" target="_blank">Resources</a> for managing add-ons in Internet Explorer.</em></h5>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                 <!-- Fifth Accordion -->
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFive">
+                      <h4>How do I disable Flash blockers in my browser?</h4>
+                    </a>
+                  </div>
+                  <div id="collapseFive" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      <h5>Using Mozilla Firefox?</h4><br/>
+                        <div class="well well-sm">
+                          <h5>1. At the top of the Firefox window, click on the <span class="label">Firefox</span> button, and then click <span class="label">Add-ons</span>. The Add-ons Manager tab will open.</h5>
+                          <h5>2. In the Add-ons Manager tab, select the <span class="label">Extensions</span> panel.</h5>
+                          <h5>3. Select the Flash blocker add-on and click the <span class="label">disable</span> button.</h5>
+                          <h5>4. Click "Restart now" if it pops up. Your tabs will be saved and restored after the restart.</h5><hr/>
+                          <h5><em><a href="https://support.mozilla.org/en-US/kb/disable-or-remove-add-ons" target="_blank">Resources</a> for managing add-ons and plugins in Firefox.</em></h5>
+                        </div>
+                      <h5>Using Google Chrome?</h4><br/>
+                        <div class="well well-sm">
+                          <h5>1. Click the Chrome menu on the browser toolbar.</h5>
+                          <h5>2. Select <span class="label">Tools</span></h5>
+                          <h5>3. Select <span class="label">Extensions</span></h5>
+                          <h5>4. Click the <span class="label">disable</span> button next to the Flash blocker.</h5><hr/>
+                          <h5><em><a href="https://support.google.com/chrome/answer/187443?hl=en" target="_blank">Resources</a> for managing extensions in Chrome.</em></h5>
+                        </div>
+                      <h5>Using MS Internet Explorer?</h4><br/>
+                        <div class="well well-sm">
+                          <h5>1. Go to <span class="label">Manage Add-ons</span> in the browser toolbar.</h5>
+                          <h5>2. In the Manage Add-ons menu, select <span class="label">Toolbars and Extensions</span></h5>
+                          <h5>3. Select the Flash blocker plugin, and click the <span class="label">disable</span> button.</h5><hr/>
+                          <h5><em><a href="http://windows.microsoft.com/en-us/internet-explorer/manage-add-ons#ie=ie-10" target="_blank">Resources</a> for managing add-ons in Internet Explorer.</em></h5>
+                        </div>
+                    </div>
+                  </div>
+                </div>  
+
+
+                                <!-- Third Accordion -->
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseSix">
+                      <h4>Chrome doesn't ask for mic access</h4>
+                    </a>
+                  </div>
+                  <div id="collapseSix" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      <p> Due to a current <a href="https://code.google.com/p/chromium/issues/detail?id=252904" target="_blank">bug</a> in the Chrome browser, you may need to close the Chrome window you are using, open a new window, and try again.</p>
+                      <p> Or, you may have already granted NameCoach access to the mic - just try recording, or check in Chrome's settings (paste chrome://settings/contentExceptions#media-stream into your address bar). If www.name-coach.com is listed as a media exception, Chrome will allow you to record.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+
+
+              </div><!-- End Accordion 2 -->
+        
+        </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Page content ends -->
+
+
+
+</div>

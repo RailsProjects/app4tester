@@ -1,0 +1,386 @@
+<% provide(:path, '') %>
+
+<script>
+
+ $(document).ready(function() {
+  /* Activating Best In Place */
+  jQuery(".best_in_place").best_in_place();
+});
+</script>
+<%# checks to see if the current user is an admin for this event; prevents users who are admins for one event to access another event page for which they are just registered but not admins.  cant use current-user method here because that is for controllers, has redirects and stuff in it.. %>
+ 
+
+<div class="jumbotron">
+	<h1> Event Page: <em> <%= @event.title %> </em> </h1>
+	
+	<% if @event.date && !(@event.title == 'the ETL Seminar') %><br/><h3>  <%= @event.date.strftime("%b %d, %Y")  %> </h3><% end %>
+</div>
+
+<% flash.each do |key, value| %>
+	<div class="alert alert-block alert-<%=key%>"> 
+	<button type="button" class="close" data-dismiss="alert">×</button>
+	<%= value %> 
+	</div>
+<% end %>
+<br />
+<br/>
+
+<div class="container">
+
+
+
+<ul id="myTab" class="nav nav-tabs ">
+  <li class="active"><a href="#undergrad" data-toggle="tab"><strong>Undergrads w/ Name Recorded </strong></a></li>
+  <li><a href="#grad" data-toggle="tab"><strong>Grad Students w/ Name Recorded </strong></a></li>
+  <li><a href="#regunrec" data-toggle="tab"><strong>Registered but Unrecorded</strong></a></li>
+  <li><a href="#unreg" data-toggle="tab"><strong>Invited to Record</strong></a></li>
+  <li><a href="#admins" data-toggle="tab"><strong>Admins</strong></a></li>
+
+</ul>
+   		  
+<%# this first section uses @registeredpos and lists the registered practice objects %>	
+<div id="myTabContent" class="tab-content ">
+
+    <div class="tab-pane active" id="undergrad">
+								               
+
+        <table class="table">
+        <caption><em>(undergrads who have registered on this site and recorded their name)</em></caption>
+        </table>
+
+	    <div class="row">
+			<div class="well span12 modal-header">
+					
+						
+				<div class="span3">
+					
+					<a href="#" rel="tooltip" data-placement="right" title="Student's registered name and email address."><h4>Student Name/Email</h4></a>
+				</div>
+						
+		
+				<div class="span3">
+					<a href="#" rel="tooltip" data-placement="right" title="Any notes student entered to help with pronouncing their name.  They may have left this blank."><h4>Student's Notes</h4></a>
+				</div>
+			
+
+				<div class="span3">
+					<a href="#" rel="tooltip" data-placement="right" title="How the student would like their name announced. Click the play button next to their name to hear it in their own voice. If an 'x' appears instead of the play button, you may need to ask the student to re-record."><h4>Name To be Announced</h4></a>
+					<em>(press play button to hear)</em>
+				</div>
+
+					<div class="span2">
+						<a href="#" rel="tooltip" data-placement="right" title="Degree to be awarded"><h4>Degree</h4></a><em></em>
+														
+				</div>	
+				
+
+				 
+
+			</div>	<%# end div well span12 %>	
+
+		</div> <%# end div row %>	
+
+
+		<% @undergradpos.each do |f| %>					    	
+			 <div class="row break">
+				 <div class="well span12">
+					 <div class="span3 ">
+						<%= f.user.first_name %> <%= f.user.last_name %> <br/>
+						<span>(<%= f.user.email %>)</span> <br/>
+						<% unless f.email == f.user.email %>Invitation sent to: <%= f.email %><% end %>
+					 </div>
+	
+
+					 <div class="span3">
+					 	 <% if f.notes.blank?%>--<% else %><%= f.notes %><%end%>
+					 </div>
+		
+					 <div class="span3">
+							<table>
+							 <tbody>
+							 	<tr>
+							 	<td class="rec-cell"> <audio src="https://s3-us-west-1.amazonaws.com/<%= ENV['BUCKET_NAME'] %>/<%= f.recording %>.mp3" /> 
+							 	</td>
+							 	<td> &nbsp;&nbsp;<strong><% if !f.phonetic.blank? %><%= f.phonetic %> <% else %><%= f.user.first_name %> <%= f.user.last_name %><% end %> </strong>
+							 	</td>
+							 	<tr>
+							 </tbody>
+							</table>					
+					 </div>
+			
+
+					 <div class="span2">								
+						<%= best_in_place f, :admin_notes, :type => :textarea, :ok_button => "Save Changes", :cancel_button => "Cancel", :nil => "-click text to enter or edit notes-" %>
+					 </div>
+
+					 
+
+				 </div> <%# end div class="well" %>	
+
+			 </div> <%# end div class="row" %>
+
+		 <% end %> <%# @gradpos.each do |f| %>				    			
+
+		 <% if @undergradpos.count == 0  %>
+		 	   <div class="row">
+				<div class=" well span6 offset3 cent">
+					<h3> No entries in this category </h3>
+				</div>
+			   </div>
+		 <% end %>
+
+     </div> <%# END TAB PANE 1 div class="tab-pane fade active" id="undegrad" %>	
+
+
+
+<%# START TAB PANE div class="tab-pane fade active" id="grad" %>	
+
+    <div class="tab-pane" id="grad">
+								               
+
+        <table class="table">
+        <caption><em>(graduate students who have registered on this site and recorded their name)</em></caption>
+        </table>
+
+	    <div class="row">
+			<div class="well span12 modal-header">
+					
+						
+				<div class="span3">
+					
+					<a href="#" rel="tooltip" data-placement="right" title="Student's registered name and email address."><h4>Student Name/Email</h4></a>
+				</div>
+						
+		
+				<div class="span3">
+					<a href="#" rel="tooltip" data-placement="right" title="Any notes student entered to help with pronouncing their name.  They may have left this blank."><h4>Student's Notes</h4></a>
+				</div>
+			
+
+				<div class="span3">
+					<a href="#" rel="tooltip" data-placement="right" title="How the student would like their name announced. Click the play button next to their name to hear it in their own voice. If an 'x' appears instead of the play button, you may need to ask the student to re-record."><h4>Name To be Announced</h4></a>
+					<em>(press play button to hear)</em>
+				</div>
+
+					<div class="span2">
+						<a href="#" rel="tooltip" data-placement="right" title="Degree to be awarded."><h4>Degree</h4></a>
+														
+				</div>	
+				
+				
+
+			</div>	<%# end div well span12 %>	
+
+		</div> <%# end div row %>	
+
+
+		<% @gradpos.each do |f| %>					    	
+			 <div class="row break">
+				 <div class="well span12">
+					 <div class="span3 ">
+						<%= f.user.first_name %> <%= f.user.last_name %> <br/>
+						<span>(<%= f.user.email %>)</span> <br/>
+						<% unless f.email == f.user.email %>Invitation sent to: <%= f.email %><% end %>
+					 </div>
+	
+
+					 <div class="span3">
+					 	 <% if f.notes.blank?%>--<% else %><%= f.notes %><%end%>
+					 </div>
+		
+					 <div class="span3">
+							<table>
+							 <tbody>
+							 	<tr>
+							 	<td class="rec-cell"> <audio src="https://s3-us-west-1.amazonaws.com/<%= ENV['BUCKET_NAME'] %>/<%= f.recording %>.mp3" /> 
+							 	</td>
+							 	<td> &nbsp;&nbsp;<strong><% if !f.phonetic.blank? %><%= f.phonetic %> <% else %><%= f.user.first_name %> <%= f.user.last_name %><% end %> </strong>
+							 	</td>
+							 	<tr>
+							 </tbody>
+							</table>					
+					 </div>
+			
+
+					 <div class="span2">								
+						<%= best_in_place f, :admin_notes, :type => :textarea, :ok_button => "Save Changes", :cancel_button => "Cancel", :nil => "-click text to enter or edit notes-" %>
+					 </div>
+
+				 </div> <%# end div class="well" %>	
+
+			 </div> <%# end div class="row" %>
+
+		 <% end %> <%# @gradpos.each do |f| %>				    			
+
+		 <% if @gradpos.count == 0  %>
+		 	   <div class="row">
+				<div class=" well span6 offset3 cent">
+					<h3> No entries in this category </h3>
+				</div>
+			   </div>
+		 <% end %>
+
+     </div> <%# END TAB PANE 1 div class="tab-pane fade active" id="reg" %>	
+<%# END TAB PANE div class="tab-pane fade active" id="grad" %>	
+
+     <div class="tab-pane" id="regunrec">
+                
+
+		 <table class="table">
+			 <caption><em>(students registered on this site who have not yet recorded their name)</em></caption>
+		 </table>
+		
+		 <div class="row">
+			 <div class="well span12 modal-header">
+									
+										
+				 <div class="span3">
+					 <a href="#" rel="tooltip" data-placement="right" title="Student's registered name and email address."><h4>Student Name/Email</h4></a>
+				 </div>
+										
+						
+				 <div class="span3">
+					<a href="#" rel="tooltip" data-placement="right" title="Any notes student entered to help with pronouncing their name.  They may have left this blank."><h4>Student's Notes</h4></a>
+				 </div>
+							
+
+				 <div class="span3">
+					 <a href="#" rel="tooltip" data-placement="right" title="How the student would like their name announced. When the student voice-records their name, the play button will appear next to their name."><h4>Name To be Announced</h4></a>
+										<em>(name not yet voice-recorded)</em>
+				 </div>
+
+				 <div class="span2">
+					<a href="#" rel="tooltip" data-placement="right" title="Degree to be awarded."><h4>Degree</h4></a>
+																		
+				 </div>	
+
+				
+			 </div>	<%# div well span 12 %>
+
+		 </div> <%# div row %>
+
+
+		 <% @registeredandunrecordedpos.each do |f| %>					    	
+			 <div class="row break">
+				 <div class="well span12">
+									
+					 <div class="span3">
+						 <%= f.user.first_name %> <%= f.user.last_name %> <br/>
+						 (<%= f.user.email %>) <br/>
+						 <% unless f.email == f.user.email %>Invitation sent to: <%= f.email %><% end %>
+					 </div>
+					
+
+					 <div class="span3">
+						 <% if f.notes.blank?%>--<% else %><%= f.notes %><%end%>
+					 </div>
+
+						
+					
+					 <div class="span3">
+						 <table>
+							 <tbody>
+							 	<tr>
+							 	<td class="rec-cell"> <audio src="https://s3-us-west-1.amazonaws.com/<%= ENV['BUCKET_NAME'] %>/<%= f.recording %>.mp3" /> 
+							 	</td>
+							 	<td> &nbsp;&nbsp;<strong><% if !f.phonetic.blank? %><%= f.phonetic %> <% else %><%= f.user.first_name %> <%= f.user.last_name %><% end %> </strong>
+							 	</td>
+							 	<tr>
+							 </tbody>
+						 </table>
+				     </div>
+
+					 <div class="span2">
+						 <%= best_in_place f, :admin_notes, :type => :textarea, :ok_button => "Save Changes", :cancel_button => "Cancel", :nil => "-click text to enter or edit notes-" %>
+					 </div>	
+
+
+				 </div> <%# END div class="well" %>	
+
+			 </div> <%# END div class="row"%>
+
+	     <% end %> <%# END @registeredandunrecordedpos.each do |f|%>					    			
+
+		 <% if @registeredandunrecordedpos.count == 0  %>
+		   <div class="row">
+			<div class=" well span6 offset3 cent">
+				<h3> No entries in this category </h3>
+			</div>
+		    </div>
+		 <% end %> 
+
+     </div> <%# END tab 2 %>
+
+     <div class="tab-pane" id="unreg">
+		 <table class="table  table-striped table-condensed event">
+			 <caption><em>(students invited to register on this site who have not yet done so)<br/><br/></em></caption>
+			     <thead class="table-header">
+					 <tr>
+		    			 <td><a href="#" rel="tooltip" data-placement="right" title="What admin entered for 'first name' when inviting student."><h4>First Name</h4></a></td>
+		    			 
+		    			 <td><a href="#" rel="tooltip" data-placement="right" title="What admin entered for 'last name' when inviting student."><h4>Last Name</h4></a></td>
+		    			
+		    			 <td><a href="#" rel="tooltip" data-placement="right" title="Email address to which student invitation sent."><h4>Email</h4></a></td>
+		    			
+		    			 <td><a href="#" rel="tooltip" data-placement="right" title="Degree to be awarded"><h4>Degree</h4></a></td>
+		    			
+		    			 
+							    			
+				     </tr>
+				 </thead>
+
+				 <tbody>
+				     <% @unregisteredpos.each do |f| %>
+						 <tr >
+			    			 <td> <%= best_in_place f, :first_name, :ok_button => "Save Changes", :cancel_button => "Cancel" %></td>
+			    			 <td><%= best_in_place f, :last_name, :ok_button => "Save Changes", :cancel_button => "Cancel" %></td>
+			    			 <td><%= best_in_place f, :email, :ok_button => "Save Changes", :cancel_button => "Cancel" %></td>
+			    			 <td><%= best_in_place f, :admin_notes, :type => :textarea, :ok_button => "Save Changes", :cancel_button => "Cancel", :nil => "---" %></td>
+
+						 </tr>
+
+				     <% end %> <%# END unregisteredpos.each do |f| %>
+
+				 </tbody>
+
+  	     </table>
+      	
+      	 <% if @unregisteredpos.count == 0  %>
+      	 	  <div class="row">
+				<div class=" well span6 offset3 cent">
+				<h3> No entries in this category </h3>
+				</div>
+			 </div>
+	     <% end %>
+
+
+     </div>  <%# end third tab pane %>
+
+
+
+
+     <div class="tab-pane" id="admins">
+    	 <table class="table  table-striped event">
+       
+             <% @event.admins.each do |a| %>
+                 <tr>
+		              <td> <%= a.first_name %> </td>
+		              <td> <%= a.last_name %> </td>
+		              <td> <%= a.email %> </td>
+		             
+                 </tr>
+
+             <% end %>  <%# END event.admins.each do |a| %>
+
+    	 </table>
+    	 	<hr/>
+
+        
+ 	 </div>  <%# end admin tab pane %>
+
+
+</div> <%# END container %>
+</div>
+
+
+

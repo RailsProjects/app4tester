@@ -1,0 +1,363 @@
+
+view-source:http://www.voicegem.com/troubleshooting
+
+<!DOCTYPE html>
+<html>
+<head><script type="text/javascript">var NREUMQ=NREUMQ||[];NREUMQ.push(["mark","firstbyte",new Date().getTime()]);</script>
+  <title>VoiceGem - Troubleshooting</title>
+  
+  
+  <meta name="title" content="Voicegem" />
+  <meta name="description" content="Voicegem is the easiest way to send a voice message to anyone. No signup necessary and completely free." />
+  <link rel="image_src" href="http://www.voicegem.com/Icon.png" />
+  
+  <link href="/assets/application-d61f31da199e18efa8ce25592ecf590e.css" media="all" rel="stylesheet" type="text/css" />
+  <script src="/assets/application-8edaacda68a20dbfb5530a09bd8fa044.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var switchTo5x=true;
+  </script>
+
+  <meta content="authenticity_token" name="csrf-param" />
+<meta content="EOIXNQuf+jULqS7Y+PTZXmztOS9km2/Uj8+f0oeEKog=" name="csrf-token" />
+  <!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+  <!-- start Mixpanel --><script type="text/javascript">(function(c,a){var b,d,h,e;b=c.createElement("script");b.type="text/javascript";b.async=!0;b.src=("https:"===c.location.protocol?"https:":"http:")+'//api.mixpanel.com/site_media/js/api/mixpanel.2.js';d=c.getElementsByTagName("script")[0];d.parentNode.insertBefore(b,d);a._i=[];a.init=function(b,c,f){function d(a,b){var c=b.split(".");2==c.length&&(a=a[c[0]],b=c[1]);a[b]=function(){a.push([b].concat(Array.prototype.slice.call(arguments,0)))}}var g=a;"undefined"!==typeof f?g=
+a[f]=[]:f="mixpanel";g.people=g.people||[];h="disable track track_pageview track_links track_forms register register_once unregister identify name_tag set_config people.set people.increment".split(" ");for(e=0;e<h.length;e++)d(g,h[e]);a._i.push([b,c,f])};a.__SV=1.1;window.mixpanel=a})(document,window.mixpanel||[]);
+mixpanel.init("25930c9aea6961ab6d145f4bfa793e2c");</script><!-- end Mixpanel -->
+  
+</head>
+<body>
+  <input type="hidden" id="authenticity_token" value="EOIXNQuf+jULqS7Y+PTZXmztOS9km2/Uj8+f0oeEKog=">
+  <input type="hidden" id="callback" value="http://www.voicegem.com/troubleshooting">
+  <div class="alert" style="margin-bottom: 0px; text-align: center">
+    <strong>Voicegem joins Palantir!</strong><br />
+    <a href="http://blog.voicegem.com/post/43241478510/voicegem-joins-palantir">We are joining Palantir</a> and will be shutting down our services on March 15.
+  </div>
+  <div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({appId: 259175154192008, status: true, cookie: true,
+             xfbml: true});
+    user_signed_in = false;
+    FB.getLoginStatus(function(response) {
+     if (response.authResponse) {
+       user_signed_in = true;
+       user_uid = response.authResponse.userID;
+       access_token = response.authResponse.accessToken;
+     } else {
+       user_signed_in = false;
+     }
+
+     if (window.afterFbInit)
+      window.afterFbInit();
+    });
+
+  };
+  (function() {
+    var e = document.createElement('script'); e.async = true;
+   // e.src = document.location.protocol +
+     // '//connect.facebook.net/en_US/all.js';
+     e.src = "https://connect.facebook.net/en_US/all.js";
+    document.getElementById('fb-root').appendChild(e);
+  }());
+</script>
+  <header class="navbar navbar-fixed-top">
+  <div class="navbar-inner voicegem-navbar-inner">
+    <div class="container">
+      <a class="brand" id="voicegem-brand" href="/">
+        <img alt="Vg_header_logo" src="/assets/vg_header_logo-2a2735f4c78da2ab65e8915fcb016ed0.png" />
+      </a>
+      <ul class="nav pull-right">
+  		    <li><a href="#unified-form" data-toggle="modal" id="login-link">Login</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+  
+  <div class="container">
+    
+    <br />
+    <h2>Problems with Flash?</h2>
+
+<div class="block">
+There is a known <a href="http://get.adobe.com/flashplayer/">Adobe Flash Player</a> issue (occurring in some browsers and most recently the Apple Retina display) that prevents users from clicking <i>Allow</i> on the Settings panel. If you experience this problem, we (1) sincerely <b>apologize</b>, and (2) regret that Adobe has not yet addressed this issue properly.
+</div>
+
+<h3>Solution</h3>
+<div class="block">
+	There are various workarounds described on <a href="http://www.youtube.com/watch?v=0tyHV_cz5gA">the web</a>. We suggest going to the following:
+</div>
+
+<h3>1. Go to the <a target="_blank" href="http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager06.html">Flash Website Privacy Settings panel</a></h3>
+
+<h3>2. Find the entry for <i>www.voicegem.com</i>, and click on <i>Always allow</i></h3>
+
+<h3>3. Close the settings tab and refresh Voicegem. You should now be able to record your gem!</h3>
+
+<br />
+<div class="block">
+	How it should look:<br />
+<img alt="Flash_settings" height="250" src="/assets/flash_settings-37164305a1fed7208228b94bdaa21c26.png" />
+</div>
+
+<div class="block">
+	If this measure still does not work, please let us know at <a href="mailto:contact@voicegem.com">contact@voicegem.com</a>
+</div>
+		<footer class="footer">
+  <nav>
+    <ul>
+      <li><a href="/about" target="_blank">About</a></li>
+      <li><a href="http://blog.voicegem.com" target="_blank">Blog</a></li>
+      <li><a href="mailto:jobs@voicegem.com?body=Tell%20us%20a%20little%20bit%20about%20yourself.&amp;subject=VoiceGem%20Jobs" target="_blank">Jobs</a></li>
+      <li><a href="http://developer.voicegem.com" target="_blank">Developers</a></li>
+      <li><a href="mailto:contact@voicegem.com?subject=Contact%20VoiceGem%20Team" target="_blank">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div style="float: left; position:relative; top: 0px; margin-right: 5px" class="an-widget-v3" style="display:inline-block;line-height:0;" data-an-hover_card="1" data-an-show_available_platforms="1" data-an-widget-id="app/hrt" data-an-show_facepile="0" data-an-font_size="15" data-an-show_download_button="1" data-an-markup-widget="1" data-an-show_use_this="0" data-an-facepile_rows="1" data-an-multi_platform="1" data-an-open_on_hover="1" data-an-size="2" data-an-show_app_icon="1" data-an-hover_card_direction="1" data-an-button_label="3" data-an-button_theme="1"><a href="https://app.net/w/er/hrt/"><img height="36" src="/assets/appStore.png"></a></div>
+
+  <div class="fb-like" data-href="http://www.facebook.com/VoiceGem" data-send="false" data-layout="button_count" data-width="450" data-show-faces="true" data-font="arial" style="vertical-align: top; width: 80px"></div>
+
+  <a href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Fvoicegem.com%2F&source=tweetbutton&text=VoiceGem%20-%20the%20easiest%20way%20to%20send%20a%20voice%20message%20to%20anyone!%20%40VoiceGem&url=http%3A%2F%2Fvoicegem.com&counturl=www.voicegem.com" class="twitter-share-button" data-lang="en" style="margin-top: 7px;">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-href="http://www.voicegem.com"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+</footer>
+
+<script type='text/javascript'>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//d2c01jv13s9if1.cloudfront.net/w/widget_v3.js"; js.async = !0;
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'tapp-jssdk'));</script>
+  </div>
+  <div id="uploaded-message" class="modal hide fade">
+	<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal">×</button>
+	<h3>VoiceGem</h3>
+	</div>
+	<div class="modal-body" id="uploaded-message-body">
+		<p>Great, your gem was sent!</p>
+	</div>
+	<div class="modal-footer modal-small-footer">
+	<a id="send-another-button" href="#" class="btn btn-success" style="display:none">Send Another</a>
+	<a href="#" class="btn" data-dismiss="modal">OK</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#send-another-button').click(function() {
+  	$("#send-another-button").hide();
+  	window.location.href = "/gembox?compose=1";
+  });
+});
+</script>
+  <div id="unified-form" class="modal hide fade">
+ 	<div class="modal-body">
+ 		<div style="text-align: center; margin-top: 25px">
+ 			<a href="#" class="fb-button fb-login"><img alt="Fb_login" src="/assets/fb_login-b25434c1bab9bf242fba628aea770bc6.png" style="height: 45px;" /></a>
+			<p>Only used for private messages that you send. <br />
+				We will never post anything to your Facebook profile.</p>
+ 		</div>
+ 		<hr class="hr-soften">	
+ 		<table id="login-table">
+ 			<tbody>
+ 				<td width="45%" style="vertical-align: top">
+ 					<h3 style="margin-bottom: 10px;">Login</h3>
+					<form id="login-form-fields" class="span3" action="/post_login">
+						<div id="login-email-control-group" class="control-group">
+							<label class="control-label" for="login-email-control-group">Email</label>
+							<input type="text" class="input-medium" placeholder="you@email.com" id="login-email">
+						</div>	
+
+						<div id="login-password-control-group" class="control-group">
+							<label class="control-label" for="login-password-control-group">Password</label>
+							<input type="password" class="input-medium" placeholder="password" id="login-password">
+							<p id="login-password-control-group-error-message" class="error-message help-block" style="display: none;">
+								Wrong username or password
+							</p>
+						</div>
+
+						<div style="margin-top: 15px">
+							<input class="btn btn-success" id="login-button" name="commit" type="submit" value="Log in" />
+					  		<a href="#forgot-password-form" data-dismiss="modal" data-toggle="modal" id="forgot-password-link">Forgot password?</a>
+					  	</div>
+
+			  		</form> 					
+ 				</td>
+ 				<td width="10%">
+ 					<div id="vr"></div>
+ 				</td>
+ 				<td width="45%">
+ 					<h3 style="margin-bottom: 10px;">Sign up</h3>
+ 					<form id="signup-form-fields" action="/user/register">
+						<div id="signup-email-control-group" class="control-group small">
+							<label class="control-label" for="signup-email-control-group">Email</label>
+							<input type="text" class="input-medium" placeholder="you@email.com" id="signup-email">
+							<p id="signup-email-control-group-error-message" class="error-message help-block" style="display: none;">
+								This email address is already taken.
+							</p>
+						</div>	
+
+						<div id="signup-password-control-group" class="control-group small">
+							<label class="control-label" for="signup-password-control-group">Password</label>
+							<input type="password" class="input-medium" id="signup-password" placeholder="password">
+							<p id="signup-password-control-group-error-message" class="error-message help-block" style="display: none;">
+								Password is too short (minimum is 6 characters)
+							</p>
+						</div>	
+
+						<div id="signup-password-confirmation-control-group" class="control-group small">
+							<label class="control-label" for="signup-password-confirmation-control-group">Password confirmation</label>
+							<input type="password" class="input-medium" id="signup-password-confirmation" placeholder="same as above">
+							<p id="signup-password-confirmation-control-group-error-message" class="error-message help-block" style="display: none;">
+								Password confirmation does not match password.
+							</p>
+						</div>	
+
+						<div style="margin-top:5px; margin-bottom: 10px">
+							<input class="btn btn-success" id="signup-button" name="commit" type="submit" value="Sign up" />
+					  		<img alt="Spinner" height="20" id="signup-spinner" src="/assets/spinner-ceb380acbab98f0450df16fd19c7f286.gif" style="display: none" width="20" />
+					  	</div>
+			  		</form> 
+ 				</td>
+ 			</tbody>
+ 		</table>
+ 		<div>&nbsp;</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#forgot-email").enter(function() {$("#send-reset-email-link").click();});
+	});
+</script>
+
+<div id="forgot-password-form" class="modal hide fade">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>Forgot your password?</h3>
+	</div>
+	<div id="forgot-control-group" class="control-group modal-body">
+		<label class="control-label" for="forgot-control-group">Email</label>
+		<input type="text" placeholder="you@email.com" id="forgot-email">
+		<p id="forgot-control-group-error-message" class="error-message help-inline" style="display: none;">
+			Hmmm, that email address is not in our system. Are you sure you ever set a password?
+		</p>
+	</div>
+	<div class="modal-footer">
+		<div><a href="#" class="btn btn-primary" id="send-reset-email-link">Send me reset password instructions</a>
+		<img alt="Spinner" height="15" id="password-reset-spinner" src="/assets/spinner-ceb380acbab98f0450df16fd19c7f286.gif" style="display: none" width="15" />
+		</div>
+	</div>
+</div>
+
+<div id="reset-password-mail-sent" class="modal hide fade">
+	<div class="modal-header">
+    	<button type="button" class="close" data-dismiss="modal">×</button>
+    	<h3>Password Reset</h3>
+ 	</div>
+ 	<div class="modal-body">
+ 		<p>Password resetting instructions are sent. Please follow the link in the email.</p>
+ 	</div>
+ 	<div class="modal-footer modal-small-footer">
+		<a href="#" class="btn" data-dismiss="modal">Close</a>
+	</div>
+</div>
+
+<div id="confirmation-mail-sent" class="modal hide fade">
+	<div class="modal-header">
+    	<button type="button" class="close" data-dismiss="modal">×</button>
+    	<h3>Check your email</h3>
+ 	</div>
+ 	<div class="modal-body">
+ 		<p><b>Thanks for signing up!</b></p>
+ 		<p>We just sent you an email. Please check your inbox and follow the link to complete your registration.</p>
+ 	</div>
+ 	<div class="modal-footer modal-small-footer">
+		<a href="#" class="btn" data-dismiss="modal">Close</a>
+	</div>
+</div>
+
+<div id="update-password-form" class="modal hide fade">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>Update your password</h3>
+	</div>
+
+	<div class="modal-body">
+		<form id="password-update-form-fields" onsubmit="return false" action="/user/register">
+
+		<div id="password-new-control-group" class="control-group">
+			<label class="control-label" for="signup-password-control-group">New password</label>
+			<input type="password" id="password-password" placeholder="password">
+			<p id="password-new-control-group-error-message" class="error-message help-inline" style="display: none;">
+				Password is too short (minimum is 6 characters)
+			</p>
+		</div>	
+
+		<div id="password-password-confirmation-control-group" class="control-group">
+			<label class="control-label" for="signup-password-confirmation-control-group">Password confirmation</label>
+			<input type="password"  id="password-password-confirmation" placeholder="same as above">
+			<p id="password-password-confirmation-control-group-error-message" class="error-message help-inline" style="display: none;">
+				Password confirmation does not match password.
+			</p>
+		</div>	
+		<input class="btn" id="update-password-button" name="commit" type="submit" value="Update password" />
+		<img alt="Spinner" height="15" id="update-password-spinner" src="/assets/spinner-ceb380acbab98f0450df16fd19c7f286.gif" style="display: none" width="15" />
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#update-password-form').on('hidden', function () {
+    		location.reload();
+  		});
+	});
+</script>
+
+  <!-- to disable mixpanel reporting for non-production -->
+  <input type="hidden" id="production" value="false">
+  <script> if ("www.voicegem.com" == "www.voicegem.com") $("#production").val("true");</script>
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33434039-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  <!-- begin olark code --><script data-cfasync="false" type='text/javascript'>/*{literal}<![CDATA[*/
+window.olark||(function(c){var f=window,d=document,l=f.location.protocol=="https:"?"https:":"http:",z=c.name,r="load";var nt=function(){f[z]=function(){(a.s=a.s||[]).push(arguments)};var a=f[z]._={},q=c.methods.length;while(q--){(function(n){f[z][n]=function(){f[z]("call",n,arguments)}})(c.methods[q])}a.l=c.loader;a.i=nt;a.p={0:+new Date};a.P=function(u){a.p[u]=new Date-a.p[0]};function s(){a.P(r);f[z](r)}f.addEventListener?f.addEventListener(r,s,false):f.attachEvent("on"+r,s);var ld=function(){function p(hd){hd="head";return["<",hd,"></",hd,"><",i,' onl' + 'oad="var d=',g,";d.getElementsByTagName('head')[0].",j,"(d.",h,"('script')).",k,"='",l,"//",a.l,"'",'"',"></",i,">"].join("")}var i="body",m=d[i];if(!m){return setTimeout(ld,100)}a.P(1);var j="appendChild",h="createElement",k="src",n=d[h]("div"),v=n[j](d[h](z)),b=d[h]("iframe"),g="document",e="domain",o;n.style.display="none";m.insertBefore(n,m.firstChild).id=z;b.frameBorder="0";b.id=z+"-loader";if(/MSIE[ ]+6/.test(navigator.userAgent)){b.src="javascript:false"}b.allowTransparency="true";v[j](b);try{b.contentWindow[g].open()}catch(w){c[e]=d[e];o="javascript:var d="+g+".open();d.domain='"+d.domain+"';";b[k]=o+"void(0);"}try{var t=b.contentWindow[g];t.write(p());t.close()}catch(x){b[k]=o+'d.write("'+p().replace(/"/g,String.fromCharCode(92)+'"')+'");d.close();'}a.P(2)};ld()};nt()})({loader: "static.olark.com/jsclient/loader0.js",name:"olark",methods:["configure","extend","declare","identify"]});
+/* custom configuration goes here (www.olark.com/documentation) */
+olark.identify('3370-206-10-7252');/*]]>{/literal}*/</script><noscript><a href="https://www.olark.com/site/3370-206-10-7252/contact" title="Contact us" target="_blank">Questions? Feedback?</a> powered by <a href="http://www.olark.com?welcome" title="Olark live chat software">Olark live chat software</a></noscript><!-- end olark code -->
+<script type="text/javascript">if (!NREUMQ.f) { NREUMQ.f=function() {
+NREUMQ.push(["load",new Date().getTime()]);
+var e=document.createElement("script");
+e.type="text/javascript";e.async=true;e.src="https://d1ros97qkrwjf5.cloudfront.net/42/eum/rum.js";
+document.body.appendChild(e);
+if(NREUMQ.a)NREUMQ.a();
+};
+NREUMQ.a=window.onload;window.onload=NREUMQ.f;
+};
+NREUMQ.push(["nrfj","beacon-1.newrelic.com","fd1756e7f8",648901,"IV5XFkUMWA4GFE4OVw9UFhZFDEEADwMSDlcNRVAMUA==",0,7,new Date().getTime(),"","","","",""])</script></body>
+</html>

@@ -1,0 +1,25 @@
+<%= simple_form_for(@receipt) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :user_id %>
+    <%= f.input :subscription_id %>
+    <%= f.input :sub_my_plan_id %>
+    <%= f.input :sub_plan_name %>
+    <%= f.input :sub_events_number %>
+    <%= f.input :sub_reg_monthly_cost_in_cents %>
+    <%= f.input :sub_actual_monthly_cost_in_cents %>
+    <%= f.input :sub_reg_annual_cost_in_cents %>
+    <%= f.input :sub_actual_annual_cost_in_cents %>
+    <%= f.input :unlimited %>
+    <%= f.input :sub_coupon_name %>
+    <%= f.input :events_number %>
+    <%= f.input :en_regular_cost_in_cents %>
+    <%= f.input :en_actual_cost_in_cents %>
+    <%= f.input :en_coupon_name %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

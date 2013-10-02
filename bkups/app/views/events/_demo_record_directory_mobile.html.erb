@@ -1,0 +1,255 @@
+<% flash.each do |key, value| %>
+    <div class="alert alert-block alert-<%=key%>"> 
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <%= value %> 
+    </div>
+<% end %>
+
+ <div id="newinfo" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel"><em>What's going on here?</em></h3>
+            </div>
+            <div class="modal-body">
+            <ul>
+            <li> This quick and easy service is FREE for you. </li> <br/>
+            <li> You've been asked to record your name in your own voice, so that the teachers and staff at your school can make sure they know how to pronounce it perfectly. </li> <br/>
+            <li> The process is simple!
+                <ol>
+                  <br/>
+                  <li>Fill out your name and email. </li><br/> 
+                   <li>Enter your name as you like to be called, and any notes to help with pronunciation.</li><br/>
+                  <li>Record your name with our online voice recorder.  Don't worry, this part is super-easy and takes just a few seconds. <strong>Just make sure to press 'Upload.'</strong> <br/><br/>
+                    <strong> Note: Please record on a laptop or desktop with a mic.  You can check that <a href="http://helpx.adobe.com/flash-player/kb/find-version-flash-player.html" target="_blank">Adobe Flash Player is enabled</a> on your browser (if you have installed a Flash-blocker, temporarily disable it).</strong>
+                    <br/><br/>
+                  <em>Thanks to your help, your teachers will know how to pronounce your name perfectly!</em> </li><br/>
+                 </ol>
+            </li>  
+            <li> More questions? Please contact us below. <em> Thank you!</em> </li>
+            </ul>
+
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" data-dismiss="modal">Done</button>
+                
+               
+
+             
+            </div>
+          </div>
+
+
+<div class="alert alert-block alert-info">
+ 
+    <button type="button" class="close" data-dismiss="alert">×</button>
+
+              <h3>Dear Student, you've been invited to voice-record your name for [Your School/Department].  <br/><em>Just 3 Easy Steps.</em>&nbsp;&nbsp;&nbsp;<a data-toggle="modal" href="#newinfo" class="btn btn-info">More Info <i class="icon-info-sign icon-white"></i></a> </h3>  
+
+          
+     
+            
+         
+    </div>  
+
+
+
+<div class="container">  
+<br/>
+
+<h1>Mobile Device Detected.  A student will be directed to record their name on their laptop/desktop since many mobile devices do not currently support Flash audio web-recording technology (mobile apps will be released shortly!). </h1>
+
+<hr/>
+
+<h1> You can see the student name registration interface below:</h1>
+
+<hr/>
+
+
+
+
+                        <div id="recordmodal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                              <h3 id="myModalLabel"><em>Please voice-record your name here (DEMO)</em></h3>
+                            </div>
+
+                            <div class="modal-body">
+                  
+                                <h2> Recorder disabled for this mobile device </h2>
+
+                                <iframe src='<%= demo_recorder_path%>' width="100%" height="230" frameborder="0" scrolling='no'  marginheight="200x" ></iframe>
+            
+                                <div class="accordion" id="accordionrec">
+
+                                  <div class="accordion-group">
+                                    <div class="accordion-heading">
+                                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionrec" href="#collapserec1">
+                                        <h4><span class="blue">Instructions<span/></h4> 
+                                      </a>
+                                    </div>
+                                    <div id="collapserec1" class="accordion-body collapse">
+                                      <div class="accordion-inner">
+                                        Note: <em>if the recorder isn't working, please ensure your browser's <strong>Javascript and Flash are enabled</strong></em> <br/><br/>
+                                        <ol>
+                                          <li><strong>Press 'RECORD', then click 'Allow'</strong> if asked for permission to use your computer's microphone.</li> <br/>
+                                          <li> You will have 10 seconds maximum recording time. <strong>Please say your name clearly and slowly, then immediately press 'STOP'</strong>, to make it easier for the person hearing/practicing your name.</li> <br/>
+                                          <li>Your recording will automatically play back to you:</li>
+                                             <ul>
+                                                 <li>If it sounds good, <strong>press 'UPLOAD.'</strong>(disabled for demo)</li>  
+                                                  <li>If you're not happy with it, press 'RECORD' to try again.</li>
+                                              </ul>
+                                          </ol> 
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="accordion-group">
+                                    <div class="accordion-heading">
+                                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionrec" href="#collapserec2">
+                                        <h4><span class="blue">Problems?<span/></h4>
+                                      </a>
+                                    </div>
+                                    <div id="collapserec2" class="accordion-body collapse">
+                                      <div class="accordion-inner">
+                                          <h4><i class="icon-warning-sign red"></i>&nbsp;&nbsp;<a href="/flashissue" target="_blank"><span class="red">I can't click 'Allow'</span></a></h4>
+                                          
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;<a href="/flashissue" target="_blank">Please click here</a></h5>
+                                             <hr/>
+                                          <h4 class="red"><i class="icon-warning-sign red"></i>&nbsp;&nbsp;Nothing happens when I press 'Record'</h4>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Using Chrome? If there is a small 'Allow/Deny' bar at the top of your browser, click allow and then try recording again (or refresh the page). <center><img src="<%= image_path('chrome-warn-small.png')%>"></center> Click <a href="https://support.google.com/chrome/answer/2696491?hl=en" target="_blank">here</a> for instructions on changing the advanced settings. </h5>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please make sure a microphone is plugged in, especially if you are using a desktop computer.</h5>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please make sure <a href="http://helpx.adobe.com/flash-player/kb/find-version-flash-player.html" target="_blank">the latest version of Adobe Flash Player is enabled</a> on your browser.</h5> 
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;If you have a Flash-blocker installed on your browser, please temporarily disable it (you may need to restart browser to disable) or try a different browser. These blockers normally do not allow microphone access.</h5> 
+                                              <hr/>
+                                          <h4 class="red"><i class="icon-warning-sign red"></i>&nbsp;&nbsp;I accidentally clicked 'Deny'</h4>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please refresh this page and try again.</h5>
+                                              <hr/>
+                                          <h4 class="red"><i class="icon-warning-sign red"></i>&nbsp;&nbsp;My recording does not play back/sound good</h4>
+                                               <h5><i class="icon-wrench"></i>&nbsp;&nbsp;If you are using Chrome on a Mac, try a different browser.</h5>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please ensure you have a quiet environment.</h5>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Check your computer's mic settings to see that it is enabled (as well as any options such as noise-cancellation).</h5>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Check to make sure your speaker volume is up.</h5>
+                                      </div>
+                                    </div>
+                                  </div>    
+
+                                  <div class="accordion-group">
+                                    <div class="accordion-heading">
+                                      <a class="accordion-toggle"  data-parent="#accordionrec" href="/flashissue" target="_blank"><h4><span class="blue">Can't click 'Allow'?</span></h4></a>
+                                    </div>
+                                  </div>      
+
+
+                                </div>   <!-- end accordion -->    
+             
+
+                             </div> <%# End modal body %> 
+            
+                             <div class="modal-footer">
+                                  
+                                 <button class="btn btn-primary" data-dismiss="modal">Done</button>
+                                
+                             </div>
+
+                         </div> <%# end modal %>
+
+
+
+                          <div class="accordion" id="accordion3">
+                                    <div class="accordion-group bg-signup">
+                                      <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseOne">
+                                         <h5 class="white">New Name Registration (DEMO)</h5>
+                                        </a>
+                                      </div>
+                                      <div id="collapseOne" class="accordion-body collapse in">
+                                        <div class="accordion-inner">
+                                                   <div class="row">
+                                                     <%= simple_form_for(@user, :url => event_link_create_path, :html => {:class => 'form-inline'}) do |f| %>
+
+                                                         <div class="well span6 offset2">
+                                                          <h4> <i class="icon-check icon-large">&nbsp;</i><span class="blue">STEP 1: Enter Basic Info</span> <span class="muted"> (required)</span> </h4>
+                                                              
+                                                              <br/>
+                                                              <%= f.error_notification %>
+                                                              <%= f.hidden_field :event_code, :value => @event_code %>
+                                                                                                                                
+                                                                  <%= f.input :first_name, label: "First Name", placeholder: 
+                                                                "Student's First Name" %>
+                                                                  <%= f.input :last_name, label: "Last Name", placeholder: 
+                                                                "Student's Last Name" %>
+                                                                  <%= f.input :email, placeholder: "Student's Email"%>
+                                                                  <span class="help-block"><em>(emails will not be given to any 3rd party)</em></span>
+                                                             <hr/>
+
+                                                         </div>
+                                                         <div class="well span6 offset2">         
+                                                             <h4><i class="icon-check icon-large">&nbsp;</i><span class="blue">STEP 2: NameGuide Info</span> <span class="muted">(optional)</span> </h4> 
+                                                              <br/>      
+                                                                         <%= f.input :phonetic, :class => "span3 fl-left", label: "Enter your name as you like to be called:", placeholder: "(e.g., 'Henry 'Indiana' Jones, Jr.')"  %>
+                                                                            
+                                                                            <br/><br/>
+
+                                                                          <%= f.label :notes, "Enter any notes to aid in pronunciation:" %>
+                                                                          <%= f.text_area :notes, :class => "span3", :placeholder => "(e.g., 'first name sounds like Ravine' or 'last name pronounced GLI-cough')" %>
+                                                                          
+                                                                          <hr/>
+                                                                         
+                                                                     
+
+                                                          </div>
+
+                                                          <div class="well span6 offset2">
+                                                              <h4> <i class="icon-check-empty">&nbsp;</i><span class="blue">STEP 3: Record Your Name</span> </h4> <br/>
+                                                                  <br/><br/><br/> <br/>
+                                                                  <div class="row">
+                                                                 
+                                                                     <button data-toggle="modal" href="#recordmodal" class="btn btn-danger btn-large span3">Record Your Name <span><em></em></span></button>
+                                                                                                                                           
+                                                                     <br/><br/>
+                                                                     <div class="cent">
+                                                                      <h3><span><i class="icon-hand-up icon-large"></i>&nbsp;<em>Try Demo!</em></span></h3>
+                                                                     </div>
+
+                                                                     <!--<script type='text/javascript' src='flashblock-detector.js'> -->
+                                                                     <script>
+                                                                      function callbackMethod(val) {
+                                                                        if (val > 0) {
+                                                                          alert(val == 1 ? 'Flash is not installed or is disabled on this browser. Please install and enable Flash before recording.' : 'Flash is being blocked on this browser. Please disable Flash blockers before recording.');
+                                                                        } 
+                                                                      }
+
+                                                                      $(window).load(function(){
+                                                                        flashBlockDetect(callbackMethod);
+                                                                      });
+                                                                    </script>
+
+
+                                                                    <div class="invisible">
+                                                                      <embed width="0" height="0" src="loader.swf" quality="high" pluginspage="http://www.adobe.com/go/getflashplayer" align="middle" play="true" loop="true" scale="showall" wmode="window" devicefont="false" bgcolor="#000000" name="loader" menu="true" allowfullscreen="false" allowscriptaccess="sameDomain" salign="" type="application/x-shockwave-flash"> 
+                                                                    </div>
+                                                                     
+                                                                  
+                                                                 </div>
+
+                                                                  <hr/></p><span class="red">If the recorder does not work, you may need to ensure that <a href="http://helpx.adobe.com/flash-player/kb/find-version-flash-player.html" target="_blank">Flash is enabled</a> on your browser.</span></p>
+                                                                   
+                                                                
+                                                                
+                                                            
+
+                                                          </div> 
+                                                    <% end %>
+                                                    </div><%# end row %>
+                                        </div>
+                                      </div>
+                                    </div>
+                                        
+                                  </div>  <%# end accordion %>
+
+
+
+                              
+
+</div><%# end container %>
+

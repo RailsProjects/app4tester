@@ -1,0 +1,14 @@
+Dear <%= @user.first_name %>,
+
+Thank you for subscribing to the <%= @r.sub_plan_name.titleize %> plan with NameCoach!
+
+Your card will not be charged until the free trial period ends, in 14 days. If you cancel before then, your will not be charged. 
+
+<% if @r.sub_actual_monthly_cost_in_cents.blank? %> Starting at that point, you will be billed $<%= number_with_precision((@r.sub_reg_monthly_cost_in_cents.to_f)/100, :precision => 2) %> monthly. You may cancel your subscription anytime (under your Account tab), after which you will not be charged. <% end %> 
+
+<% if !@r.sub_actual_monthly_cost_in_cents.blank? %>At that point, you will be billed at the discounted rate of $<%= number_with_precision((@r.sub_actual_monthly_cost_in_cents.to_f)/100, :precision => 2) %> monthly. You may cancel your subscription anytime (under your Account tab), after which you will not be charged.<% end %>
+
+We'd like to help things run as smoothly as possible, to help ensure your events are as flawless as possible, so please don't hesistate to contact us or chat online! 
+
+Thank you,
+- The team at NameCoach

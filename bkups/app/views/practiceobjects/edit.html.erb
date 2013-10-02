@@ -1,0 +1,146 @@
+
+<%# show page is restricted through correct_user %>
+<div class="jumbotron">
+      <h1> Edit Your NameGuide for <em><%= @practiceobject.event.title %></em> </h1>
+  </div>
+             <% flash.each do |key, value| %>
+              <div class="alert alert-block alert-<%=key%>"> 
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= value %> 
+              </div>
+            <% end %>
+
+<br/>
+<br/>
+
+<div class="container">
+
+
+
+<div id="porecmodal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel"><em>Name Recording for <%= @practiceobject.event.title %></em></h3>
+            </div>
+            
+            <div class="modal-body">
+            
+            
+               <iframe src='<%= porecording_practiceobject_path(@practiceobject) %>' width="100%" height="230" frameborder="0" scrolling='no'  marginheight="200x" ></iframe>
+
+                <div class="accordion" id="accordion2">
+
+                    <div class="accordion-group">
+                      <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                          <h4><span class="blue">Instructions<span/></h4> 
+                        </a>
+                      </div>
+                      <div id="collapseOne" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                          Note: <em>if the recorder isn't working, please ensure your browser's <strong>Javascript and Flash are enabled</strong></em> <br/><br/>
+                          <ol>
+                            <li><strong>Press 'RECORD', then click 'Allow'</strong> if asked for permission to use your computer's microphone.</li> <br/>
+                            <li> You will have 10 seconds maximum recording time. <strong>Please say your name clearly and slowly, then immediately press 'STOP'</strong>, to make it easier for the person hearing/practicing your name.</li> <br/>
+                            <li>Your recording will automatically play back to you:</li>
+                               <ul>
+                                   <li>If it sounds good, <strong>press 'UPLOAD.'</strong></li>  
+                                    <li>If you're not happy with it, press 'RECORD' to try again.</li>
+                                </ul>
+                            </ol> 
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="accordion-group">
+                      <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapsetwo">
+                          <h4><span class="blue">Problems?<span/></h4>
+                        </a>
+                      </div>
+                      <div id="collapsetwo" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            <h4><i class="icon-warning-sign red"></i>&nbsp;&nbsp;<a href="/flashissue" target="_blank"><span class="red">I can't click 'Allow'</span></a></h4>
+                            
+                                <h5><i class="icon-wrench"></i>&nbsp;&nbsp;<a href="/flashissue" target="_blank">Please click here</a></h5>
+                               <hr/>
+                            <h4 class="red"><i class="icon-warning-sign red"></i>&nbsp;&nbsp;Nothing happens when I press 'Record'</h4>
+                            
+                                <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please make sure a microphone is plugged in, especially if you are using a desktop computer.</h5>
+                                <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please make sure <a href="http://helpx.adobe.com/flash-player/kb/find-version-flash-player.html" target="_blank">the latest version of Adobe Flash Player is enabled</a> on your browser.</h5> 
+                                <hr/>
+                            <h4 class="red"><i class="icon-warning-sign red"></i>&nbsp;&nbsp;I accidentally clicked 'Deny'</h4>
+                                <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please refresh this page and try again.</h5>
+                                <hr/>
+                            <h4 class="red"><i class="icon-warning-sign red"></i>&nbsp;&nbsp;My recording does not play back/sound good</h4>
+                                 <h5><i class="icon-wrench"></i>&nbsp;&nbsp;If you are using Chrome on a Mac, try a different browser.</h5>
+                                <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please ensure you have a quiet environment.</h5>
+                                <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Check your computer's mic settings to see that it is enabled (as well as any options such as noise-cancellation).</h5>
+                                <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Check to make sure your speaker volume is up.</h5>
+                        </div>
+                      </div>
+                    </div>    
+
+                    <div class="accordion-group">
+                      <div class="accordion-heading">
+                        <a class="accordion-toggle"  data-parent="#accordion2" href="/flashissue" target="_blank"><h4><span class="blue">Can't click 'Allow'?</span></h4></a>
+                      </div>
+                    </div>      
+
+
+                  </div>   <!-- end accordion -->
+
+            </div>  <!--end modal body -->
+
+            <div class="modal-footer">
+              <h6 class="right">(Did you remember to upload your voice recording?)</h6>
+              <button class="btn btn-primary" data-dismiss="modal">Done</button>
+
+             
+            </div>
+</div>
+
+
+                                         
+
+
+<div class="row">
+  <div class="span12 well">
+      <h4> <span class="label label-info"><i class="icon-edit icon-white"></i></span>&nbsp;<strong>Create/Update your <em>NameGuide</em> for <%= @practiceobject.event.title %>:</strong> </h4>
+      <br/>
+       <%= form_for(@practiceobject, :html => {:class => "form-vertical"}) do |f| %>
+         <div class="span3">
+          <span class="label label-info">Step 1</span> <br/>Enter your name as you would like it announced:<br/><br/>
+          <%= f.text_field :phonetic, :class => "span3" %>
+           <span class="help-block">(e.g., 'Dr. Henry Jones, Jr.')</span>
+         </div>
+         <div class="span3">
+          <span class="label label-info">Step 2</span><br/>Enter any notes to help with correct pronunciation:</br><br/>
+          <%= f.text_area :notes, :class => "span3", :placeholder => "(you can leave this blank if you wish)" %>
+           <span class="help-block">(e.g., 'first name rhymes with ravine' or 'last name pronounced GLI-cough')"</span>
+         </div>
+         <div class="span3">
+          <span class="label label-important">Step 3</span><br/>Create or change the name recording for this event: <br/><br/>
+           <a data-toggle="modal" href="#porecmodal" class="btn btn-danger btn-large">Record Name <i class="icon-caret-right icon-white"></i> </a>
+         </div>
+         <div class="span2">
+          <span class="label label-info">Step 4</span><br/>Save any changes:<br/><br/><br/>
+          <%= f.submit "Save Changes", class: "btn btn-large btn-primary", disable_with: 'saving...' %>
+         </div>
+         
+          
+
+
+      <% end %>                     
+          
+
+
+  </div>
+</div>
+
+            <div class="span1 offset11">
+          <a href="<%= users_path%>/<%= current_user.id %>" class="btn btn-default">Cancel</a>
+        </div>
+
+
+</div>

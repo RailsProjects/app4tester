@@ -1,0 +1,33 @@
+<h1>Listing emails</h1>
+
+<table class="table table-striped">
+  <tr>
+    <th>Recipient email</th>
+    <th>From email</th>
+    <th>Subject/th>
+    <th>Body</th>
+    <th>Sent at</th>
+    <th>Cc email</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @emails.each do |email| %>
+  <tr>
+    <td><%= email.recipient_email %></td>
+    <td><%= email.from_email %></td>
+    <td><%= email.subject %></td>
+    <td><%= email.body %></td>
+    <td><%= email.sent_at %></td>
+    <td><%= email.cc_email %></td>
+    <td><%= link_to 'Show', email %></td>
+    <td><%= link_to 'Edit', edit_email_path(email) %></td>
+    <td><%= link_to 'Destroy', email, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Email', new_email_path %>

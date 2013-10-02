@@ -1,0 +1,133 @@
+<div class="jumbotron">
+	<h1> Event Page: <em> <%= @event.title %> </em> </h1>
+	
+	<% if @event.date && !(@event.title == 'the ETL Seminar') %><br/><h3>  <%= @event.date.strftime("%b %d, %Y")  %> </h3><% end %>
+</div>
+
+<% flash.each do |key, value| %>
+	<div class="alert alert-block alert-<%=key%>"> 
+	<button type="button" class="close" data-dismiss="alert">×</button>
+	<%= value %> 
+	</div>
+<% end %>
+<br />
+<br/>
+
+<div class="container">
+
+<div class="row">
+
+ 	
+
+<ul id="myTab" class="nav nav-tabs ">
+  <li class="active"><a href="#reg" data-toggle="tab"><strong>Recorded VoiceGems </strong></a></li>
+  <li><a href="#admins" data-toggle="tab"><strong>Admins for this Event</strong></a></li>
+  
+</ul>
+   		  
+<%# this first section uses @registeredpos and lists the registered practice objects %>	
+<div id="myTabContent" class="tab-content ">
+
+    <div class="tab-pane active" id="reg">
+								               
+
+	    <div class="row">
+			<div class="well span12 modal-header">
+					
+						
+				<div class="span3 offset1">
+					
+					<a href="#" rel="tooltip" data-placement="right" title="User's name and email address."><h4>User Name/Email</h4></a>
+				</div>
+						
+		
+				<div class="span3">
+					<a href="#" rel="tooltip" data-placement="right" title="Any notes user may have entered to accompany their VoiceGem."><h4>User's Notes</h4></a>
+				</div>
+			
+
+				<div class="span4">
+					<a href="#" rel="tooltip" data-placement="right" title="User's recorded VoiceGem. Click the play button to hear. If an 'x' appears instead of the play button, it has not yet been recorded or processed."><h4>Recorded VoiceGem</h4></a>
+					<em>(press play button to hear)</em>
+				</div>
+
+
+			</div>	<%# end div well span12 %>	
+
+		</div> <%# end div row %>	
+
+
+		<% @registeredandrecordedvgs.each do |f| %>					    	
+			 <div class="row">
+				 <div class="well span12">
+					 <div class="span3 offset1">
+						<%= f.user.first_name %> <%= f.user.last_name %> <br/>
+						(<%= f.user.email %>) <br/>
+						<% unless f.email == f.user.email %>Invitation sent to: <%= f.email %><% end %>
+					 </div>
+	
+
+					 <div class="span3">
+					 	 <% if f.notes.blank?%>--<% else %><%= f.notes %><%end%>
+					 </div>
+		
+					 <div class="span4">
+					 	<span class="vg">
+							<audio src="https://s3-us-west-1.amazonaws.com/<%= ENV['VG_BUCKET_NAME'] %>/<%= f.recording %>.mp3" /> 
+						</span>	 			
+					 </div>
+			
+
+					
+
+				 </div> <%# end div class="well" %>	
+
+			 </div> <%# end div class="row" %>
+
+		 <% end %> <%# @registeredandrecordedpos.each do |f| %>				    			
+
+		 <% if @registeredandrecordedvgs.count == 0  %>
+		 	   <div class="row">
+				<div class=" well span6 offset3 cent">
+					<h3> No VoiceGems recorded yet </h3>
+				</div>
+			   </div>
+		 <% end %>
+
+     </div> <%# END TAB PANE 1 div class="tab-pane fade active" id="reg" %>	
+
+
+
+     <div class="tab-pane" id="admins">
+    		<div class="span4 offset4">
+			<div class="well">
+
+
+										<h4><span class="blue"><i class="icon-user icon-white"></i></span>&nbsp;Admins<% if @event.title %> for <%= @event.title %><% end %>:</h4><br/>
+										<table class="table table-condensed">
+											<% @event.admins.each do |a| %>
+												<tr>
+													<td> <%= a.first_name %> </td>
+													<td> <%= a.last_name %> </td>
+													<td> <%= a.email %> </td>
+												</tr>
+											<% end %>
+										</table> 
+					
+
+
+											<%# this section allows admins to invite admins and see admins - need to allow non-admin users to also see admins, and only allow the correct admin to invite admins and see admin invites (so if regisetered as a user for one event and admin for another, cannot admin the first event - I think this is taken care of, test for this %>
+
+									
+						</div>
+				</div>
+
+				
+			</div>
+
+        
+ 	 </div>  <%# end admin tab pane %>
+
+</div>
+
+</div> <%# END container %>

@@ -1,0 +1,33 @@
+
+             <% flash.each do |key, value| %>
+            	<div class="alert alert-block alert-<%=key%>"> 
+            	<button type="button" class="close" data-dismiss="alert">×</button>
+            	<%= value %> 
+            	</div>
+            <% end %>
+
+<br/>
+<br/>
+
+<div class="container">
+
+<div class="row">
+    <div class="well span4 offset4">
+      <h4><i class="icon-lock icon-large"></i>&nbsp;&nbsp;<span class="blue">Password Reset</span></h4>
+      		<br/>
+      		<br/>
+			<%= form_tag password_resets_path, :method => :post do %>
+			  <div class="field">
+			    <%= label_tag "Please enter your email address:" %>
+			    <%= text_field_tag :email, params[:email] %>
+			  </div>
+			  <hr/>
+			  <div class="actions"><%= submit_tag "Reset Password", class: "btn btn-info" %></div> 
+        <h5> Please check your email for a link to reset your password </h5>
+			<% end %>
+
+	</div>
+</div>
+
+
+</div>

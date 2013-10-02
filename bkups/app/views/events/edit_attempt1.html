@@ -1,0 +1,43 @@
+
+<div class="jumbotron">
+      <h1> Edit Event Details for <%= @event.title %> </em> </h1>
+      <br/>
+  </div>
+<% flash.each do |key, value| %>
+              <%= content_tag(:div, value, class: "alert alert-#{key}") %>
+            <% end %>
+
+<br/>
+<br/>
+
+<div class="container">
+
+<div class="span6 offset3">
+				            <div class="well">
+				              <h4> <span class="label label-info"><i class="icon-edit icon-white"></i></span>&nbsp;<strong>Edit event page:</strong> </h4> </br>
+
+				                   <%= form_for(@event, :html => {:class => "form-inline"}) do |f| %>
+				                      
+				                        
+				                        <%= f.text_field :title, :class => "span3" %>
+				                         
+				                            
+				                        <%= f.text_field :date, :class => "span2" %>
+				                 
+				                         <br/>
+
+				                        <span class="help-block">(e.g., "The Jones-Ravenwood Wedding")</span>
+
+				                        	 <div class="form-actions">
+     
+    										 <%= f.submit "Save Changes", class: "btn btn-primary"  %> 
+ 											<a href="<%= users_path%>/<%= current_user.id %>" class="btn">Cancel </a>
+											</div>
+
+
+				                    <% end %>
+				                 </a>
+				              </div>
+				          </div>
+
+</div>

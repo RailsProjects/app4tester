@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>test flash</title>
+<!-- Test if Flash is installed and, if installed, test if blocked by flash blocker program like Flashblock -->
+<!--   (useful for prompting users to disable Flashblock or to revert to an HTML 5 alternative) -->
+<!-- The test.swf file can be found here: http://www.filesavr.com/AF7W2S1SBLFQD5W -->
+<style>
+	.hide {    
+		display: block !important;
+		position: absolute;
+		left: -10000px;
+	}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+<script>
+	function callback(e){
+		if(e.success && e.ref){
+			setTimeout(function (){
+				if(typeof e.ref.PercentLoaded !== "undefined" && e.ref.PercentLoaded()){ 
+					document.getElementById("result").innerHTML = "flash enabled";
+				} else {
+					document.getElementById("result").innerHTML = "flash disabled";
+				}
+			}, 200);
+		} else {
+			document.getElementById("result").innerHTML = "no flash";
+		}
+	}
+	swfobject.registerObject("swftest", "9.0.115", false, callback);
+</script>
+</head>
+<body>
+	<h2 id="result"></h2>
+	<div class="hide">
+		<object id="swftest" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="10" height="10">
+		<param name="movie" value="test.swf" />
+		<!--[if !IE]>-->
+		<object type="application/x-shockwave-flash" data="test.swf" width="10" height="10"></object>
+		<!--<![endif]-->
+		</object>
+	</div>
+</body>
+</html>

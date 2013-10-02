@@ -1,0 +1,15 @@
+<p>Dear <%= @user.first_name %>,</p>
+
+<p>Thank you for your purchase of <%= @r.events_number %> Event Page<% if @r.events_number >1 %>s<% end %> on NameCoach!</p>
+
+
+			Events: <%= @number %><br/>
+			Price/Event: <%= @price %>.00<br/>
+			<% if @r.en_coupon_name.blank? %><hr/><strong>TOTAL PAID:  $<%= number_with_precision((@r.en_actual_cost_in_cents.to_f)/100, :precision => 2) %></strong><% end %>
+			<% if !@r.en_coupon_name.blank? %>Discount Code Applied: <%= @r.en_coupon_name %><hr/><strong>TOTAL PAID:  $<%= number_with_precision((@r.en_actual_cost_in_cents.to_f)/100, :precision => 2) %></strong><% end %>
+
+
+<p>We'd like to help things run as smoothly as possible, to help ensure your events are as flawless as possible, so please don't hesistate to contact us or chat online! <p>
+
+<p>Thank you,<br/>
+- The team at NameCoach</p>

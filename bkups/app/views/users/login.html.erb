@@ -1,0 +1,40 @@
+                              
+
+<div class="container">
+
+
+<br/>
+<br/>
+
+  <div class="row">
+
+                  <div class="span5 offset3 home-block">
+                                <% flash.each do |key, value| %>
+                                  <div class="alert alert-block alert-<%=key%>"> 
+                                  <button type="button" class="close" data-dismiss="alert">×</button>
+                                  <%= value %> 
+                                  </div>
+                                <% end %>
+                            <div class="grey-box hero-block-2">
+                                <h4 class="fl-left"><i class="icon-lock icon-large"></i>&nbsp;&nbsp;<span class="light-blue">Log In</span></h4><br/>
+                                <%= simple_form_for(:session, :url => sessions_path, :html => {:class => "form-horizontal"}) do |f| %>
+                                    <br/>
+                                   
+                                        <%= f.input :email, label: "Email" %>
+                                        <%= f.input :password, label: "Password" %>
+
+                                      
+                                        <div class="form-actions">
+                                        
+                                        <%= f.button :submit, "Log In", class: "btn btn-primary span2 cent", disable_with: "logging in..." %>
+                                        <hr/>
+                                          
+                                           <a href="<%= new_password_reset_path %>" class="blue">Forgot Password?</a>
+                                        </div>
+
+                                    <% end %>
+                            </div>
+                           <div class="tp-bannershadow tp-shadow1"></div>
+                  </div>
+  </div>
+</div>

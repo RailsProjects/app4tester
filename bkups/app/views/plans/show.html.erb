@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @plan.name %>
+</p>
+
+<p>
+  <b>MY PLAN ID:</b>
+  <%= @plan.my_plan_id %>
+</p>
+
+<p>
+  <b>Events number:</b>
+  <%= @plan.events_number %>
+</p>
+<p>
+  <b>Unlimited</b>
+  <%= @plan.unlimited %>
+</p>
+<p>
+  <b>Event Type</b>
+  <%= @plan.event_type %>
+</p>
+<p>
+  <b>Trial period:</b>
+  <%= @plan.trial_period %>
+</p>
+
+<p>
+  <b>Monthly cost cents:</b>
+  <%= @plan.monthly_cost_cents %>
+</p>
+<p>
+  <b>Annual cost cents:</b>
+  <%= @plan.annual_cost_cents %>
+</p>
+
+<%= link_to 'Edit', edit_plan_path(@plan) %> |
+<%= link_to 'Back', plans_path %>

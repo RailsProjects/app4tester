@@ -1,0 +1,40 @@
+<div class="container">
+
+<%= form_for(@coupon) do |f| %>
+
+
+  <div class="field">
+    <%= f.label :name, "TYPE OF PROMO CODE" %>
+    <%= f.select :name, [['FREE PAGE','free'],['FREE SUBSCRIPTION','free_sub'],['DISCOUNTED PAGE','single_use'], ['DISCOUNTED SUB','sub_discount']] %>
+    (do not select DISCOUNTED SUB - for Praveen's use only)
+  </div>
+<br />
+  <div class="field">
+  <%= f.label :free_page_name, "PROMO CODE (e.g., GRAD75 or DEVRY) - please use all caps" %>
+  <%= f.text_field :free_page_name %>
+  </div>
+<br />
+  <div class="field">
+  <%= f.label :cost, "DISCOUNTED PRICE POINT FOR A PAGE (e.g., enter 75 for $75) - LEAVE BLANK IF FREE" %>
+  <%= f.text_field :cost %>
+  </div>
+
+
+<div class="well">
+<strong>(FOR PRAVEEN'S USE ONLY - PLEASE IGNORE)</strong> <br>
+  <div class="field">
+  <%= f.label :percent_off, "percent off subscription "%>
+  <%= f.text_field :percent_off%>
+  </div>
+    <div class="field">
+  <%= f.label :max_redemptions, "2+ page for grad purchases "%>
+  <%= f.text_field :max_redemptions %>
+  </div>
+</div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+</div>

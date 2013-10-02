@@ -1,0 +1,117 @@
+
+<div class="row">
+
+       <div class="span4">
+          <div class="logo" id="logo2">
+                <h1><a href="<%= root_path %>">Name<span class="purple fat">Coach</span></a></h1>
+                <p class="meta">&nbsp;<em>hear the name, say it right</em> </p>
+           </div>
+      </div>
+
+    <div class="span2 offset1">
+      <br/>
+            <button type="button" class="btn btn-primary btn-large tog" data-toggle="collapse" data-target=".nav-collapse">MENU </button>
+                <!-- Navigation -->  
+    </div>
+       
+  <% if signed_in? %>
+
+              <div class="container">
+                <div class="navbar">
+                <div class="navbar-inner">
+                  <div class="nav-collapse">
+                    <ul class="nav">
+                         
+                         
+                            
+                            <li class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Account <b class="caret"></b>
+                              </a>
+                               <ul class="dropdown-menu">
+                                <li><%= link_to account_user_path(current_user) do %><i class="icon-pencil"></i> Change Password<% end%> </li>
+                                <li><%= link_to edit_user_path(current_user) do %><i class="icon-pencil"></i> Edit User Name/Email<% end %></li>
+                                <li class="divider"></li>
+
+                                <% if !customer_has_active_subscription? %>
+                                   <% if wed_event_user? %>
+                                       <li><%= link_to purchase_sub_existing_path do %><i class="icon-shopping-cart"></i> Purchase Subscription<% end %></li>
+                                    <% else %>
+                                        <li><%= link_to purchase_sub_existing_edu_path do %><i class="icon-shopping-cart"></i> Purchase Subscription<% end %></li> 
+                                    <% end %>
+                                <% end %> 
+                                <% if customer_has_active_subscription? %>
+                                <li><%= link_to cancel_path do %><i class="icon-ban-circle"></i> Cancel Subscription<% end %></li><% end %> 
+                                <li class="divider"></li>
+                                <li> <%= link_to signout_path, method: "delete" do %><i class="icon-signout"></i> Sign out<% end %></li>
+                              </ul>
+                             </li>
+                             <li><%= link_to "Profile", current_user %></li>
+               
+                          
+                          <li><%= link_to "Home", root_path %></li>
+
+                          <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Our Services <b class="caret"></b></a>
+                              <ul class="dropdown-menu">
+                                <li><%= link_to students_path do %> Student Name Directory <% end%> </li>
+                                <li><%= link_to commencements_path do %> Commencement Service <% end%> </li>
+                                <li><%= link_to weddings_path do %> Wedding Receptions <% end%> </li>
+                              </ul>
+                          </li>
+
+                          <li><%= link_to "About", team_path %></li>
+                          <li><%= link_to "FAQ", faq_path, :target => "_blank" %></li>
+
+                          
+
+              
+                          
+
+                         </ul>
+
+                  </div>
+        
+            </div> <!-- End Navigation -->
+
+        </div>
+      </div>
+
+<% else %>
+<div class="container">
+<div class="nav-collapse">
+    <ul class="nav">
+                      <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Our Services <b class="caret"></b></a>
+                              <ul class="dropdown-menu">
+                                <li><%= link_to students_path do %> Student Name Directory <% end%> </li>
+                                <li><%= link_to commencements_path do %> Commencement Service <% end%> </li>
+                                <li><%= link_to weddings_path do %> Wedding Receptions <% end%> </li>
+                              </ul>
+                          </li>
+                          
+                          <li><%= link_to "Home", root_path %></li>
+                          <li><%= link_to "About", team_path %></li>
+                          <li><%= link_to "FAQ", faq_path, :target => "_blank" %></li>
+
+                         <li><%= link_to "Invited to Admin?", admincodesignup_path %></li>     
+                          <li><%= link_to "Reset Password", new_password_reset_path %></li> 
+                          <li><%= link_to "Login", login_path %></li>
+
+</div>
+</div>
+</div>
+ 
+<% end %>   
+
+
+</div>
+
+<script>
+$('.tog').on('click', function(e) {
+    e.preventDefault();
+    var $this = $(this);
+    $this.attr("class","invisible");
+});
+
+</script>

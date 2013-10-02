@@ -1,0 +1,48 @@
+<%# show page is restricted through correct_user %>
+<div class="jumbotron">
+      <h1> Profile Page for <em><%= @user.email %></em> </h1>
+  </div>
+             <% flash.each do |key, value| %>
+              <div class="alert alert-block alert-<%=key%>"> 
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= value %> 
+              </div>
+            <% end %>
+
+<br/>
+<br/>
+
+<div class="container">
+
+<% if !@user.voicegems.blank? || user_is_bigdaddy %>
+
+    <% if @user.customer %>
+       <%= render 'users/vgcustomershow' %>
+    <% else %>
+       <% if @user.admin %>
+          <%= render 'users/vgadminshow' %>
+       <% else %>
+          <%= render 'users/vgregularshow' %>       
+       <% end %> 
+    <% end %>
+
+<% else %>
+
+    <% if @user.customer %>
+       <%= render 'users/customershow' %>
+    <% else %>
+       <% if @user.admin %>
+          <%= render 'users/adminshow' %>
+       <% else %>
+          <%= render 'users/regularshow' %>        
+       <% end %> 
+    <% end %>
+
+<% end %>
+
+
+
+</div>
+
+
+

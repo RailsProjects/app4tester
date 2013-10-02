@@ -1,0 +1,508 @@
+  <%# for all show pages %>
+
+  <% if !current_user.practiceobjects.nil? && current_user.practiceobjects.count > 1 %>       
+  <hr/>
+      
+
+  <div class="row">
+      <div class="span12">
+            <h4><span class="blue"><i class="icon-volume-up icon-white"></i></span><strong> Your <em>NameGuides</em>: </strong></h4>
+      </div>
+  </div>
+
+   <table class="table">
+                <caption><em>(this is what will appear on the respective name pages)</em></caption>
+               </table>
+        <div class="row">
+          <div class="well span8 modal-header">
+            
+              
+              <div class="span2">
+                  <a href="#" rel="tooltip" data-placement="right" title="Your registered name and email address."><h4> Name/Email</h4></a>
+                </div>
+                  
+          
+                  <div class="span2">
+                  <a href="#" rel="tooltip" data-placement="right" title="Any notes you think might help with pronouncing your name."><h4>Pronunciation Notes</h4></a>
+                  </div>
+            
+
+                <div class="span3">
+                  <a href="#" rel="tooltip" data-placement="right" title="This is how you would like your name announced or pronounced. Click the play button to hear your current recording for that event. If an 'x' appears rather than the play button, your name recording has not been made or processed yet."><h4>Name to be announced</h4></a>
+                  <em>(press play button to hear)</em>
+                </div>
+
+               </div>  
+
+                <div class="span2">
+                  <br/>
+                  <a href="#" rel="tooltip" data-placement="right" title="Click on the buttons below to edit your recording, pronunciation notes, or how you would like your name announced or pronounced."><span class="label label-purple">&nbsp;&nbsp;Edit Your NameGuide&nbsp;&nbsp;</span></a>
+                                  
+                </div>  
+
+          
+
+         
+
+        </div>
+
+
+        <% @user.practiceobjects.each do |f| %>               
+        <div class="row">
+          <div class="well span8">
+                  <div class="span2">
+                    <%= f.user.first_name %> <%= f.user.last_name %> <br/>
+                    (<%= f.user.email %>) <br/>
+                    
+                  </div>
+          
+
+                  <div class="span2">
+                      <% if f.notes.blank?%>--<% else %><%= f.notes %><%end%>
+                  </div>
+
+            
+          
+                    <div class="span3">
+                      <table>
+                       <tbody>
+                        <tr>
+                        <td class="rec-cell"> <audio src="https://s3-us-west-1.amazonaws.com/<%= ENV['BUCKET_NAME'] %>/<%= f.recording %>.mp3" /> 
+                        </td>
+                        <td> &nbsp;&nbsp;<strong><% if !f.phonetic.blank? %><%= f.phonetic %> <% else %><%= f.user.first_name %> <%= f.user.last_name %><% end %></strong>
+                        </td>
+                        <tr>
+                       </tbody>
+                      </table>
+                    </div>
+            </div>  
+
+            
+
+               <div class="span2">
+                <br/>
+                  <a href="<%= edit_practiceobject_path(f.id)%>" class="btn btn-info btn-small"><i class="icon-pencil icon-white"></i>&nbsp;Edit this NameGuide</a> <br/>
+                  for <strong><%= link_to f.event.title, f.event %></strong>
+                </div>
+            
+        
+            
+        </div>
+        <% end %>                     
+
+  <hr/>
+  <br/>
+  <%# events in which users's namewave appears %>
+
+
+  <% if @user.practiceevents.any? %>
+  <div class="row">
+      <div class="span12">
+        <div class="well">
+            <h4><span class="blue"><i class="icon-list icon-white"></i></span><strong>&nbsp;&nbsp;Name pages in which your <em>NameGuide</em> appears: </strong></h4>
+            <br/>
+             <table class="table table-striped event ">
+                            
+
+                                  
+                                        <% @user.practiceevents.each do |e| %>
+                                             
+                                          
+                                                <tr>
+                                                  <td> <strong><%= link_to e.title, e %></strong> &nbsp;
+                                                    
+                                                   </td>
+                                                  <td><% unless e.date.nil? %><%= e.date.strftime("%b %d, %Y") %><% end %></td>
+                                                  <td><em>Invited as attendee by: </em><% if !e.practiceobjects.find_by_user_id(current_user.id).admin_id.blank? %><%= User.find_by_id(e.practiceobjects.find_by_user_id(current_user.id).admin_id).first_name %>&nbsp;<%= User.find_by_id(e.practiceobjects.find_by_user_id(current_user.id).admin_id).last_name %>&nbsp;<% else %>  --<% end %>                                                        
+                                                  </td>
+                                                  <td>
+                                                          <div id="rs<%= e.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                            <div class="modal-header">
+                                                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                              <h3>Admins<% if e.title %> for <%= e.title %><% end %></h3>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                  <br/>
+                                                                    <table class="table table-condensed table-striped">
+                                                                      <thead>
+                                                                        <th>First Name</th>
+                                                                        <th>Last Name</th>
+                                                                        <th>Email</th>                                                                      
+                                                                      </thead>
+                                                                      <tbody>
+                                                                      <% e.admins.each do |a| %>
+                                                                        <tr>
+                                                                          <td> <%= a.first_name %> </td>
+                                                                          <td> <%= a.last_name %> </td>
+                                                                          <td> <%= a.email %> </td>
+                                                                        </tr>
+                                                                      <% end %>
+                                                                    </tbody> 
+                                                                    </table> 
+                                                                 
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                              <button class="btn" data-dismiss="modal">Close</button>
+                                                                
+                                                        
+                                                              </div>
+                                                          </div>
+
+                                                            
+                                                             
+                                                                <a data-toggle="modal" href="#rs<%= e.id %>" class="btn btn-info btn-small">See All Admins</a>
+                                                           
+                                                           
+                                                  </td>
+
+                                                  <td> <a href="<%= events_path%>/<%= e.id %>" class="btn btn-info btn-small">go <i class="icon-chevron-right icon-white"></i> </a> 
+                                                  </td>                                                       
+
+                                                  
+
+                                                </tr>
+                                 
+                                  <% end %>
+
+                                </table>
+
+
+      </div>
+  </div>
+ </div>
+  <% end %>
+
+  <br/>
+  <br/>
+
+
+  <% else %>  <!-- has 0 or 1 practiceobject -->
+
+
+  <div id="recordmodal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="myModalLabel"><em>Please record your name here</em></h3>
+              </div>
+
+              
+              <div class="modal-body">
+              
+              
+                <iframe src='<%= test_user_path(current_user) %>' width="100%" height="230" frameborder="0" scrolling='no'  marginheight="200x" ></iframe>
+              
+                <div class="accordion" id="accordion2">
+
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                        <h4><span class="blue">Instructions<span/></h4> 
+                      </a>
+                    </div>
+                    <div id="collapseOne" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                        Note: <em>if the recorder isn't working, please ensure your browser's <strong>Javascript and Flash are enabled</strong></em> <br/><br/>
+                        <ol>
+                          <li><strong>Press 'RECORD', then click 'Allow'</strong> if asked for permission to use your computer's microphone.</li> <br/>
+                          <li> You will have 10 seconds maximum recording time. <strong>Please say your name clearly and slowly, then immediately press 'STOP'</strong>, to make it easier for the person hearing/practicing your name.</li> <br/>
+                          <li>Your recording will automatically play back to you:</li>
+                             <ul>
+                                 <li>If it sounds good, <strong>press 'UPLOAD.'</strong></li>  
+                                  <li>If you're not happy with it, press 'RECORD' to try again.</li>
+                              </ul>
+                          </ol> 
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapsetwo">
+                        <h4><span class="blue">Problems?<span/></h4>
+                      </a>
+                    </div>
+                    <div id="collapsetwo" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                          <h4><i class="icon-warning-sign red"></i>&nbsp;&nbsp;<a href="/flashissue" target="_blank"><span class="red">I can't click 'Allow'</span></a></h4>
+                          
+                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;<a href="/flashissue" target="_blank">Please click here</a></h5>
+                             <hr/>
+                          <h4 class="red"><i class="icon-warning-sign red"></i>&nbsp;&nbsp;Nothing happens when I press 'Record'</h4>
+                          
+                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please make sure a microphone is plugged in, especially if you are using a desktop computer.</h5>
+                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please make sure <a href="http://helpx.adobe.com/flash-player/kb/find-version-flash-player.html" target="_blank">the latest version of Adobe Flash Player is enabled</a> on your browser.</h5> 
+                              <hr/>
+                          <h4 class="red"><i class="icon-warning-sign red"></i>&nbsp;&nbsp;I accidentally clicked 'Deny'</h4>
+                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please refresh this page and try again.</h5>
+                              <hr/>
+                          <h4 class="red"><i class="icon-warning-sign red"></i>&nbsp;&nbsp;My recording does not play back/sound good</h4>
+                               <h5><i class="icon-wrench"></i>&nbsp;&nbsp;If you are using Chrome on a Mac, try a different browser.</h5>
+                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please ensure you have a quiet environment.</h5>
+                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Check your computer's mic settings to see that it is enabled (as well as any options such as noise-cancellation).</h5>
+                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Check to make sure your speaker volume is up.</h5>
+                      </div>
+                    </div>
+                  </div>    
+
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <a class="accordion-toggle"  data-parent="#accordion2" href="/flashissue" target="_blank"><h4><span class="blue">Can't click 'Allow'?</span></h4></a>
+                    </div>
+                  </div>      
+
+
+                </div>   <!-- end accordion -->
+               
+
+              </div> <!--end modal body -->
+              
+              <div class="modal-footer">
+                  <h6 class="right">(Did you remember to upload your voice recording?)</h6>
+                <button class="btn btn-primary" data-dismiss="modal">Done</button> 
+                
+               
+              </div>
+            </div>
+
+
+        
+
+      
+
+              <div class="row">
+                  <div class="span12">
+                        <h4><span class="blue"><i class="icon-volume-up icon-white"></i></span><strong> Your <em>NameGuide</em>: </strong></h4>
+                  </div>
+
+              </div>
+
+               <table class="table">
+                            <% if current_user.customer? || current_user.admin? %>
+                              <caption><em>(this is what would appear on an admin's name page, and would be used to practice your name.  As a customer/admin, you probably needn't worry about your own NameGuide.)</em></caption>
+                            <% else %>
+                              <caption><em>(this is what will appear on the admin's name page)</em></caption>
+                            <% end %>
+                           </table>
+
+                 
+
+                    <div class="row">
+                      <div class="well span12 modal-header">
+                        
+                          
+                          <div class="span3">
+                              <a href="#" rel="tooltip" data-placement="right" title="Your registered name and email address."><h4>Name/Email</h4></a>
+                            </div>
+                              
+                      
+                              <div class="span4">
+                              <a href="#" rel="tooltip" data-placement="right" title="Any notes you think might help with pronouncing your name."><h4>Pronunciation Notes</h4></a>
+                              </div>
+                        
+
+                            <div class="span3">
+                              <a href="#" rel="tooltip" data-placement="right" title="This is how you would like your name announced or pronounced. Click the play button to hear your current recording for this name page. If an 'x' appears rather than the play button, your name recording has not been made or processed yet."><h4>Name To be announced</h4></a>
+                              <em>(press play button to hear)</em>
+                            </div>
+
+                      </div>
+                    </div>
+
+                    <% @user.practiceobjects.each do |p| %>
+                          
+                    <div class="row">
+                      <div class="well span12">
+                              <div class="span3">
+                                <%= @user.first_name %> <%= @user.last_name %> <br/>
+                                (<%= @user.email %>) <br/>
+                                
+                              </div>
+                      
+
+                              <div class="span4">
+                                  <% if p.notes.blank?%>--<% else %><%= p.notes %><%end%>
+                              </div>
+
+                        
+                      
+                                <div class="span3">
+                                  <table>
+                                   <tbody>
+                                    <tr>
+                                    <td class="rec-cell"> <audio src="https://s3-us-west-1.amazonaws.com/<%= ENV['BUCKET_NAME'] %>/<%= p.recording %>.mp3" /> 
+                                    </td>
+                                    <td> &nbsp;&nbsp;<strong><% if !p.phonetic.blank? %><%= p.phonetic %> <% else %><%= @user.first_name %> <%= @user.last_name %><% end %></strong>
+                                    </td>
+                                    <tr>
+                                   </tbody>
+                                  </table>
+                                </div>
+                        </div>   
+                    </div>
+
+                  <% end %> 
+
+                  <% if !current_user.practiceobjects.any? %>
+
+                            <div class="row">
+                              <div class="well span12">
+                                      <div class="span3">
+                                        <%= @user.first_name %> <%= @user.last_name %> <br/>
+                                        (<%= @user.email %>) <br/>
+                                        
+                                      </div>
+                              
+
+                                      <div class="span4">
+                                          <% if @user.notes.blank?%>--<% else %><%= @user.notes %><%end%>
+                                      </div>
+
+                                
+                              
+                                        <div class="span3">
+                                          <table>
+                                           <tbody>
+                                            <tr>
+                                            <td class="rec-cell"> <audio src="https://s3-us-west-1.amazonaws.com/<%= ENV['BUCKET_NAME'] %>/<%= @user.recording %>.mp3" /> 
+                                            </td>
+                                            <td> &nbsp;&nbsp;<strong><% if !@user.phonetic.blank? %><%= @user.phonetic %> <% else %><%= @user.first_name %> <%= @user.last_name %><% end %></strong>
+                                            </td>
+                                            <tr>
+                                           </tbody>
+                                          </table>
+                                        </div>
+                                </div>   
+                            </div>
+
+                  <% end %>
+
+  <hr/>
+  <br/>
+  <%# events in which users's namewave appears %>
+
+
+  <div class="row">
+    <div class="span12 well">
+      
+        <h4><span class="blue"><i class="icon-edit icon-white"></i></span>&nbsp;<strong>Edit your <em>NameGuide</em>:</strong> </h4>
+        <br/>
+         <%= form_for(@user, :html => {:class => "form-vertical"}) do |f| %>
+           <div class="span3">
+            <span class="label label-info">Step 1</span> <br/>Update your name as you would like it said:<br/>
+            <%= f.text_field :phonetic, :class => "span3" %>
+             <span class="help-block">(e.g., 'Dr. Henry Jones, Jr.')</span>
+           </div>
+           <div class="span3">
+            <span class="label label-info">Step 2</span><br/>Update any notes to help with correct pronunciation:</br>
+            <%= f.text_area :notes, :class => "span3", :placeholder => "(you can leave this blank if you wish)" %>
+             <span class="help-block">(e.g., 'first name sounds like Ravine' or 'last name pronounced GLI-cough')</span>
+           </div>
+         
+           <div class="span3">
+            <span class="label label-important">Step 3</span><br/>Record your name: <br/><br/>
+             <a data-toggle="modal" href="#recordmodal" class="btn btn-danger btn-large">Record Your Name <i class="icon-caret-right icon-white"></i> </a>
+           </div>
+
+           <div class="span2">
+            <span class="label label-info">Step 4</span><br/>Save any changes:<br/><br/>
+            <%= f.submit "Save Changes", class: "btn btn-large btn-primary" %>
+           </div>
+
+        <% end %>                     
+                      
+    </div>
+  </div>
+
+  <hr/>
+  <br/>
+
+<div class="invisible">
+  <% if @user.practiceevents.any? %>
+  <div class="row">
+      <div class="span12 well">
+        
+            <h4><span class="blue"><i class="icon-list icon-white"></i></span><strong> Name pages in which your <em>NameGuide</em> appears: </strong></h4>
+            
+             <table class="table table-striped event ">
+                                 
+                                
+
+                                  
+                                        <% @user.practiceevents.each do |e| %>
+                                             
+                                          
+                                                <tr>
+                                                  <td> <strong><%= link_to e.title, e %></strong> &nbsp;
+                                                    
+                                                   </td>
+                                                  <td><% unless e.date.nil? %><%= e.date.strftime("%b %d, %Y") %><% end %></td>
+                                                  <td><em>Invited as attendee by: </em><% if !e.practiceobjects.find_by_user_id(current_user.id).admin_id.blank? %><%= User.find_by_id(e.practiceobjects.find_by_user_id(current_user.id).admin_id).first_name %>&nbsp;<%= User.find_by_id(e.practiceobjects.find_by_user_id(current_user.id).admin_id).last_name %>&nbsp;<% else %>  --<% end %>    
+                                                  </td>
+                                                  <td>
+                                                          <div id="rs2<%= e.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                            <div class="modal-header">
+                                                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                              <h3>Admins<% if e.title %> for <%= e.title %><% end %></h3>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                  <br/>
+                                                                    <table class="table table-condensed table-striped">
+                                                                      <thead>
+                                                                        <th>First Name</th>
+                                                                        <th>Last Name</th>
+                                                                        <th>Email</th>                                                                      
+                                                                      </thead>
+                                                                      <tbody>
+                                                                      <% e.admins.each do |a| %>
+                                                                        <tr>
+                                                                          <td> <%= a.first_name %> </td>
+                                                                          <td> <%= a.last_name %> </td>
+                                                                          <td> <%= a.email %> </td>
+                                                                        </tr>
+                                                                      <% end %>
+                                                                    </tbody> 
+                                                                    </table> 
+                                                                 
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                              <button class="btn" data-dismiss="modal">Close</button>
+                                                                
+                                                        
+                                                              </div>
+                                                          </div>
+
+                                                            
+                                                             
+                                                                <a data-toggle="modal" href="#rs2<%= e.id %>" class="btn btn-info btn-small">See All Admins</a>
+                                                           
+                                                           
+                                                  </td>
+
+                                                  <td> <a href="<%= events_path%>/<%= e.id %>" class="btn btn-info btn-small">go <i class="icon-chevron-right icon-white"></i> </a> 
+                                                  </td>                                                       
+
+
+                                                </tr>
+                                 
+                                  <% end %>
+
+                                </table>
+
+      
+      </div>
+  </div>
+
+  <% end %>
+</div>
+
+  <br/>
+  <br/>
+
+
+
+  <% end %>
+

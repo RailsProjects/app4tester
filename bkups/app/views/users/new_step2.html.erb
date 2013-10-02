@@ -1,0 +1,181 @@
+
+
+<div class="jumbotron">
+      <h1>Name Registration <% if !@po.nil? %><% if !@po.event.nil? %><% if @po.event.title %>for<em> <%= @po.event.title %> </em> <% end %> <% end %><% end %></h1>
+      <br/>
+      <h3>  <% if !@po.nil? %><% if !@po.event.nil? %><% if @po.event.date %><%= @po.event.date.strftime("%b %d, %Y")  %> <% end %> <% end %><% end %></h3>
+  </div>
+
+<% flash.each do |key, value| %>
+  <div class="alert alert-block alert-<%=key%>"> 
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <%= value %> 
+  </div>
+<% end %>
+<div class="container">
+
+
+    
+<script type="text/javascript">
+    $(window).load(function(){
+        $('#recordmodal').modal('show');
+    });
+</script>
+
+
+<br/>
+                        <div id="recordmodal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-header">
+                              
+                              <h3 id="myModalLabel"><em>Please voice-record your name here</em></h3>
+                            </div>
+
+                            <div class="modal-body">
+            
+            
+                                <iframe src='<%= test_user_path(current_user) %>' width="100%" height="230" frameborder="0" scrolling='no'  marginheight="200x" ></iframe>
+            
+                                <div class="accordion" id="accordionrec">
+
+                                  <div class="accordion-group">
+                                    <div class="accordion-heading">
+                                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionrec" href="#collapserec1">
+                                        <h4><span class="blue">Instructions<span/></h4> 
+                                      </a>
+                                    </div>
+                                    <div id="collapserec1" class="accordion-body collapse">
+                                      <div class="accordion-inner">
+                                        Note: <em>if the recorder isn't working, please ensure your browser's <strong>Javascript and Flash are enabled</strong></em> <br/><br/>
+                                        <ol>
+                                          <li><strong>Press 'RECORD', then click 'Allow'</strong> if asked for permission to use your computer's microphone.</li> <br/>
+                                          <li> You will have 10 seconds maximum recording time. <strong>Please say your name clearly and slowly, then immediately press 'STOP'</strong>, to make it easier for the person hearing/practicing your name.</li> <br/>
+                                          <li>Your recording will automatically play back to you:</li>
+                                             <ul>
+                                                 <li>If it sounds good, <strong>press 'UPLOAD.'</strong></li>  
+                                                  <li>If you're not happy with it, press 'RECORD' to try again.</li>
+                                              </ul>
+                                          </ol> 
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="accordion-group">
+                                    <div class="accordion-heading">
+                                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionrec" href="#collapserec2">
+                                        <h4><span class="blue">Problems?<span/></h4>
+                                      </a>
+                                    </div>
+                                    <div id="collapserec2" class="accordion-body collapse">
+                                      <div class="accordion-inner">
+                                          <h4><i class="icon-warning-sign red"></i>&nbsp;&nbsp;<a href="/flashissue" target="_blank"><span class="red">I can't click 'Allow'</span></a></h4>
+                                          
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;<a href="/flashissue" target="_blank">Please click here</a></h5>
+                                             <hr/>
+                                          <h4 class="red"><i class="icon-warning-sign red"></i>&nbsp;&nbsp;Nothing happens when I press 'Record'</h4>
+                                          
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please make sure a microphone is plugged in, especially if you are using a desktop computer.</h5>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please make sure <a href="http://helpx.adobe.com/flash-player/kb/find-version-flash-player.html" target="_blank">the latest version of Adobe Flash Player is enabled</a> on your browser.</h5> 
+                                              <hr/>
+                                          <h4 class="red"><i class="icon-warning-sign red"></i>&nbsp;&nbsp;I accidentally clicked 'Deny'</h4>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please refresh this page and try again.</h5>
+                                              <hr/>
+                                          <h4 class="red"><i class="icon-warning-sign red"></i>&nbsp;&nbsp;My recording does not play back/sound good</h4>
+                                               <h5><i class="icon-wrench"></i>&nbsp;&nbsp;If you are using Chrome on a Mac, try a different browser.</h5>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Please ensure you have a quiet environment.</h5>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Check your computer's mic settings to see that it is enabled (as well as any options such as noise-cancellation).</h5>
+                                              <h5><i class="icon-wrench"></i>&nbsp;&nbsp;Check to make sure your speaker volume is up.</h5>
+                                      </div>
+                                    </div>
+                                  </div>    
+
+                                  <div class="accordion-group">
+                                    <div class="accordion-heading">
+                                      <a class="accordion-toggle"  data-parent="#accordionrec" href="/flashissue" target="_blank"><h4><span class="blue">Can't click 'Allow'?</span></h4></a>
+                                    </div>
+                                  </div>      
+
+
+                                </div>   <!-- end accordion -->
+
+                             </div> <%# End modal body %> 
+            
+                             <div class="modal-footer">
+                                  <h6 class="right">(click here after you upload your recording)</h6> 
+                                  <%= link_to setpassword_path(:id => current_user.id), confirm: 'Did you remember to Upload your name recording?  If you did, press OK to go on. Otherwise, Cancel to go back.',  class: 'btn btn-primary btn-large span1' do %>
+                                                  DONE&nbsp;<i class="icon-caret-right icon-white"></i>
+                                         <% end %>
+                             </div>
+
+                         </div> <%# end modal %>
+
+                          <div class="accordion" id="accordion3">
+                                    <div class="accordion-group bg-signup">
+                                      <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseOne">
+                                         <h5 class="white">New Name Registration</h5>
+                                        </a>
+                                      </div>
+                                      <div id="collapseOne" class="accordion-body collapse in">
+                                        <div class="accordion-inner">
+                                                   <div class="row">
+                                                    <%= simple_form_for(@user, :html => {:class => 'form-inline'}) do |f| %>
+
+                                                         <div class="well span3 offset1">
+                                                          <h4> <% if !@user.first_name.blank? && !@user.last_name.blank? %><i class="icon-check icon-large">&nbsp;<% else %><i class="icon-check-empty">&nbsp;<% end %></i><span class="blue">STEP 1: Basic Info</span> </h4>
+                                                              
+                                                              <br/>
+                                                              <%= f.error_notification %>
+                                                              
+                                                                <%= f.hidden_field :invite_token %>
+
+
+                                                                  <%= f.input :first_name, label: "First Name" %>
+                                                                  <%= f.input :last_name, label: "Last Name" %>
+                                                                  <%= f.input :email %>
+
+                                                         </div>
+                                                         <div class="well span3">         
+                                                             <h4><% if @user.phonetic.blank? && @user.notes.blank? %><i class="icon-check-empty"></i>&nbsp;<% else %><i class="icon-check icon-large">&nbsp;</i><% end %><span class="blue">STEP 2: NameGuide Info<span class="muted"> (optional)</span> </h4> 
+                                                              <br/>      
+                                                                         <%= f.input :phonetic, :class => "span3 fl-left", label: "Enter your name as you would like it announced at the event:", placeholder: "(e.g., 'Dr. Henry Jones, Jr.')"  %>
+                                                                            
+                                                                            <br/>
+
+                                                                          <%= f.label :notes, "Enter any notes to aid in pronunciation:" %>
+                                                                          <%= f.text_area :notes, :class => "span3", :placeholder => "(e.g., 'first name sounds like Ravine' or 'last name pronounced GLI-cough')" %>
+                                                                         
+                                                                     
+
+                                                          </div>
+
+                                                          <div class="well span3">
+                                                              <h4> <i class="icon-check-empty">&nbsp;</i><span class="blue">STEP 3: Record Your Name</span> </h4> <br/>
+                                                                  <br/><br/><br/>
+                                                                  <div class="row">
+                                                                 
+                                                                     <button data-toggle="modal" href="#recordmodal" class="btn btn-danger btn-large span3">Record Your Name </button>
+                                                                                                                                           
+                                                                     <br/>
+                                                                   
+                                                                  
+                                                                 </div>
+                                                                  
+                                                                   <br/>
+                                                                <br/><br/><br/>
+                                                                
+                                                            
+
+                                                          </div> 
+
+                                                    <% end %>
+                                                    </div><%# end main row %>
+                                        </div>
+                                      </div>
+                                    </div>
+                                          
+                                  </div>  <%# end accordion %>
+
+
+
+
+</div><%# end container %>

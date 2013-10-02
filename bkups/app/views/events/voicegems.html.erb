@@ -1,0 +1,526 @@
+<% provide(:path, '') %>
+
+<script>
+
+ $(document).ready(function() {
+  /* Activating Best In Place */
+  jQuery(".best_in_place").best_in_place();
+});
+</script>
+<%# checks to see if the current user is an admin for this event; prevents users who are admins for one event to access another event page for which they are just registered but not admins.  cant use current-user method here because that is for controllers, has redirects and stuff in it.. %>
+<% if !@event.adminkeys.find_by_user_id(current_user.id) %>
+	<%= render 'events/vgnonadminshow' %> 
+<% else %>   
+
+<div class="jumbotron">
+	<h1> Event Page: <em> <%= @event.title %> </em> </h1>
+	
+	<% if @event.date && !(@event.title == 'the ETL Seminar') %><br/><h3>  <%= @event.date.strftime("%b %d, %Y")  %> </h3><% end %>
+</div>
+
+<% flash.each do |key, value| %>
+	<div class="alert alert-block alert-<%=key%>"> 
+	<button type="button" class="close" data-dismiss="alert">×</button>
+	<%= value %> 
+	</div>
+<% end %>
+<br />
+<br/>
+
+<div class="container">
+
+
+<ul id="myTab" class="nav nav-tabs ">
+  <li class="active"><a href="#reg" data-toggle="tab"><strong>Recorded VoiceGems </strong></a></li>
+  <li><a href="#admins" data-toggle="tab"><strong>Admins for this Event</strong></a></li>
+  <li><a href="#request" data-toggle="tab"><strong>Request VoiceGems</strong></a></li>
+  <% unless @hiddenvgs.count == 0 %><li><a href="#deleted" data-toggle="tab"><strong>Deleted VoiceGems</strong></a> </li><% end %>
+  
+</ul>
+   		  
+<%# this first section uses @registeredpos and lists the registered practice objects %>	
+<div id="myTabContent" class="tab-content ">
+
+    <div class="tab-pane active" id="reg">
+								               
+
+        <table class="table">
+        <caption><em>(users who have registered on this site and recorded a VoiceGem)</em></caption>
+        </table>
+
+	    <div class="row">
+			<div class="well span12 modal-header">
+					
+						
+				<div class="span2">
+					
+					<a href="#" rel="tooltip" data-placement="right" title="User's name and email address."><h4>User Name/Email</h4></a>
+				</div>
+						
+		
+				<div class="span2">
+					<a href="#" rel="tooltip" data-placement="right" title="Any notes user may have entered to accompany their VoiceGem."><h4>User's Notes</h4></a>
+				</div>
+			
+
+				<div class="span4">
+					<a href="#" rel="tooltip" data-placement="right" title="User's recorded VoiceGem. Click the play button to hear. If an 'x' appears instead of the play button, you may need to ask the user to re-record."><h4>Recorded VoiceGem</h4></a>
+					<em>(press play button to hear)</em>
+				</div>
+
+					<div class="span2">
+						<a href="#" rel="tooltip" data-placement="right" title="Any notes you may have for this VoiceGem. Click a text field below to enter notes or update them."><h4>Admin Notes</h4></a><em>(click on a field to edit)</em>
+														
+				</div>	
+				
+			
+				 <div class="span1" >
+					<h4>Actions</h4>
+				</div>
+
+			</div>	<%# end div well span12 %>	
+
+		</div> <%# end div row %>	
+
+
+		<% @registeredandrecordedvgs.each do |f| %>					    	
+			 <div class="row">
+				 <div class="well span12">
+					 <div class="span2">
+						<%= f.user.first_name %> <%= f.user.last_name %> <br/>
+						(<%= f.user.email %>) <br/>
+						<% unless f.email == f.user.email %>Invitation sent to: <%= f.email %><% end %>
+					 </div>
+	
+
+					 <div class="span2">
+					 	 <% if f.notes.blank?%>--<% else %><%= f.notes %><%end%>
+					 </div>
+		
+					 <div class="span4">
+					 	<span class="vg">
+							<audio src="https://s3-us-west-1.amazonaws.com/<%= ENV['VG_BUCKET_NAME'] %>/<%= f.recording %>.mp3" /> 
+						</span>	 			
+					 </div>
+			
+
+					 <div class="span2">								
+						<%= best_in_place f, :admin_notes, :type => :textarea, :ok_button => "Save Changes", :cancel_button => "Cancel", :nil => "-click text to enter or edit notes-" %>
+					 </div>
+
+					 <div class="span1">
+						     <div class="btn-group pull-right">
+
+                        
+
+                                                          
+                                 <div id="regrec_send_reminder<%= f.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                                     <div class="modal-header">
+	                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                                    <h3>Request to Re-Record</h3>
+                                     </div>
+                                  
+                                     <div class="modal-body left">
+
+                                     	<h4> Emails already sent to this user: </h4> <br/>
+                                     	<table class="table table-condensed table-striped">
+	                                            <thead>
+	                                              <th>Sent To:</th>
+	                                              <th>By Admin:</th>
+	                                              <th>On:</th>
+	                                              
+	                                                                                                                    
+	                                            </thead>
+                                            	<tbody>
+		                                            <% f.vg_userinvites.each do |a| %>
+		                                              <tr>
+		                                                <td> <%= a.recipient_email %> </td>
+		                                                <td> <% if !a.admin_id.blank? %><%= User.find_by_id(a.admin_id).email %><% end %> </td>
+		                                                <td> <%if !a.sent_at.nil? %><%= a.sent_at.strftime("%b %d, %Y") %><% end %> </td>
+		                                                
+		                                              </tr>
+		                                            <% end %>
+                                         		 </tbody> 
+                                        </table> 
+
+                                  		<hr/>
+                                         <h4> The following email will be sent to <%= f.email %>: </h4> <hr/>
+
+                                         <div class="well">
+                                            <p> Hi there <% if !f.user.first_name.nil? %><%= f.user.first_name %><% end %>! </p>
+
+                                            <p>The admin for the event <%= f.event.title %> is requesting that you please re-record your VoiceGem. Your recording may not have been clear, so please double-check it and record again.</p>
+
+                                            <p>Please sign in at www.name-coach.com</p>
+
+                                            <p>Thank you!<p>
+                                            - The team at NameCoach
+                                         </div>
+                                
+                                         	 <%= form_for(:vg, url: vg_rerecord_path) do |y| %>
+                                              	<%= y.hidden_field :x, :value => f.id %>
+                                               	<%= y.submit "Request Re-Recording", class: "btn-primary btn-large btn-modal", disable_with: 'sending request...' %>
+                                             <% end %>  
+		                                     <br/>
+		                                     <br/>
+
+                                     </div> <%# end div modal-body %>	
+
+                                  	 <div class="modal-footer">
+                                    	 <button class="btn" data-dismiss="modal">Cancel</button>
+                                  	 </div>
+
+                           		 </div>   <%# end MODAL div id="regrec_send_reminder %>	
+
+                                 
+
+                                 <div id="regrec_hide_entry<%= f.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                                    <div class="modal-header">
+                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                         <h3>Delete Entry for <%= f.email %> </h3>
+                                    </div>
+                                                          
+                                    <div class="modal-body left">
+                                                          
+                                         <h4> Please confirm you would like to delete this entry </h4> 
+                                         <h5> (Deleted entries are accessible under your 'Deleted Entries' tab) </h5>
+                                         <hr/>
+                                         <%= link_to f, disable_with: 'deleting...', method: :delete, class: 'btn btn-danger btn-large btn-modal' do %>
+                                                <i class="icon-trash icon-white"></i>&nbsp;Delete
+                                         <% end %>
+                                         <br/>
+                                         <br/>
+                                                               
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button class="btn" data-dismiss="modal">Cancel</button>
+                                     </div>
+
+                                 </div>  <%# end MODAL div id="regrec_hide_entry %>	         
+
+                                                            
+                               
+                              		<button id= "regrec_popover_send_reminder<%= f.id %>" rel="popover" data-placement="left" data-content="If the VoiceGem is unclear, click to send an email asking this user to re-record it.<br/><br/> You will see a preview of the email to be sent, and a list of requests already sent." data-original-title="Ask to Re-Record" data-toggle="modal" href="#regrec_send_reminder<%= f.id %>" class="btn btn-info btn-small"><i class="icon-envelope"></i></button>
+
+                              		
+                              
+                              		<button id= "regrec_popover_hide_entry<%= f.id %>" rel="popover" data-placement="left" data-content="Click to delete this user's entry.<br/></br> Note: Deleted entries will appear only to you and other admins under 'Deleted Entries' tab, where they can be undeleted." data-original-title="Delete this Entry" data-toggle="modal" href="#regrec_hide_entry<%= f.id %>" class="btn btn-info btn-small"><i class="icon-trash"></i></button>
+                                                                                 
+
+                      		 </div>  <%# end button group for Actions under tab 1 %>
+
+						           <script>  
+					                    $(function ()  
+					                    { $("#regrec_popover_reminders_sent<%= f.id %>").popover();  
+					                    });  
+					                    $(function ()  
+					                    { $("#regrec_popover_send_reminder<%= f.id %>").popover();  
+					                    });  
+					                    $(function ()  
+					                    { $("#regrec_popover_hide_entry<%= f.id %>").popover();  
+					                    });  
+					                 </script>
+
+					 </div> <%# end div span2 %>
+
+				 </div> <%# end div class="well" %>	
+
+			 </div> <%# end div class="row" %>
+
+		 <% end %> <%# @registeredandrecordedpos.each do |f| %>				    			
+
+		 <% if @registeredandrecordedvgs.count == 0  %>
+		 	   <div class="row">
+				<div class=" well span6 offset3 cent">
+					<h3> No VoiceGems recorded yet </h3>
+				</div>
+			   </div>
+		 <% end %>
+
+     </div> <%# END TAB PANE 1 div class="tab-pane fade active" id="reg" %>	
+
+     
+
+
+
+ <% unless @hiddenvgs.count == 0 %>  
+     <div class="tab-pane" id="deleted">
+								               
+         <% unless @hiddenandregisteredvgs.count == 0 %>	
+             <table class="table">
+             	<caption><em>(VoiceGems deleted by an admin)</em></caption>
+             </table>
+			 <div class="row">
+				 <div class="well span12 modal-header">
+					 <div class="span2">
+						 <a href="#" rel="tooltip" data-placement="right" title="User's registered name and email address."><h4>User Name/Email</h4></a>
+					 </div>
+										
+					 <div class="span2">
+					     <a href="#" rel="tooltip" data-placement="right" title="Any notes user may have entered to accompany their VoiceGem."><h4>User's Notes</h4></a>
+					 </div>
+											
+
+					 <div class="span4">
+						 <a href="#" rel="tooltip" data-placement="right" title="User's recorded VoiceGem."><h4>Recorded VoiceGem</h4></a>
+						 <em>(press play button to hear)</em>
+					 </div>
+
+					 <div class="span2">
+						 <a href="#" rel="tooltip" data-placement="right" title="Any notes you may have for this VoiceGem. Click a text field below to enter notes or update them."><h4>Admin Notes</h4></a><em>(click on a field to edit)</em>
+													
+					 </div>	
+
+					 <div class="span1 right">
+						 <h4>Actions</h4>
+					 </div>
+
+				 </div>	<%# END class = well %>
+
+			 </div> <%# END class = row %>
+
+
+			 <% @hiddenandregisteredvgs.each do |f| %>					    	
+				 <div class="row">
+					 <div class="well span12">
+						 <div class="span2">
+							 <%= f.user.first_name %> <%= f.user.last_name %> <br/>
+							 (<%= f.user.email %>) <br/>
+							 <% unless f.email == f.user.email %>Invitation sent to: <%= f.email %><% end %>
+						 </div>
+											
+
+						 <div class="span2">
+						 		<% if f.notes.blank?%>--<% else %><%= f.notes %><%end%>
+						 </div>
+																						
+						 <div class="span4">
+						 	<span class="vg">
+							<audio src="https://s3-us-west-1.amazonaws.com/<%= ENV['VG_BUCKET_NAME'] %>/<%= f.recording %>.mp3" /> 
+							 </span>
+						 </div>
+													
+						 <div class="span2">
+							 <%= best_in_place f, :admin_notes, :type => :textarea, :ok_button => "Save Changes", :cancel_button => "Cancel", :nil => "-click text to enter or edit notes-" %>
+						 </div>
+
+						 <div class="span1">
+																
+								 <div id="hidden_reg_restore_entry<%= f.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+			                         <div class="modal-header">
+			                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			                             <h3>Restore Entry for <%= f.email %> </h3>
+			                         </div>
+			                                                          
+			                         <div class="modal-body left">
+			                             <h4> Please confirm you would like to restore this entry </h4> 
+			                                                          
+										 <hr/> <br/>
+										 <%= form_for(:vg, url: vg_unhide_path) do |x| %>
+
+											 <%= x.hidden_field :hidden, :value => false %>                    
+											 <%= x.hidden_field :vg_id, :value => f.id %>
+											 <%= x.submit "Restore", class: "btn-primary btn-large btn-modal", disable_with: 'restoring...' %>
+									     <% end %>
+	                                 	 <br/>
+	                                  	 <br/>
+			                                                               
+								     </div>
+
+	                                 <div class="modal-footer">
+	                                     <button class="btn" data-dismiss="modal">Cancel</button>
+	                                 </div>
+
+			                     </div>  <%# END MODAL id="hidden_reg_restore_entry %>     	
+				 				
+				 				 <button id= "hidden_reg_popover_restore<%= f.id %>" rel="popover" data-placement="left" data-content="Click to undelete this user's entry." data-original-title="Restore this Entry" data-toggle="modal" href="#hidden_reg_restore_entry<%= f.id %>" class="btn btn-info pull-right"><i class="icon-plus-sign"></i></button>
+
+						 </div>	<%# end class=span1 %>
+
+					 </div>	<%# END class = well %>
+				 </div>  <%# END class = row %>
+					 <script>  
+						$(function ()  
+						{ $("#hidden_reg_popover_restore<%= f.id %>").popover();  
+						});  
+						
+					 </script>
+			 <% end %> 	<%# END @hiddenandregisteredpos.each do |f| %>				    			
+
+		
+		 <% end %>     <%# END @hiddenandregisteredpos.count == 0 %>
+
+		 <br/><hr/><br/>
+
+
+              
+
+     </div> <%# END tab-pane id="deleted" %>
+  
+ <% end %>  <%# END unless hiddenpos.count == 0 %>
+
+
+     <div class="tab-pane" id="admins">
+    	 <table class="table  table-striped event">
+       
+             <% @event.admins.each do |a| %>
+                 <tr>
+		              <td> <%= a.first_name %> </td>
+		              <td> <%= a.last_name %> </td>
+		              <td> <%= a.email %> </td>
+		              <% if @event.customerkeys.find_by_user_id(current_user.id) %>
+		              <td> 
+		                 <div id="remove_admin<%= a.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+		                                     <div class="modal-header">
+		                                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                                       <h3>Remove Admin <%= a.email %> </h3>
+		                                     </div>
+		                                                
+		                                     <div class="modal-body left">
+		                    
+		                                         <h4> Please confirm you would like to remove this person's admin privileges for <%= @event.title %>. </h4> <br/>
+		                          
+		                                    	 <h5> To restore this person's admin privileges, they will have to be invited as an admin again. </h5>
+		                                         <hr/> <br/>
+		                                         <%= form_for(:a, url: removeadmin_path) do |x| %>                    
+		                                             <%= x.hidden_field :a_id, :value => a.id %>
+		                                             <%= x.hidden_field :event_id, :value => @event.id %>
+		                                             <%= x.submit "Remove Admin", class: "btn-danger btn-large btn-modal", disable_with: 'removing...' %>
+		                                         <% end %>
+		                                        <br/>
+		                                        <br/>
+		                      
+		                                     </div>
+
+		                                     <div class="modal-footer">
+		                                         <button class="btn" data-dismiss="modal">Cancel</button>
+		                                     </div>
+
+		                 </div>  <%# END modal %>      
+
+		                 <% unless a.id == current_user.id %> <a id= "popover_delete_admin<%= a.id %>" rel="popover" data-placement="left" data-content="Click to remove this admin's privileges." data-original-title="Remove Admin" data-toggle="modal" href="#remove_admin<%= a.id %>"><i class="icon-ban-circle red"></i></a> <% end %>
+		              <td> 
+                      <% end %>  <%# end if-end wrapper for this td %>
+                 </tr>
+                 <script>  
+                           $(function ()  
+                            { $("#popover_delete_admin<%= a.id %>").popover();  
+                            });  
+                
+                 </script>
+             <% end %>  <%# END event.admins.each do |a| %>
+
+    	 </table>
+    	 	<hr/>
+    	 <div class="row">
+    	 	<div class="span9">
+    	 	 <div class="well">
+    	 	 		 <h4> <i class="icon-envelope icon-white blue"></i>&nbsp;Invite an admin for this event: </h4>
+					 <br />	
+					 <%= form_for(:vgai, url: vg_admininvite_path, :html => {:class => 'form-inline'}) do |f| %>
+				
+					     <%= f.hidden_field :event_id, :value => @event.id %>
+														 									    
+					     <%= f.text_field :first_name, :placeholder => "First Name (recommended)", :class => "span3" %>
+																		
+					  
+					     <%= f.text_field :last_name, :placeholder => "Last Name (recommended)", :class => "span3" %>
+					 
+															 									    
+					     <%= f.text_field :recipient_email, :placeholder => "Email (required)", :class => "span2"  %>
+
+											 						  
+						 <%= f.submit "Invite Admin", class: "btn btn-info", disable_with: 'Inviting...', confirm: 'Please confirm you would like to invite this person as an admin for this event.' %>
+						  	
+
+				     <% end %>
+			 </div> <%# end well %>
+			</div>
+			 <div class="span2">
+			 	     <div id="admins_invited" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				         <div class="modal-header">
+				              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				              <h3 id="myModalLabel">Admin Invitations</h3>
+				         </div>
+										            
+				         <div class="modal-body">
+
+	            		     <% if @event.admininvites.blank? || @event.admininvites.count == 0 %>
+	            				No admins invitations sent yet.
+	            		     <% else %>
+										<table class="table table-condensed">
+											<caption><em>Invitations Already Sent</em> </caption>
+											<% @event.admininvites.each do |b| %>
+													 <tr>
+														<td>  <%= b.first_name %>  </td>
+														<td>  <%= b.last_name %>  </td>
+														<td> <%= b.recipient_email %> </td>
+														<td> <% if !b.created_at.nil? %> sent <%= b.created_at.strftime("%b %d, %Y") %> <% end %></td>
+													 </tr>
+											<% end %>
+										</table> 
+
+						     <% end %>
+							 <br/>
+		
+				         </div>
+
+				         <div class="modal-footer">
+				              <button class="btn" data-dismiss="modal">Close</button>
+				         </div>
+				     </div> <%# end modal %>
+
+				     													   
+
+						     		<div  style="text-align:right" >
+								          <br/><br/><br/>
+								            <a data-toggle="modal" href="#admins_invited" class="btn btn-info btn-small">See Admins Invited</a>
+
+								    </div>
+
+								    	
+
+
+
+
+
+			 </div> <%# end span 2 %>
+    	 </div> <%# end row %>
+        
+ 	 </div>  <%# end admin tab pane %>
+
+
+ 	 <div class="tab-pane" id="request">
+         <div class="row">
+         	<div class="well span6 offset3">
+         		 <p> People can record their VoiceGems for this event using either of these links:
+		            	<br/><br/>
+		            	<i class="icon-caret-right"></i>&nbsp;&nbsp;<%= @url %> <br/>
+		            
+		            	<i class="icon-caret-right"></i>&nbsp;&nbsp;<%= link_to "Record a VoiceGem for #{@event.title}", @url, :target => "_blank"  %>
+		              </p> 
+
+		       		<p> Just copy and paste either link into the web page for your event (if you have one), or send out an email containing the link. </p> 
+		       		<br/>
+
+		       		<h3>Suggested text for your web page or emails</h3>	 
+					
+					<p><strong><em>Just copy and paste the following:</em></strong><br/><hr/>
+					 <blockquote>We would like to do something special during the reception entertainment for <%= @event.title %>. If you'd like to record a short, special message for the bride and groom (or anyone else), we will try to mix it into our music set.  Please <%= link_to "click here", @url, :target => "_blank"  %> (<%= @url %>) to record your VoiceGem... it's easy, and takes under a minute!  </blockquote> </p>
+
+						 <hr/>
+         	</div>
+         </div>
+ 	 </div>  <%# end request tab pane %>
+
+</div> <%# END container %>
+</div>
+
+<% end %> <%# END if proper admin else end %>
+

@@ -1,0 +1,77 @@
+<div class="container">
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>PROMO CODE:</b>
+  <%= @coupon.free_page_name %><br/>
+</p>
+
+
+<p>
+  <b>TYPE:</b>
+  <%= @coupon.name %><br/>
+  IF THIS IS A FREE PAGE CODE, this should read 'free'. <br/>
+  IF THIS IS A FREE SUBSCRIPTION CODE, this should read 'free_sub'. <br/>
+  IF THIS IS A DISCOUNTED PAGE CODE, this should read 'single_use' <br/>
+</p>
+
+<p>
+ DISCOUNTED PAGE PRICE POINT (in dollars):
+  <%= @coupon.cost %> <br/>
+  THIS IS WHAT THE PROMO CODE WILL CHANGE THE CUSTOMER'S PRICE TO (will be blank if free)
+</p>
+
+<hr/>
+<p>
+  <strong> You can ignore everything below </strong>
+<p>
+
+<p>
+  <b>Percent off:</b>
+  <%= @coupon.percent_off %>
+</p>
+
+<p>
+  <b>Max redemptions:</b>
+  <%= @coupon.max_redemptions %>
+</p>
+
+<p>
+  <b>Duration:</b>
+  <%= @coupon.duration %>
+</p>
+
+<p>
+  <b>Duration in months:</b>
+  <%= @coupon.duration_in_months %>
+</p>
+
+<p>
+  <b>Redeem by:</b>
+  <%= @coupon.redeem_by %>
+</p>
+
+<p>
+  <b>Times redeemed:</b>
+  <%= @coupon.times_redeemed %>
+</p>
+
+
+<p>
+  <b>Free page user:</b>
+  <%= @coupon.free_page_user %>
+</p>
+
+
+
+<p>
+  <b>Active:</b>
+  <%= @coupon.active %>
+</p>
+
+
+<%= link_to 'Edit', edit_coupon_path(@coupon) %> |
+<%= link_to 'LIST OF COUPONS', coupons_path %>
+
+</div>

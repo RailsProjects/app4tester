@@ -1,0 +1,181 @@
+
+<div class="jumbotron">
+      <h1> Invited Admin Registration <% if @event.title %>for<em> <%= @event.title %> </em> <% end %></h1>
+      <br/>
+      <h3>  <%= @event.date.strftime("%b %d, %Y")  %> </h3>
+  </div>
+
+
+
+
+<div id="newadmininfo" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel"><em>What's going on here?</em></h3>
+            </div>
+            <div class="modal-body">
+
+            <% if bigdaddyevent %>
+         
+                <ul>
+                  <li> Someone involved in planning an upcoming wedding needs your help to make the reception entertainment extra special, by allowing people to record short voice-messages for the bride and groom (called VoiceGems), for the DJ to mix into the reception music.</li> <br/>
+                  <li>This is a new service that NameCoach is testing out, and is totally free.</li> <br/>
+                  <li> As an admin, you can invite people to record their voice-messages on our site, and hear those recordings.
+                       <ul>
+                            <br/>
+                            <li>You may have been asked to be an admin so that <strong>you can invite people to record VoiceGems on our site.</strong>. This means you can just send out a link (which you will get on the Event Page) to whomever you think might want to do so.</li><br/>
+                            <li> Or you may have been asked to be an admin because <strong>you're the DJ for the event</strong>: being an admin means you have access to the VoiceGems to mix into your set</li> <br/>
+                            
+                            <li> You can also invite others to be admins for this event.  </li>
+                        </ul> 
+                  </li> <br/>
+                </ul>
+
+
+
+                  <div class="cent"><em><strong><h3 class="blue"> Get Started! </h3></strong></em></div>
+                      <ol>
+                        <br/>
+                        <li> On the registration page: fill out your name and email, and choose a password. <br/> (Or if you have already registered on our site, please sign in under 'Already Registered on our Site?')</li><br/>
+                        <li> Clicking 'Register!' will then direct you to your profile page. Here you can see the events you administer (if you're new to this service, it's probably just 1 event).  From here you can go to your event page. </li> <br/>
+                         <li> On your event page you can invite other admins, get the event link (for requesting VoiceGems), and hear those VoiceGems</li><br/>
+                         <li> Thanks to your help, the reception entertainment will have a unique personal touch! </li><br/>
+                       </ol>
+                  
+                 
+                  <small> More questions? Please contact us below. <em>Thank you!</em> </small>
+
+            <% else %>
+                  <ul>
+                  
+                  <li> Someone involved in planning an upcoming event needs your help ensuring that some attendees' names will be announced correctly.</li> <br/>
+                  <li> As an admin, you can invite event attendees to voice-record their name on our site, and hear those recordings.
+                       <ul>
+                            <br/>
+                            <li> You may have been asked to be an admin because <strong>you're doing the announcing at the event</strong>: this means you can easily ensure you get all the names right by hearing their recordings and reading any helpful notes they've provided (rhymes, phonetic pronunciations). </li> <br/>
+                            <li> Or you may have been asked to be an admin so that <strong>you can invite attendees to record their names on our site</strong>, so someone else can practice them. (It's easy, you just need their email addresses.  Or, you can just publish or mass email a recording link, which you will get on the Event Page.)   </li><br/>
+                            <li> You can also invite others to be admins for this event.  </li>
+                        </ul> 
+                    </li> <br/>
+                  </ul>
+                  <div class="cent"><em><strong><h3 class="blue"> Get Started! </h3></strong></em></div>
+                      <ol>
+                        <br/>
+                        <li> On the registration page: fill out your name and email, and choose a password. <br/> (Or if you have already registered on our site, please sign in under 'Already Registered on our Site?')</li><br/>
+                        <li> Clicking 'Register!' will then direct you to your profile page. Here you can see the events you administer (if you're new to this service, it's probably just 1 event).  From here you can go to your event page. </li> <br/>
+                         <li> On your event page you can invite other admins, invite attendees (to register and record their name), and hear their recorded names! </li><br/>
+                         <li> Thanks to your help, the attendees will have the pleasure of hearing their names announced correctly on the day of the event! </li><br/>
+                       </ol>
+                  
+                 
+                  <small> More questions? Please contact us below. <em>Thank you!</em> </small>
+            
+            <% end %>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" data-dismiss="modal">Done</button>
+             
+            </div>
+          </div>
+
+
+<div class="alert alert-block alert-info">
+ 
+    <button type="button" class="close" data-dismiss="alert">×</button>
+
+              <p> <h3> <% if !@ai.first_name.blank? %> Hi <%= @ai.first_name %>! <% end %> You've been asked to register as an admin for an upcoming event<% if !@event.title.blank? %>, <%= @event.title %>.<% end %>&nbsp;&nbsp;&nbsp;<a data-toggle="modal" href="#newadmininfo" class="btn btn-info btn-small">More Info <i class="icon-info-sign icon-white"></i></a> </h3>  </p> 
+         
+</div>  
+
+
+<div class="container">
+
+
+<br/>
+
+<div class="accordion" id="accordion3">
+                                    <div class="accordion-group bg-signup">
+                                      <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseOne">
+                                         <h5 class="white">New Admin Registration</h5>
+                                        </a>
+                                      </div>
+                                      <div id="collapseOne" class="accordion-body collapse in">
+                                        <div class="accordion-inner">
+                                          <div class="well span5 offset3">
+                                                <h4><i class="icon-user">&nbsp;</i><span>Admin Registration for New Users</span></h4>
+                                                <br/>
+                                                <%= simple_form_for(@user, :url => adminusercreate_path, :html => {:class => "form-horizontal"}) do |f| %>
+                                                  <br/>
+                                                  <%= f.error_notification %>
+                                                  
+                                                    <%= f.hidden_field :invite_token %>
+                                                     
+                                                      <%= f.input :first_name, label: "First Name"  %>
+                                                      <%= f.input :last_name, label: "Last Name" %>
+                                                      <%= f.input :email %>
+                                                      <%= f.input :password, hint: "(minimum 6 characters)", label: "Create Password" %>
+                                                      <%= f.input :password_confirmation, label: "Confirm Password" %>
+
+                                                    
+                                                      <div class="form-actions">
+                                                       
+                                                      <%= f.button :submit, "Register!", class: "btn btn-large btn-primary" %>
+                                                   
+                                                      </div>
+                                                      <h6>By registering you agree to our <%= link_to "Terms and Conditions", terms_path, :target => "_blank" %>.</h6>
+                                                  <% end %>
+
+                                           </div>
+                                        </div><%# end accordion inner %>
+                                      </div><%# end collapse one %>
+                                      </div><%# end accordigion group %>
+                                        <div class="accordion-group bg-signup">
+                                          <div class="accordion-heading">
+                                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseTwo">
+                                              <h5 class="white">Already Registered on our Site?</h5>
+                                            </a>
+                                          </div>
+                                          <div id="collapseTwo" class="accordion-body collapse">
+                                            <div class="accordion-inner">
+                                                  
+                                                <div class="well span5 offset3">
+                                                    <h4><i class="icon-user">&nbsp;</i><span>Admin Registration for Existing Users</span></h4>
+                                                                         <br/> 
+                                                        <% flash.each do |key, value| %>
+                                                             <%= content_tag(:div, value, class: "alert alert-#{key}") %>
+                                                        <% end %> 
+                                                      <%= form_for(:session, url: addadmin_path, :html => {:class => "form-horizontal"} ) do |f| %>
+
+                                                          <%= f.hidden_field :token, :value => @user.invite_token %>
+                                                           <span class="blue"><em>If you've been asked to register as an admin for this event, and have previously registered on our site, please sign in here:</em></span> <br/> <br/>
+                                                          <%= f.text_field :email, :class => "span3", :placeholder => "Email" %>
+                                                          <br/>
+                                                          <br/>
+
+                                                          <%= f.password_field :password, :class => "span3", :placeholder => "Password" %>
+
+                                                            <br/>
+                                                            <br/>
+                                                              <%= button_tag(type: 'submit', class: "btn btn-primary btn-small pull-right") do %>
+                                                               Sign In <i class="icon-chevron-right icon-white"></i> 
+                                                              <% end %>
+
+                                                        
+                                                        <% end %> 
+                                                  </div><%# end well %>
+                                               <br/>
+                                            </div>
+                                          </div>
+                                      </div> <%# end accordion group%>
+                                  </div>   <%# end accordion%>
+
+</div>
+
+
+
+
+
+
+
+

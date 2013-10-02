@@ -1,0 +1,13 @@
+<p> Hi there <% if !@po.first_name.blank? %><%= @po.first_name %><% end %>! </p>
+
+<p> You've been invited to voice-record your name for the event <%= @po.event.title %>. </p>
+
+<p> This means recording your name on our site to help ensure that it's announced correctly at the event.  </p> 
+
+<p> Please click on the link - it's fast and easy: <%= link_to "Record your name!", @url %> </p>
+
+<p>(If you have previously registered on our site, please follow the link and sign in with your original email address and password under the 'Already Registered on our Site?' section.)</p>
+
+<p> Thank you!
+- The team at NameCoach
+</p>

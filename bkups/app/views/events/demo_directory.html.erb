@@ -1,0 +1,1093 @@
+<% provide(:path, '') %>
+
+<script>
+
+ $(document).ready(function() {
+  /* Activating Best In Place */
+  jQuery(".best_in_place").best_in_place();
+});
+</script>
+
+<div class="jumbotron">
+	<h1> Student Name Directory: <em>[Your School/Department] </em> </h1>
+</div>
+
+<% flash.each do |key, value| %>
+	<div class="alert alert-block alert-<%=key%>"> 
+	<button type="button" class="close" data-dismiss="alert">×</button>
+	<%= value %> 
+	</div>
+<% end %>
+<br />
+<br/>
+
+<div class="container">
+
+
+
+<ul id="myTab" class="nav nav-tabs ">
+  <li class="active"><a href="#reg" data-toggle="tab"><strong>Recorded Names </strong></a></li>
+  <%#<li><a href="#regunrec" data-toggle="tab"><strong>Attendees without Name Recorded</strong></a></li>%>	
+  <li><a href="#unreg" data-toggle="tab"><strong>Names Requested</strong></a></li>
+  <li><a href="#invite" data-toggle="tab"><strong>Request Names/Your Link</strong></a></li>
+  <li><a href="#admins" data-toggle="tab"><strong>Admins</strong></a></li>
+</ul>
+   		  
+<%# this first section uses @registeredpos and lists the registered practice objects %>	
+<div id="myTabContent" class="tab-content ">
+
+    <div class="tab-pane active" id="reg">
+								               
+
+        <table class="table">
+        <caption><em>(students who have recorded their name)</em></caption>
+        </table>
+
+	    <div class="row">
+			<div class="well span12 modal-header">
+					
+						
+				<div class="span2">
+					
+					<a href="#" rel="tooltip" data-placement="right" title="Student's name and email address."><h4>Student Name/Email</h4></a>
+				</div>
+						
+		
+				<div class="span2">
+					<a href="#" rel="tooltip" data-placement="right" title="Any notes student entered to help with pronouncing their name.  They may have left this blank."><h4>Student's Notes</h4></a>
+				</div>
+			
+
+				<div class="span3">
+					<a href="#" rel="tooltip" data-placement="right" title="How the student would like their name said. Click the play button next to their name to hear it in their own voice. If an 'x' appears instead of the play button, you may need to ask the student to re-record."><h4>Name Pronunciation</h4></a>
+					<em>(press play button to hear)</em>
+				</div>
+
+					<div class="span2">
+						<a href="#" rel="tooltip" data-placement="right" title="Your notes for this student, to aid in pronunciation. Click a text field below to enter notes or update them."><h4>Admin Notes</h4></a><em>(click on a field to edit - disabled for demo)</em>
+														
+				</div>	
+				
+				<div class="span1">
+							&nbsp;
+				</div>
+				 <div class="span1" >
+					<h4>Actions</h4>
+				</div>
+
+			</div>	<%# end div well span12 %>	
+
+		</div> <%# end div row %>	
+
+<div id="form"></div>
+<div id="list">
+
+		<% @registeredandrecordedpos.each do |f| %>	
+		<div class="search">				    	
+			 <div class="row break">
+				 <div class="well span12">
+					 <div class="span2">
+						<%= f.user.first_name %> <%= f.user.last_name %> <br/>
+						(<%= f.user.first_name %>@example.com) <br/>
+						
+					 </div>
+	
+
+					 <div class="span2">
+					 	 <% if f.notes.blank?%>--<% else %><%= f.notes %><%end%>
+					 </div>
+		
+					 <div class="span3">
+							<table>
+							 <tbody>
+							 	<tr>
+							 	<td class="rec-cell"> <audio src="https://s3-us-west-1.amazonaws.com/<%= ENV['BUCKET_NAME'] %>/<%= f.recording %>.mp3" /> 
+							 	</td>
+							 	<td> &nbsp;&nbsp;<strong><% if !f.phonetic.blank? %><%= f.phonetic %> <% else %><%= f.user.first_name %> <%= f.user.last_name %><% end %> </strong>
+							 	</td>
+							 	<tr>
+							 </tbody>
+							</table>					
+					 </div>
+			
+
+					 <div class="span2">								
+						<%= best_in_place f, :admin_notes, :type => :textarea, :ok_button => "Save Changes", :cancel_button => "Cancel", :nil => "-click text to enter or edit notes-" %>
+					 </div>
+
+					 <div class="span2">
+						     <div class="btn-group pull-right">
+
+                        
+
+                                                          
+                                 <div id="regrec_send_reminder<%= f.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                                     <div class="modal-header">
+	                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                                    <h3>Request to Re-Record</h3>
+                                     </div>
+                                  
+                                     <div class="modal-body left">
+                                  
+                                         <h4> The following email will be sent to <%= f.first_name %>@example.com: </h4> <hr/>
+
+                                         <div class="well">
+                                            <p> Hi there <% if !f.user.first_name.nil? %><%= f.user.first_name %> <% end %>! </p>
+
+                                            <p>A staff member at your school is requesting that you please re-record your name at NameCoach. Your recording may not have been clear, so please double-check it and record again, to ensure your name is announced right!</p>
+
+                                            <p>Please sign in at www.name-coach.com</p>
+
+                                            <p>Thank you!<p>
+                                            - The team at NameCoach
+                                         </div>
+                                
+                                         	 <%= form_for(:po, url: rerecord_path) do |y| %>
+                                              	<%= y.hidden_field :x, :value => f.id %>
+                                               	<%= y.submit "Request Re-Recording", class: "btn-primary btn-large btn-modal", disabled: true %>
+                                             <% end %>  
+		                                     <br/>
+		                                     <br/>
+
+                                     </div> <%# end div modal-body %>	
+
+                                  	 <div class="modal-footer">
+                                    	 <button class="btn" data-dismiss="modal">Cancel</button>
+                                  	 </div>
+
+                           		 </div>   <%# end MODAL div id="regrec_send_reminder %>	
+
+                                 <div id="regrec_reminders_sent<%= f.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                                    <div class="modal-header">
+                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                         <h3>Requests Already Sent</h3>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <br/>
+                                        <table class="table table-condensed table-striped">
+	                                            <thead>
+	                                              <th>Sent To:</th>
+	                                              <th>By Admin:</th>
+	                                              <th>On:</th>
+	                                              <th> Type: </th>
+	                                                                                                                    
+	                                            </thead>
+                                            	<tbody>
+		                                            <% f.userinvites.each do |a| %>
+		                                              <tr>
+		                                                <td> (example email) </td>
+		                                                <td> <% if !a.admin_id.blank? %><%= User.find_by_id(a.admin_id).email %><% end %> </td>
+		                                                <td> <%if !a.sent_at.nil? %><%= a.sent_at.strftime("%b %d, %Y") %><% end %> </td>
+		                                                <td> <%= a.invite_type %> </td>
+		                                              </tr>
+		                                            <% end %>
+                                         		 </tbody> 
+                                        </table> 
+                                                               
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button class="btn" data-dismiss="modal">Close</button>
+                                     </div>
+
+                                 </div> <%# end MODAL div id="regrec_reminders_sent %>	              
+
+
+                                 <div id="regrec_hide_entry<%= f.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                                    <div class="modal-header">
+                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                         <h3>Delete Entry for (example email) </h3>
+                                    </div>
+                                                          
+                                    <div class="modal-body left">
+                                                          
+                                         <h4> Please confirm you would like to delete this entry </h4> 
+                                         <h5> (Deleted entries are accessible under your 'Deleted Entries' tab) </h5>
+                                         <hr/>
+                                     
+
+                                         <button  href="#" class="btn btn-danger btn-large btn-modal" ><i class="icon-trash"></i>&nbsp;Delete (disabled)</button>
+
+                                         <br/>
+                                         <br/>
+                                                               
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button class="btn" data-dismiss="modal">Cancel</button>
+                                     </div>
+
+                                 </div>  <%# end MODAL div id="regrec_hide_entry %>	         
+
+                                                            
+                               
+                              		<button id= "regrec_popover_send_reminder<%= f.id %>" rel="popover" data-placement="left" data-content="If the voice-recording is unclear, click to send an email asking this student to re-record their name.<br/><br/> You will see a preview of the email to be sent." data-original-title="Ask to Re-Record" data-toggle="modal" href="#regrec_send_reminder<%= f.id %>" class="btn btn-info btn-small"><i class="icon-envelope"></i></button>
+
+                              		<button id= "regrec_popover_reminders_sent<%= f.id %>" rel="popover" data-placement="left" data-content="Click to see the requests/reminders already emailed to this student." data-original-title="See Emails already Sent" data-toggle="modal" href="#regrec_reminders_sent<%= f.id %>" class="btn btn-info btn-small"><i class="icon-inbox"></i></button>
+                              
+                              		<button id= "regrec_popover_hide_entry<%= f.id %>" rel="popover" data-placement="left" data-content="Click to delete this student's entry.<br/></br> Note: Deleted entries will appear only to you and other admins under 'Deleted Entries' tab, where they can be undeleted." data-original-title="Delete this Entry" data-toggle="modal" href="#regrec_hide_entry<%= f.id %>" class="btn btn-info btn-small" ><i class="icon-trash"></i></button>
+                                                                                 
+
+                      		 </div>  <%# end button group for Actions under tab 1 %>
+
+						           <script>  
+					                    $(function ()  
+					                    { $("#regrec_popover_reminders_sent<%= f.id %>").popover();  
+					                    });  
+					                    $(function ()  
+					                    { $("#regrec_popover_send_reminder<%= f.id %>").popover();  
+					                    });  
+					                    $(function ()  
+					                    { $("#regrec_popover_hide_entry<%= f.id %>").popover();  
+					                    });  
+					                 </script>
+
+					 </div> <%# end div span2 %>
+
+				 </div> <%# end div class="well" %>	
+
+			 </div> <%# end div class="row" %>
+		</div>
+		 <% end %> <%# @registeredandrecordedpos.each do |f| %>				    			
+
+		 <% if @registeredandrecordedpos.count == 0  %>
+		 	   <div class="row">
+				<div class=" well span6 offset3 cent">
+					<h3> No entries in this category </h3>
+				</div>
+			   </div>
+		 <% end %>
+
+</div> <%# END list div for search function %>	
+     </div> <%# END TAB PANE 1 div class="tab-pane fade active" id="reg" %>	
+
+     <div class="tab-pane" id="regunrec">
+                
+
+		 <table class="table">
+			 <caption><em>(students registered on this site who have not yet recorded their name)</em></caption>
+		 </table>
+		
+		 <div class="row">
+			 <div class="well span12 modal-header">
+									
+										
+				 <div class="span2">
+					 <a href="#" rel="tooltip" data-placement="right" title="Attendee's registered name and email address."><h4>Attendee Name/Email</h4></a>
+				 </div>
+										
+						
+				 <div class="span2">
+					<a href="#" rel="tooltip" data-placement="right" title="Any notes attendee entered to help with pronouncing their name.  They may have left this blank."><h4>Attendee's Notes</h4></a>
+				 </div>
+							
+
+				 <div class="span3">
+					 <a href="#" rel="tooltip" data-placement="right" title="How the attendee would like their name announced. When the attendee voice-records their name, the play button will appear next to their name."><h4>Name Pronunciation</h4></a>
+										<em>(name not yet voice-recorded)</em>
+				 </div>
+
+				 <div class="span2">
+					<a href="#" rel="tooltip" data-placement="right" title="Your notes for this attendee, to aid in pronunciation. Click a text field below to enter notes or update them."><h4>Admin Notes</h4></a><em>(click on a field to edit - disabled for demo)</em>
+																		
+				 </div>	
+
+				 <div class="span1">
+					&nbsp;
+				 </div>
+				 <div class="span1" >
+					<h4>Actions</h4>
+				 </div>
+
+			 </div>	<%# div well span 12 %>
+
+		 </div> <%# div row %>
+
+
+		 <% @registeredandunrecordedpos.each do |f| %>					    	
+			 <div class="row">
+				 <div class="well span12">
+									
+					 <div class="span2">
+						 <%= f.user.first_name %> <%= f.user.last_name %> <br/>
+						 (<%= f.user.first_name %>@example.com) <br/>
+						 
+					 </div>
+					
+
+					 <div class="span2">
+						 <% if f.notes.blank?%>--<% else %><%= f.notes %><%end%>
+					 </div>
+
+						
+					
+					 <div class="span3">
+						 <table>
+							 <tbody>
+							 	<tr>
+							 	<td class="rec-cell"> <audio src="https://s3-us-west-1.amazonaws.com/<%= ENV['BUCKET_NAME'] %>/<%= f.recording %>.mp3" /> 
+							 	</td>
+							 	<td> &nbsp;&nbsp;<strong><% if !f.phonetic.blank? %><%= f.phonetic %> <% else %><%= f.user.first_name %> <%= f.user.last_name %><% end %> </strong>
+							 	</td>
+							 	<tr>
+							 </tbody>
+						 </table>
+				     </div>
+
+					 <div class="span2">
+						 <%= best_in_place f, :admin_notes, :type => :textarea, :ok_button => "Save Changes", :cancel_button => "Cancel", :nil => "-click text to enter or edit notes-" %>
+					 </div>
+
+					 <div class="span2">
+													
+						 <div class="btn-group pull-right">
+
+                                                                                  
+					         <div id="regunrec_send_reminder<%= f.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+					             <div class="modal-header">
+					                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					                 <h3>Request to Record</h3>
+					             </div>
+					                                  
+					             <div class="modal-body left">
+					                 <h4> The following email will be sent to (example email): </h4> <hr/>
+									 
+									 <div class="well">
+	                                    <p> Hi there <% if !f.user.first_name.nil? %><%= f.user.first_name %> <% end %>! </p>
+	                                   
+											<p> The admin for the event <%= f.event.title %> wanted to remind you to please record your name at NameCoach, to help ensure it's announced correctly! </p>
+
+											</p> Please sign in: www.name-coach.com</p>
+
+											<p> Thank you!
+											- The team at NameCoach </p>
+					       		     </div>
+					                                
+					                 <%= form_for(:po, url: reminder_path) do |y| %>
+                                          <%= y.hidden_field :x, :value => f.id %>
+                                           <%= y.submit "Request Recording", class: "btn-primary btn-large btn-modal", disabled: true %>
+					                 <% end %>  
+
+                                     <br/>
+                                     <br/>
+					                                                               
+
+					             </div> <%# END modal body %>
+
+					             <div class="modal-footer">
+					                <button class="btn" data-dismiss="modal">Cancel</button>
+					             </div>
+
+					         </div> <%# END modal id="regunrec_send_reminder" %>       
+
+
+                             <div id="regunrec_reminders_sent<%= f.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                                 <div class="modal-header">
+                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                     <h3>Requests Already Sent</h3>
+                                 </div>
+
+                                 <div class="modal-body">
+                                     <br/>
+	                                  <table class="table table-condensed table-striped">
+	                                    <thead>
+	                                      <th>Sent To:</th>
+	                                      <th>By Admin:</th>
+	                                      <th>On:</th>
+	                                      <th>Type: </th>
+	                                                                                                            
+	                                    </thead>
+	                                    <tbody>
+	                                    <% f.userinvites.each do |a| %>
+	                                      <tr>
+	                                        <td> (example email) </td>
+	                                        <td> <% if !a.admin_id.blank? %><%= User.find_by_id(a.admin_id).email %><% end %> </td>
+	                                        <td> <%if !a.sent_at.nil? %><%= a.sent_at.strftime("%b %d, %Y") %><% end %> </td>
+	                                        <td> <%= a.invite_type %> </td>
+	                                      </tr>
+	                                    <% end %>
+	                                  </tbody> 
+	                                  </table> 
+                                 </div> <%# END modal body %>
+
+	                             <div class="modal-footer">
+	                                <button class="btn" data-dismiss="modal">Close</button>
+	                             </div>
+
+                             </div> <%# END modal id="regunrec_reminders_sent %>               
+
+
+			                 <div id="regunrec_hide_entry<%= f.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+	                             <div class="modal-header">
+	                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                                <h3>Delete Entry for (example email) </h3>
+	                             </div>
+			                                                          
+			                     <div class="modal-body left">
+			                         <h4> Please confirm you would like to delete this entry </h4> 
+			                         <h5> (Deleted entries are accessible under your 'Deleted Entries' tab) </h5>
+			                         <hr/>
+			                         <button  href="#" class="btn btn-danger btn-large btn-modal" ><i class="icon-trash"></i>&nbsp;Delete (disabled)</button>
+
+	                                 <br/>
+	                                 <br/>
+			                     </div>
+
+	                             <div class="modal-footer">
+	                                <button class="btn" data-dismiss="modal">Cancel</button>
+	                             </div>
+
+                             </div> <%# END modal id="regungrec_hide_entry %>        
+
+                                                            
+                               
+                              <button id= "regunrec_popover_send_reminder<%= f.id %>" rel="popover" data-placement="left" data-content="Click to send an email asking this attendee to voice-record their name.<br/><br/> You will see a preview of the email to be sent." data-original-title="Ask to Record" data-toggle="modal" href="#regunrec_send_reminder<%= f.id %>" class="btn btn-info btn-small"><i class="icon-envelope"></i></button>
+
+                              <button id= "regunrec_popover_reminders_sent<%= f.id %>" rel="popover" data-placement="left" data-content="Click to see the requests/reminders already emailed to this attendee." data-original-title="See Emails already Sent" data-toggle="modal" href="#regunrec_reminders_sent<%= f.id %>" class="btn btn-info btn-small"><i class="icon-inbox"></i></button>
+                              
+                              <button id= "regunrec_popover_hide_entry<%= f.id %>" rel="popover" data-placement="left" data-content="Click to delete this attendee's entry.<br/></br> Note: Deleted entries will appear only to you and other admins under 'Deleted Entries' tab, where they can be undeleted." data-original-title="Delete this Entry" data-toggle="modal" href="#regunrec_hide_entry<%= f.id %>" class="btn btn-info btn-small"><i class="icon-trash"></i></button>
+                                                                                 
+
+                      	 </div>  <%# end button group for Actions under tab 2 %>
+
+					 		<script>  
+			                    $(function ()  
+			                    { $("#regunrec_popover_reminders_sent<%= f.id %>").popover();  
+			                    });  
+			                    $(function ()  
+			                    { $("#regunrec_popover_send_reminder<%= f.id %>").popover();  
+			                    });  
+			                    $(function ()  
+			                    { $("#regunrec_popover_hide_entry<%= f.id %>").popover();  
+			                    });  
+		                    </script>
+					 </div>	<%# END div class="span2" %>	
+
+
+				 </div> <%# END div class="well" %>	
+
+			 </div> <%# END div class="row"%>
+
+	     <% end %> <%# END @registeredandunrecordedpos.each do |f|%>					    			
+
+		 <% if @registeredandunrecordedpos.count == 0  %>
+		   <div class="row">
+			<div class=" well span6 offset3 cent">
+				<h3> No entries in this category </h3>
+			</div>
+		    </div>
+		 <% end %> 
+
+     </div> <%# END tab 2 %>
+
+     <div class="tab-pane" id="unreg">
+		 <table class="table  table-striped table-condensed event">
+			 <caption><em>(students invited to record name who have not yet done so)<br/><br/></em></caption>
+			     <thead class="table-header">
+					 <tr>
+		    			 <td><a href="#" rel="tooltip" data-placement="right" title="What admin entered for 'first name' when inviting student. Click text field below to edit (this will change the greeting in reminder emails sent to student)."><h4>First Name</h4></a><em>(click on a field to edit - disabled for demo)</em></td>
+		    			 
+		    			 <td><a href="#" rel="tooltip" data-placement="right" title="What admin entered for 'last name' when inviting student. Click text field below to edit."><h4>Last Name</h4></a><em>(click on a field to edit - disabled for demo)</em></td>
+		    			
+		    			 <td><a href="#" rel="tooltip" data-placement="right" title="Email address to which student invitation sent. Click text field below to edit (will update address to which reminder emails to this student are sent)."><h4>Email</h4></a><em>(click on a field to edit - disabled for demo)</em></td>
+		    			
+		    			 <td><a href="#" rel="tooltip" data-placement="right" title="Your (or other admins') notes for this student, to aid in pronunciation. Click a text field below to enter notes or update them."><h4>Admin Notes (Your Notes)</h4></a><em>(click on a field to edit - disabled for demo)</em></td>
+		    			
+		    			 <td><h4>Actions</span></h4>&nbsp;</td>
+							    			
+				     </tr>
+				 </thead>
+
+				 <tbody>
+				     <% @unregisteredpos.each do |f| %>
+						 <tr >
+			    			 <td> <%= best_in_place f, :first_name, :ok_button => "Save Changes", :cancel_button => "Cancel" %></td>
+			    			 <td><%= best_in_place f, :last_name, :ok_button => "Save Changes", :cancel_button => "Cancel" %></td>
+			    			 <td><%= best_in_place f, :first_name, :ok_button => "Save Changes", :cancel_button => "Cancel", :nil => "name"  %>@example.com</td>
+			    			 <td><%= best_in_place f, :admin_notes, :type => :textarea, :ok_button => "Save Changes", :cancel_button => "Cancel", :nil => "-click text to enter or edit notes--" %></td>
+
+						     <td>
+						     	 <div class="btn-group">
+
+									 <div id="reminders_sent<%= f.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                                         <div class="modal-header">
+                                        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                       		<h3>Invitations Already Sent</h3>
+                                         </div>
+
+                                         <div class="modal-body">
+                                             <h5>(The first entry is the original invitation email, and any other entries are reminder emails.) </h5>
+                                             <br/>
+                                             
+                                             <div class="span2"> 
+                                             <table class="table table-condensed table-striped">
+                                                 <thead>
+	                                              <th>Sent To:</th>
+	                                              <th>By Admin:</th>
+	                                              <th>On:</th>
+	                                              
+	                                                                                                                    
+	                                             </thead>
+                                            	 <tbody>
+		                                            <% f.userinvites.each do |a| %>
+		                                              <tr>
+		                                                <td> (example email) </td>
+		                                                <td> <% if !a.admin_id.blank? %><%= User.find_by_id(a.admin_id).email %><% end %> </td>
+		                                                <td> <%if !a.sent_at.nil? %><%= a.sent_at.strftime("%b %d, %Y") %><% end %> </td>
+		                                                
+		                                              </tr>
+		                                            <% end %>
+                                         		 </tbody> 
+                                             </table> 
+                                             </div>
+                                                               
+                                         </div> <%# END modal body %>	
+
+	                                     <div class="modal-footer">
+	                                        <button class="btn" data-dismiss="modal">Close</button>
+	                                     </div>
+
+                                     </div> <%# END modal id="reminders_sent %>
+
+                                                          
+                                     <div id="send_reminder<%= f.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+	                                     <div class="modal-header">
+	                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                                          <h3>Reminder to Register and Record  </h3>
+	                                     </div>
+                                                          
+	                                     <div class="modal-body left">
+	                                                          
+	                                         <h4> The following email will be sent to (example email): </h4> <hr/>
+
+											 <div class="well">
+											 	<p> Hi there <% if !f.first_name.blank? %><%= f.first_name %><% end %>! </p>
+
+												<p> This is a reminder that you've been invited to register and record your name for your school. </p>
+
+												<p> This means recording your name on our site to help teachers and staff ensure that they pronounce your name correctly.  </p> 
+
+												<p> Please click on the link to sign up - it's fast and easy: (unique sign-up URL here) </p>
+
+												<p>(If you have previously registered on our site, please follow the link and sign in with your original email address and password under the 'Already Registered on our Site?' section.)</p>
+
+												<p> Thank you!
+												- The team at NameCoach
+												</p> 
+											 </div>
+
+	                                         <%= form_for(f.userinvites.build, url: userinvites_path) do |u| %>
+												<%= u.hidden_field :practiceobject_id %>
+												
+												<%= u.submit "Send Reminder", class: "btn-large btn-primary btn-modal", disabled: true %>	
+
+											 <% end %>
+											 <br/>
+											 <br/>
+	                                                               
+	                                     </div> <%# END modal body %>
+
+		                                 <div class="modal-footer">
+		                                    <button class="btn" data-dismiss="modal">Cancel</button>
+		                                 </div>
+
+                                     </div> <%# END modal  id="send_reminder" %>      
+
+
+                                     <div id="hide_entry<%= f.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                                         <div class="modal-header">
+                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                             <h3>Delete Entry for (example email)</h3>
+                                         </div>
+                                                          
+                                         <div class="modal-body left">
+                                                          
+                                             <h4> Please confirm you would like to delete this entry </h4> 
+                                             <h5> (Deleted entries are accessible under your 'Deleted Entries' tab) </h5>
+							                 <hr/>
+							                 <button  href="#" class="btn btn-danger btn-large btn-modal" ><i class="icon-trash"></i>&nbsp;Delete (disabled)</button>
+			                                 <br/>
+			                                 <br/>
+                                                               
+
+                                         </div>
+
+                                         <div class="modal-footer">
+                                              <button class="btn" data-dismiss="modal">Cancel</button>
+                                         </div>
+
+                                     </div>   <%# END modal  id="hide_entry" %>        	
+
+                                                            
+									 
+									 <button id= "popover_send_reminder<%= f.id %>" rel="popover" data-placement="left" data-content="Click to send an email reminding this student to register on our site and record their name.<br/><br/> You will see a preview of the email to be sent." data-original-title="Send Reminder Email" data-toggle="modal" href="#send_reminder<%= f.id %>" class="btn btn-info btn-small"><i class="icon-envelope"></i></button>
+
+									 <button id= "popover_reminders_sent<%= f.id %>" rel="popover" data-placement="left" data-content="Click to see the invitation/reminder emails already sent to this student." data-original-title="See Emails already Sent" data-toggle="modal" href="#reminders_sent<%= f.id %>" class="btn btn-info btn-small"><i class="icon-inbox"></i></button>
+									
+									 <button id= "popover_hide_entry<%= f.id %>" rel="popover" data-placement="left" data-content="Click to delete this student's entry.<br/></br> Note: Deleted entries will appear only to you and other admins under 'Deleted Entries' tab, where they can be undeleted." data-original-title="Delete this Entry" data-toggle="modal" href="#hide_entry<%= f.id %>" class="btn btn-info btn-small"><i class="icon-trash"></i></button>
+																					                                       
+
+								 </div>	<%# div button-group %> 
+							 </td>
+
+						 </tr>
+						     <script>  
+								$(function ()  
+								{ $("#popover_reminders_sent<%= f.id %>").popover();  
+								});  
+								$(function ()  
+								{ $("#popover_send_reminder<%= f.id %>").popover();  
+								});  
+								$(function ()  
+								{ $("#popover_hide_entry<%= f.id %>").popover();  
+								});  
+							 </script>
+				     <% end %> <%# END unregisteredpos.each do |f| %>
+
+				 </tbody>
+
+  	     </table>
+      	
+      	 <% if @unregisteredpos.count == 0  %>
+      	 	  <div class="row">
+				<div class=" well span6 offset3 cent">
+				<h3> No entries in this category </h3>
+				</div>
+			 </div>
+	     <% end %>
+
+
+     </div>  <%# end third tab pane %>
+
+
+ <% unless @hiddenpos.count == 0 %>  
+     <div class="tab-pane" id="deleted">
+								               
+         <% unless @hiddenandregisteredpos.count == 0 %>	
+             <table class="table">
+             	<caption><em>(students who have registered on this site)</em></caption>
+             </table>
+			 <div class="row">
+				 <div class="well span12 modal-header">
+					 <div class="span2">
+						 <a href="#" rel="tooltip" data-placement="right" title="Student's registered name and email address."><h4>Student Name/Email</h4></a>
+					 </div>
+										
+					 <div class="span2">
+					     <a href="#" rel="tooltip" data-placement="right" title="Any notes attendee entered to help with pronouncing their name.  They may have left this blank."><h4>Attendee's Notes</h4></a>
+					 </div>
+											
+
+					 <div class="span3">
+						 <a href="#" rel="tooltip" data-placement="right" title="How the attendee would like their name announced. Click the play button next to their name to hear it in their own voice. If an 'x' appears rather than the play button, the name recording has not been made or processed yet."><h4>Name To be Announced</h4></a>
+						 <em>(press play button to hear)</em>
+					 </div>
+
+					 <div class="span3">
+						 <a href="#" rel="tooltip" data-placement="right" title="Your notes for this attendee, to aid in pronunciation. Click a text field below to enter notes or update them."><h4>Admin Notes</h4></a><em>(click on a field to edit - disabled for demo)</em>
+													
+					 </div>	
+
+					 <div class="span1 right">
+						 <h4>Actions</h4>
+					 </div>
+
+				 </div>	<%# END class = well %>
+
+			 </div> <%# END class = row %>
+
+
+			 <% @hiddenandregisteredpos.each do |f| %>					    	
+				 <div class="row">
+					 <div class="well span12">
+						 <div class="span2">
+							 <%= f.user.first_name %> <%= f.user.last_name %> <br/>
+							 (<%= f.user.first_name %>@example.com) <br/>
+							
+						 </div>
+											
+
+						 <div class="span2">
+						 		<% if f.notes.blank?%>--<% else %><%= f.notes %><%end%>
+						 </div>
+																						
+						 <div class="span3">
+							<table>
+							 	 <tbody>
+							 		 <tr>
+							 			 <td class="rec-cell"> <audio src="https://s3-us-west-1.amazonaws.com/<%= ENV['BUCKET_NAME'] %>/<%= f.recording %>.mp3" /> </td>
+							 			 <td> &nbsp;&nbsp;<strong><% if !f.phonetic.blank? %><%= f.phonetic %> <% else %><%= f.user.first_name %> <%= f.user.last_name %><% end %> </strong></td>
+							 		 <tr>
+							 	 </tbody>
+						     </table>
+						 </div>
+													
+						 <div class="span3">
+							 <%= best_in_place f, :admin_notes, :type => :textarea, :ok_button => "Save Changes", :cancel_button => "Cancel", :nil => "-click text to enter or edit notes-" %>
+						 </div>
+
+						 <div class="span1">
+																
+								 <div id="hidden_reg_restore_entry<%= f.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+			                         <div class="modal-header">
+			                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			                             <h3>Restore Entry for (example email) </h3>
+			                         </div>
+			                                                          
+			                         <div class="modal-body left">
+			                             <h4> Please confirm you would like to restore this entry </h4> 
+			                                                          
+										 <hr/> <br/>
+										 <%= form_for(:po, url: unhide_path) do |x| %>
+
+											 <%= x.hidden_field :hidden, :value => false %>                    
+											 <%= x.hidden_field :po_id, :value => f.id %>
+											 <%= x.submit "Restore", class: "btn-primary btn-large btn-modal", disabled: true %>
+									     <% end %>
+	                                 	 <br/>
+	                                  	 <br/>
+			                                                               
+								     </div>
+
+	                                 <div class="modal-footer">
+	                                     <button class="btn" data-dismiss="modal">Cancel</button>
+	                                 </div>
+
+			                     </div>  <%# END MODAL id="hidden_reg_restore_entry %>     	
+				 				
+				 				 <button id= "hidden_reg_popover_restore<%= f.id %>" rel="popover" data-placement="left" data-content="Click to undelete this attendee's entry." data-original-title="Restore this Entry" data-toggle="modal" href="#hidden_reg_restore_entry<%= f.id %>" class="btn btn-info pull-right"><i class="icon-plus-sign"></i></button>
+
+						 </div>	<%# end class=span1 %>
+
+					 </div>	<%# END class = well %>
+				 </div>  <%# END class = row %>
+					 <script>  
+						$(function ()  
+						{ $("#hidden_reg_popover_restore<%= f.id %>").popover();  
+						});  
+						
+					 </script>
+			 <% end %> 	<%# END @hiddenandregisteredpos.each do |f| %>				    			
+
+		
+		 <% end %>     <%# END @hiddenandregisteredpos.count == 0 %>
+
+		 <br/><hr/><br/>
+
+	     <% unless @hiddenandunregisteredpos.count == 0 %>	
+
+			 <table class="table  table-striped table-condensed event">
+
+				  <caption><em>(attendees invited to register on this site who have not yet done so)<br/><br/></em></caption>
+			     <thead class="table-header">
+					 <tr>
+		    			 <td><a href="#" rel="tooltip" data-placement="right" title="What admin entered for 'first name' when inviting attendee. Click text field below to edit (this will change the greeting in reminder emails sent to attendee)."><h4>First Name</h4></a><em>(click on a field to edit - disabled for demo)</em></td>
+		    			 
+		    			 <td><a href="#" rel="tooltip" data-placement="right" title="What admin entered for 'last name' when inviting attendee. Click text field below to edit."><h4>Last Name</h4></a><em>(click on a field to edit - disabled for demo)</em></td>
+		    			
+		    			 <td><a href="#" rel="tooltip" data-placement="right" title="Email address to which attendee invitation sent. Click text field below to edit (will update address to which reminder emails to this attendee are sent)."><h4>Email</h4></a><em>(click on a field to edit - disabled for demo)</em></td>
+		    			
+		    			 <td><a href="#" rel="tooltip" data-placement="right" title="Your (or other admins') notes for this attendee, to aid in pronunciation. Click a text field below to enter notes or update them."><h4>Admin Notes (Your Notes)</h4></a><em>(click on a field to edit - disabled for demo)</em></td>
+		    			
+		    			 <td><h4>Actions</span></h4>&nbsp;</td>
+							    			
+				     </tr>
+				 </thead>
+
+
+			     <tbody>
+					 <% @hiddenandunregisteredpos.each do |f| %>
+						 <tr >
+			    			 <td> <%= best_in_place f, :first_name, :ok_button => "Save Changes", :cancel_button => "Cancel" %></td>
+			    			 <td><%= best_in_place f, :last_name, :ok_button => "Save Changes", :cancel_button => "Cancel" %></td>
+			    			 <td><%= best_in_place f, :email, :ok_button => "Save Changes", :cancel_button => "Cancel" %></td>
+			    			 <td><%= best_in_place f, :admin_notes, :type => :textarea, :ok_button => "Save Changes", :cancel_button => "Cancel", :nil => "-click text to enter or edit notes--" %>
+							 </td>
+
+						     <td>
+                                 <div id="hidden_unreg_restore_entry<%= f.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+	                                 <div class="modal-header">
+	                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                                     <h3>Restore Entry for (example email) </h3>
+	                                 </div>
+	                                                          
+	                                 <div class="modal-body left">
+	                              
+	                              	     <h4> Please confirm you would like to restore this entry </h4> 
+	                              
+	                                     <hr/> <br/>
+	                                     <%= form_for(:po, url: unhide_path) do |x| %>
+
+		                                     <%= x.hidden_field :hidden, :value => false %>                    
+		                                     <%= x.hidden_field :po_id, :value => f.id %>
+		                                     <%= x.submit "Restore", class: "btn-primary btn-large btn-modal", disable_with: 'restoring...' %>
+		                                 <% end %>
+		                                 <br/>
+		                                 <br/>
+	                                
+	                                 </div>
+
+	                                 <div class="modal-footer">
+	                                     <button class="btn" data-dismiss="modal">Cancel</button>
+	                                 </div>
+
+                                 </div>  <%# END modal body %>     	
+
+                                 <button id= "hidden_unreg_popover_restore<%= f.id %>" rel="popover" data-placement="left" data-content="Click to undelete this attendee's entry." data-original-title="Restore this Entry" data-toggle="modal" href="#hidden_unreg_restore_entry<%= f.id %>" class="btn btn-info"><i class="icon-plus-sign"></i></button>
+															
+							 </td>
+
+						 </tr>
+				    		 <script>  
+								 $(function ()  
+									{ $("#hidden_unreg_popover_restore<%= f.id %>").popover();  
+									});  
+								
+						     </script>
+					 <% end %><%# END @hiddenandunregisteredpos.each do |f|  %>	
+				 </tbody>
+
+		     </table>
+
+		 <% end %>  <%# END unless hiddenandunregisteredpos.count == 0 %>
+
+              
+
+     </div> <%# END tab-pane id="deleted" %>
+  
+ <% end %>  <%# END unless hiddenpos.count == 0 %>
+
+
+ <div class="tab-pane" id="invite">
+    	
+    	<div class="row">
+
+	<div class = "span4">
+	 		<div class="well">
+					 <div id="info-eventcode" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										            <div class="modal-header">
+										              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+										              <h3 id="myModalLabel">Using the Event Link</h3>
+										            </div>
+										            <div class="modal-body">
+
+										            <p> Students can record their names for your Student Name Directory using either of these links:
+										            	<br/><br/>
+										            	<i class="icon-caret-right"></i>&nbsp;&nbsp;<%= @url %> <br/>
+										            
+										            	<i class="icon-caret-right"></i>&nbsp;&nbsp;<%= link_to "Record your name for #{@event.title}", @url, :target => "_blank"  %>
+										              </p> 
+
+										       		<p> Just copy and paste either link into the web page for your event (if you have one), or an email to your students. </p> 
+										       		<br/>
+
+										       		<h3>Suggested text for your web page or emails</h3>	 
+													
+													 <blockquote>We want to make sure every student's names is pronounced perfectly at our institution. Students, please <%= link_to "click here", @url, :target => "_blank"  %> (<%= @url %>). You'll be able to voice-record your name so that our faculty and staff can hear it directly and know it ahead of time... it's easy, and takes under a minute!  </blockquote> </p>	
+
+														 <hr/>
+
+										            <p>NOTE: You can this link in addition to, or as an alternative to, inviting students by entering their individual emails and pressing the 'Send Name Request' button.  However, we recommend using the 'Send Name Request' method as well, so you can keep track of who you've invited and whether they've responded.</p>
+										 			
+										 			
+
+										            </div>
+
+										            <div class="modal-footer">
+										              <button class="btn" data-dismiss="modal">Close</button>
+										                
+										        
+										              </div>
+					 </div> <%# end modal %>
+					 <h4><i class="icon-link icon-white blue"></i>&nbsp;Use Event Link:  
+					 	<a data-toggle="modal" href="#info-eventcode" ><i class="icon-info-sign "></i></a> </h4> <hr/>
+					 	<%= @url %> <br/><br/>
+					 	<%= link_to "Record your name for #{@event.title}", @url, :target => "_blank"  %>
+					 	
+			</div>
+	 </div>
+
+
+
+ 	 <div class="span8">
+			
+				<div class="well">
+					 <h4> <i class="icon-envelope icon-white blue"></i>&nbsp;Invite a student to record their name: </h4>
+					 <span class="help-block">(Optional - for sending a personal invite.  Otherwise, just use the event link.)</span>
+					 <hr/>
+					 <%= form_for(@practiceobject, :html => {:class => 'form-inline'}) do |f| %>
+
+									
+						   <%= f.hidden_field :event_id %>
+															 									    
+						    <%= f.text_field :first_name, :placeholder => "First Name (recommended)", :class => "span2" %>
+																			
+						  
+						    <%= f.text_field :last_name, :placeholder => "Last Name (recommended)", :class => "span2" %>
+						
+																 									    
+						    <%= f.text_field :email, :placeholder => "Email (required)", :class => "span2"  %>
+						
+						 									  
+						    <%= f.submit "Send Name Request", class: "btn btn-info", disabled: true %>
+						  
+
+					 <% end %>
+				
+				 </div> <%# end div well %>										           
+												          		
+	 </div> <%# end span 9 %>
+
+	 
+	
+</div> <%# end row %>	 	
+    	 
+        
+ </div>  <%# end Invite tab pane %>
+
+
+
+
+
+
+
+     <div class="tab-pane" id="admins">
+
+     	<p>  Note: Admins can request name recordings (access to the 'Request Names/Your Link' tab), invite others to be Admins (access to this 'Admins' tab), and listen to recordings. </p>
+     	<br/>
+		<p> <em>Admins for this Name Directory: </em></p>
+    	 <table class="table  table-striped event">
+       		
+             <% @event.admins.each do |a| %>
+                 <tr>
+		              <td> <%= a.first_name %> </td>
+		              <td> <%= a.last_name %> </td>
+		              <td> <%= a.first_name %>@example.com </td>
+		            
+		              <td> 
+		                 <div id="remove_admin<%= a.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+		                                     <div class="modal-header">
+		                                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                                       <h3>Remove Admin <%= a.email %> </h3>
+		                                     </div>
+		                                                
+		                                     <div class="modal-body left">
+		                    
+		                                         <h4> Please confirm you would like to remove this person's admin privileges for <%= @event.title %>. </h4> <br/>
+		                          
+		                                    	 <h5> To restore this person's admin privileges, they will have to be invited as an admin again. </h5>
+		                                         <hr/> <br/>
+		                                         <%= form_for(:a, url: removeadmin_path) do |x| %>                    
+		                                             <%= x.hidden_field :a_id, :value => a.id %>
+		                                             <%= x.hidden_field :event_id, :value => @event.id %>
+		                                             <%= x.submit "Remove Admin", class: "btn-danger btn-large btn-modal", disabled: true %>
+		                                         <% end %>
+		                                        <br/>
+		                                        <br/>
+		                      
+		                                     </div>
+
+		                                     <div class="modal-footer">
+		                                         <button class="btn" data-dismiss="modal">Cancel</button>
+		                                     </div>
+
+		                 </div>  <%# END modal %>      
+
+		                 <a id= "popover_delete_admin<%= a.id %>" rel="popover" data-placement="left" data-content="Click to remove this admin's privileges." data-original-title="Remove Admin" data-toggle="modal" href="#remove_admin<%= a.id %>"><i class="icon-ban-circle red"></i></a> 
+		              <td> 
+                      
+                 </tr>
+                 <script>  
+                           $(function ()  
+                            { $("#popover_delete_admin<%= a.id %>").popover();  
+                            });  
+                
+                 </script>
+             <% end %>  <%# END event.admins.each do |a| %>
+
+    	 </table>
+    	 	<hr/>
+    	 <div class="row">
+    	 	<div class="span10">
+    	 	 <div class="well">
+    	 	 		 <h4> <i class="icon-envelope icon-white blue"></i>&nbsp;Invite an admin for this Name Directory: </h4>
+					 <br />	
+					 <%= form_for(Admininvite.new, :html => {:class => 'form-inline'}) do |f| %>
+
+				
+					    
+														 									    
+					     <%= f.text_field :first_name, :placeholder => "First Name (recommended)", :class => "span3" %>
+																		
+					  
+					     <%= f.text_field :last_name, :placeholder => "Last Name (recommended)", :class => "span3" %>
+					 
+															 									    
+					     <%= f.text_field :recipient_email, :placeholder => "Email (required)", :class => "span2"  %>
+
+											 						  
+						 <%= f.submit "Invite Admin", class: "btn btn-info", disabled: true, confirm: 'Please confirm you would like to invite this person as an admin for this Name Directory.' %>
+						  	
+
+				     <% end %>
+			 </div> <%# end well %>
+			</div>
+
+
+    	 </div> <%# end row %>
+        
+ 	 </div>  <%# end admin tab pane %>
+
+</div> <%# END container %>
+</div>
+
+
+<script> 
+ 
+(function ($) {
+  jQuery.expr[':'].Contains = function(a,i,m){
+      return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0;
+  };
+  
+  function listFilter(header, list) {
+    var form = $("<form>").attr({"class":"filterform","action":"#"}),
+        input = $("<input>").attr({"class":"filterinput","placeholder":"Search (Name, Email, Etc.)", "type":"text"});
+    $(form).append(input).appendTo(header);
+ 
+    $(input)
+      .change( function () {
+        var filter = $(this).val();
+        if(filter) {
+          $(list).find(".search:not(:Contains(" + filter + "))").slideUp();
+          $(list).find(".search:Contains(" + filter + ")").slideDown();
+        } else {
+          $(list).find(".search").slideDown();
+        }
+        return false;
+      })
+    .keyup( function () {
+        $(this).change();
+    });
+  }
+ 
+  $(function () {
+    listFilter($("#form"), $("#list"));
+  });
+}(jQuery));
+ 
+  </script> 
+

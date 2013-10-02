@@ -1,0 +1,24 @@
+<h1>Listing UserInvites</h1>
+
+<table class="table table-striped">
+  <tr>
+    <th>ID</th>
+    <th>PO ID</th>
+    <th>Admin ID</th>
+    <th>Recip email</th>
+    <th>Sent At</th>
+    <th>Type</th>
+  </tr>
+
+<% @uis.each do |k| %>
+  <tr>
+    <td><%= k.id %></td>
+    <td><%= k.practiceobject_id %></td>
+    <td><%= k.admin_id %></td>
+    <td><%= k.recipient_email %></td>
+    <td><%= k.sent_at %></td>
+    <td><%= k.invite_type %></td>
+<% end %>
+</table>
+
+<br />

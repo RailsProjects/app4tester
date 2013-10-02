@@ -1,0 +1,167 @@
+<div class="jumbotron">
+      <h1>Register Your Name for an Event </h1>
+  </div>
+                                              
+
+ <div id="newinfo" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel"><em>What's going on here?</em></h3>
+            </div>
+            <div class="modal-body">
+            <ul>
+                    
+            <li> The process is simple!   
+                <ol>
+                  <br/>
+                  <li>Enter your name and email, along with the event code you were given. </li><br/>
+                  <li>Enter your name as you would like it announced at the event, and any notes to help with pronunciation. </li> <br/>
+                  <li>Record your name using our online voice recorder. Don't worry, this part is super-easy too. </li> <br/>
+                 </ol>
+            </li> 
+            <li> Thanks to your help, the person announcing your name can now hear your recording and make sure it's pronounced correctly on the day of the event!</li> <br/>
+            <li> If you received a special invitation link via email, please instead click on that link.</li><br/>
+                    <li> If you have previously registered on our site, please instead sign in under 'Already Registered on our Site?' below.</li> <br/>
+            <li> More questions? Please contact us below!<em> Thank you!</em> </li>
+
+            </ul>
+
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" data-dismiss="modal">Done</button>
+                
+               
+
+             
+            </div>
+          </div>
+
+
+<div class="alert alert-block alert-info">
+ 
+    <button type="button" class="close" data-dismiss="alert">×</button>
+ 
+
+              <h4>Voice-record your name for an upcoming event, so that someone announcing it can ensure they get it right!  <em>Just 3 Easy Steps.</em>&nbsp;&nbsp;&nbsp;<a data-toggle="modal" href="#newinfo" class="btn btn-info">More Info <i class="icon-info-sign icon-white"></i></a> </h4>     
+              
+</div>  
+
+
+
+<div class="container">
+    <br/>
+<% flash.each do |key, value| %>
+    <div class="alert alert-block alert-<%=key%>"> 
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <%= value %> 
+    </div>
+<% end %>
+
+
+                          <div class="accordion" id="accordion3">
+                                    <div class="accordion-group bg-signup">
+                                      <div class="accordion-heading">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseOne">
+                                         <h5 class="white">New Name Registration</h5>
+                                        </a>
+                                      </div>
+                                      <div id="collapseOne" class="accordion-body collapse in">
+                                        <div class="accordion-inner">
+                                          <br/>
+                                                   <div class="row">
+                                                    <%= simple_form_for(@user, :url => eventcodesignupcreate_path, :html => {:class => 'form-inline'}) do |f| %>
+
+                                                         <div class="well span3 offset1">
+                                                          <h4> <i class="icon-check-empty">&nbsp;</i><span class="blue">STEP 1: Basic Info</span> </h4>
+                                                              
+                                                              <br/>
+                                                              <%= f.error_notification %>
+                                                              
+                                                                                                                                
+                                                                  <%= f.input :first_name, label: "First Name" %>
+                                                                  <%= f.input :last_name, label: "Last Name" %>
+                                                                  <%= f.input :email %>
+                                                                  <%= f.input :event_code, label: "Event Code" %> 
+
+                                                         </div>
+                                                         <div class="well span3"
+                                                         >         
+                                                             <h4><i class="icon-check-empty">&nbsp;</i><span class="blue">STEP 2: NameGuide Info</span> <span class="muted">(optional)</span> </h4> 
+                                                              <br/>      
+                                                                         <%= f.input :phonetic, :class => "span3 fl-left", label: "Enter your name as you would like it announced at the event:", placeholder: "(e.g., 'Dr. Henry Jones, Jr.')"  %>
+                                                                            
+                                                                            <br/><br/>
+
+                                                                          <%= f.label :notes, "Enter any notes to aid in pronunciation:" %>
+                                                                          <%= f.text_area :notes, :class => "span3", :placeholder => "(e.g., 'first name sounds like Ravine' or 'last name pronounced GLI-cough')" %>
+                                                                          <br/> <br/>
+                                                                          <hr/>
+                                                                         
+                                                                     
+
+                                                          </div>
+
+                                                          <div class="well span3">
+                                                              <h4><i class="icon-check-empty">&nbsp;</i><span class="blue">STEP 3: Record Your Name</span> </h4> <br/>
+                                                                  <br/><br/><br/> <br/>
+                                                                  <div class="row">
+                                                                   <div class="span3">
+                                                                    <%= f.button :submit, "Record Your Name", class: "btn btn-danger btn-large span3", disable_with: "please wait..." %>
+                                                                    <span class="blue"><em>(this is easy and takes just a few seconds!) </em></span>
+                                                                   </div>
+                                                                 </div>
+                                                                  
+                                                                   <br/>
+                                                                <br/><br/><br/><hr/>
+                                                                
+                                                            
+
+                                                          </div> 
+
+                                                    <% end %>
+                                                    </div><%# end main row %>
+                                                    <h6>By registering you agree to our <%= link_to "Terms and Conditions", terms_path, :target => "_blank" %>.</h6>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                        <div class="accordion-group bg-signup">
+                                          <div class="accordion-heading">
+                                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseTwo">
+                                              <h5 class="white">Already Registered on our Site?</h5>
+                                            </a>
+                                          </div>
+                                          <div id="collapseTwo" class="accordion-body collapse">
+                                            <div class="accordion-inner">
+                                               <div class="well span4 offset3">
+                                                  <%= form_for(:session, url: addeventcodeuser_path, :html => {:class => "form-horizontal"} ) do |f| %>
+
+                                                  
+                                                   <div class="row"><div class="span4 blue"><em>If you've been asked to register your name for an event with an event code and have previously registered on our site, please sign in here:</em></div></div> <br/> 
+                                                   <%= f.text_field :event_code, :class => "span3", :placeholder => "Event Code" %> 
+                                                   <br/>
+                                                   <br/>
+                                                  <%= f.text_field :email, :class => "span3", :placeholder => "Email" %>
+                                                  <br/>
+                                                  <br/>
+
+                                                  <%= f.password_field :password, :class => "span3", :placeholder => "Password" %>
+
+                                                    <br/>
+                                                    <br/>
+                                                      <%= button_tag(type: 'submit', class: "btn btn-primary btn-small span2") do %>
+                                                       Sign In <i class="icon-chevron-right icon-white"></i> 
+                                                      <% end %>
+
+                                                <% end %>
+                                               </div>
+                                               <br/>
+                                            </div>
+                                          </div>
+                                        </div>
+                                  </div>  
+
+
+
+
+</div><%# end container %>

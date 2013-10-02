@@ -1,0 +1,55 @@
+<h1>Listing receipts</h1>
+
+<table class="table table-striped">
+  <tr>
+    <th>User</th>
+    <th>Email</th>
+    <th>Subscription</th>
+    <th>Sub my plan</th>
+    <th>Sub plan name</th>
+    <th>Sub events number</th>
+    <th>Sub reg monthly cost in cents</th>
+    <th>Sub actual monthly cost in cents</th>
+    <th>Sub reg annual cost in cents</th>
+    <th>Sub actual annual cost in cents</th>
+    <th>Unlimited</th>
+    <th>Sub coupon name</th>
+    <th>Events number</th>
+    <th>En regular cost in cents</th>
+    <th>En actual cost in cents</th>
+    <th>En coupon name</th>
+    <th>Customer ID</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @receipts.each do |receipt| %>
+  <tr>
+    <td><%= receipt.user_id %></td>
+    <td><%= receipt.email %></td>
+    <td><%= receipt.subscription_id %></td>
+    <td><%= receipt.sub_my_plan_id %></td>
+    <td><%= receipt.sub_plan_name %></td>
+    <td><%= receipt.sub_events_number %></td>
+    <td><%= receipt.sub_reg_monthly_cost_in_cents %></td>
+    <td><%= receipt.sub_actual_monthly_cost_in_cents %></td>
+    <td><%= receipt.sub_reg_annual_cost_in_cents %></td>
+    <td><%= receipt.sub_actual_annual_cost_in_cents %></td>
+    <td><%= receipt.unlimited %></td>
+    <td><%= receipt.sub_coupon_name %></td>
+    <td><%= receipt.events_number %></td>
+    <td><%= receipt.en_regular_cost_in_cents %></td>
+    <td><%= receipt.en_actual_cost_in_cents %></td>
+    <td><%= receipt.en_coupon_name %></td>
+    <td><%= receipt.customer_id %></td>
+    <td><%= link_to 'Show', receipt %></td>
+    <td><%= link_to 'Edit', edit_receipt_path(receipt) %></td>
+    <td><%= link_to 'Destroy', receipt, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Receipt', new_receipt_path %>

@@ -1,0 +1,85 @@
+            <% flash.each do |key, value| %>
+              <div class="alert alert-block alert-<%=key%>"> 
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= value %> 
+              </div>
+            <% end %>
+
+<div class="container">
+
+<% if signed_in? %> 
+
+    <h1> Namewaves </h1>
+
+    <h2> You are currently signed in </h2>
+    <%= link_to "View your profile", current_user %>
+     <%= link_to "Sign out", signout_path, method: "delete" %>
+
+     <% if current_user.customer == false %>
+     <a href="<%= stripetest_path %>" class="btn btn-success btn-small"> Start Your Free Trial! <i class="icon-chevron-right icon-white"></i> </a> 
+     <% end %> 
+
+
+    <h2> [Other website information here] </h2>
+ <%= link_to image_tag("NameCoach.png", alt: "Rails"), root_path, id: "logo" %>
+
+<% else %> 
+
+
+        <h1> Namewaves </h1>
+        
+
+      
+
+        <h2> Not registered? Sign up here: </h2>
+
+      <a href="<%= eventcodesignup_path %>" class="btn btn-info btn-small"> Recording Your Name for an Event? <i class="icon-chevron-right icon-white"></i> </a> 
+        
+        <br/> <br/>
+         <a href="<%= admincodesignup_path %>" class="btn btn-info btn-small"> Invited to Admin an Event? <i class="icon-chevron-right icon-white"></i> </a> 
+
+         <br/> <br/>
+         <a href="<%= newcustomer_path %>" class="btn btn-success btn-small"> Start Your Free Trial! <i class="icon-chevron-right icon-white"></i> </a> 
+
+        <%= form_for(@user, :url => homepageusercreate_path) do |f| %>
+
+                            <% if @user.errors.any? %>
+                      <div id="error_explanation">
+                        <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+                        <ul>
+                        <% @user.errors.full_messages.each do |msg| %>
+                          <li><%= msg %></li>
+                        <% end %>
+                        </ul>
+                      </div>
+                    <% end %>
+
+          <div class="field">
+            <%= f.label :email %><br />
+            <%= f.text_field :email %>
+          </div>
+
+          <div class="field">
+          <%= f.label :password %>
+          <%= f.password_field :password %>
+          </div>
+
+         
+          <%= f.label :password_confirmation, "Confirm Password" %>
+          <%= f.password_field :password_confirmation %>
+       
+         
+          <%= f.submit "Sign Up", class: "btn btn-large btn-block btn-primary" %>
+          
+        <% end %>
+    
+
+        <h2> [Other website information here] </h2>
+
+    <% end %>
+
+  </div>
+
+   
+  

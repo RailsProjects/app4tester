@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="span12">
+        <h4><span class="blue"><i class="icon-volume-up icon-white"></i></span><strong> Your <em>VoiceGems</em>: </strong></h4>
+  </div>
+</div>
+
+<hr/>
+
+<div class="row">
+   <div class="well span9 modal-header">
+            
+              
+              <div class="span2">
+                  <a href="#" rel="tooltip" data-placement="right" title="Your registered name and email address."><h4>User Name/Email</h4></a>
+                </div>
+                  
+          
+                  <div class="span3">
+                  <a href="#" rel="tooltip" data-placement="right" title="Notes or song request you may have entered for the DJ for to accompany VoiceGem."><h4>User's Notes/Song Request</h4></a>
+                  <em>(optional)</em>
+                  </div>
+
+                <div class="span2">
+                  <a href="#" rel="tooltip" data-placement="right" title="Your VoiceGem. Click the play button to hear your current voice-message for that event. If an 'x' appears rather than the play button, your  VoiceGem has not been made or processed yet."><h4>Recorded VoiceGem</h4></a>
+                  <em>(press play button to hear)</em>
+                </div>
+
+    </div>  
+
+                <div class="span2">
+                  <br/>
+                  <a href="#" rel="tooltip" data-placement="right" title="Click on the buttons below to edit your voice-message, accompanying song request, or notes."><span class="label label-purple">&nbsp;&nbsp;Edit Your VoiceGem&nbsp;&nbsp;</span></a>
+                                  
+                </div>  
+
+          
+
+         
+
+</div>
+
+
+        <% @user.voicegems.each do |f| %>               
+		        <div class="row">
+		          <div class="well span9">
+		                  <div class="span2">
+		                    <%= f.user.first_name %> <%= f.user.last_name %> <br/>
+		                    (<%= f.user.email %>) <br/>           
+		                  </div>
+		          
+
+		                  <div class="span3">
+		                      <% if f.notes.blank?%>--no notes--<% else %><%= f.notes %><%end%>
+		                  </div>
+
+		
+		                    <div class="span2">
+		                      <span class="vg">
+		                        <audio src="https://s3-us-west-1.amazonaws.com/<%= ENV['VG_BUCKET_NAME'] %>/<%= f.recording %>.mp3" ></audio> 
+		                    	</span>
+		                    </div>
+		            </div>  
+
+		            
+
+		            <div class="span2">
+		                <br/>
+		                  <a href="<%= edit_voicegem_path(f.id)%>" class="btn btn-info btn-small"><i class="icon-pencil icon-white"></i>&nbsp;Edit this VoiceGem</a> <br/>
+		                  for <strong><%= link_to f.event.title, f.event %></strong>
+		            </div>
+		            
+		        
+		            
+		        </div> 
+        <% end %>   

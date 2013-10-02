@@ -1,0 +1,283 @@
+<script>
+$(function() {
+  $('#event_date').datepicker({ dateFormat: 'yy-mm-dd' });
+});
+</script>
+
+
+
+<br/>
+
+<div class="row"> <%# wrap tabs%>
+
+ <ul id="myTab" class="nav nav-tabs">
+	  <li class="active"><a href="#ev" data-toggle="tab"><strong>Your Events</strong></a></li>
+	  <li><a href="#nw" data-toggle="tab"><strong>Your VoiceGem<% if !current_user.voicegems.nil? && current_user.voicegems.count > 1 %>s<% end %></strong></a></li>
+</ul>
+          
+<div id="myTabContent" class="tab-content">
+     <div class="tab-pane active" id="ev">
+
+     		 <% if purch_and_sub_pages_left? %>
+
+				 <div class="row">
+				 		 			        
+				         <div class="span12">
+				             <div class="well">
+				                 <h4><i class="icon-edit icon-blue"></i>&nbsp;Create an event page: </h4> </br>
+
+				                     <%= form_for(Event.new, :html => {:class => "form-inline"}) do |f| %>
+				                      
+				                     	
+				                        <%= f.text_field :title, :placeholder => 'Title (required)', :class => "span3" %> &nbsp;&nbsp;
+				                         
+				                            
+				                        <%= f.text_field :date, :placeholder => 'Date (required)', :class => "span2" %> &nbsp;&nbsp;
+
+				                        <%= f.text_field :event_code, :placeholder => 'Event Code (optional)', :class => "span2" %>
+				                        		 <div id="info-code" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+										            <div class="modal-header">
+										              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+										              <h3 id="myModalLabel">What's the Event Code?</h3>
+										            </div>
+
+										            <div class="modal-body">
+										            <p> Attendees can record VoiceGems for this event through a unique link, such as:
+										            	<br/><br/>
+										            	<i class="icon-caret-right"></i>&nbsp;&nbsp;www.name-coach.com/record/ExampleEventCode<br/>
+										              </p> 
+
+										       		<p> The link will be available once you create the Event Page, and you can just copy and paste the link into the web page for your event (if you have one), or an email to your attendees. </p> 
+										       		
+
+										       		<p>You can use this in addition to, or as an alternative to, inviting attendees by entering their email on the Event Page and pressing the 'Invite Attendee' button. </p>	<br/>								
+
+										 			<h4>So What's the Event Code? </h4>	<br/>
+													<p> It's the code that represents your event in the link.</p>
+
+													<p> If you want, you can choose an event code now and enter it in the field here. It should not have special characters or spaces. Pick something unique and descriptive. For example, if the event is in Boston on December 6th, you might choose 'BOSTONDEC6.' </p>
+
+													<p> <strong>If you leave this field blank, we will choose a unique 5-character code for you</strong> (which will appear in the event link). </p>
+
+													
+										            </div>
+
+										            <div class="modal-footer">
+										              <button class="btn" data-dismiss="modal">Close</button>			
+										            </div>
+
+										         </div> <%# end modal %>
+
+				                 			<a data-toggle="modal" href="#info-code" ><i class="icon-info-sign "></i></a> &nbsp;&nbsp;&nbsp;
+
+						                         
+				                 			<%= f.select :purchase_type,  options_for_select([["from subscription pages (#{sub_pages_left} left)", "s"], ["from purchased pages (#{current_user.purchased_events} left)", "p"]]), :size => 5 %>
+						                         
+						                     
+				                        <br/>
+				                        <span class="help-block">(e.g., "The Jones-Ravenwood Wedding")</span>
+				                 		 <br/> <hr/>
+				                         	<%= f.submit "Create Event Page", class: "btn btn-primary span4"  %> 
+				                        
+				                          &nbsp;&nbsp; 
+
+						
+
+
+
+
+				                     <% end %>
+				                
+				             </div> <%# end well %>
+				         </div> <%# end span12 %>
+				        
+				         
+
+	              </div> <%# end row %>
+
+	    	 <% else %>
+	    	 					 <div class="row">
+				 		 			        
+				         <div class="span12">
+				             <div class="well">
+				                 <h4><i class="icon-edit icon-blue"></i>&nbsp;Create an event page: </h4> </br>
+
+				                     <%= form_for(Event.new, :html => {:class => "form-inline"}) do |f| %>
+				                      
+				                     	
+				                        <%= f.text_field :title, :placeholder => 'Title (required)', :class => "span3" %> &nbsp;&nbsp;
+				                         
+				                            
+				                        <%= f.text_field :date, :placeholder => 'Date (required)', :class => "span2" %> &nbsp;&nbsp;
+
+				                        <%= f.text_field :event_code, :placeholder => 'Event Code (optional)', :class => "span2" %>
+				                        		 <div id="info-code" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+										            <div class="modal-header">
+										              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+										              <h3 id="myModalLabel">What's the Event Code?</h3>
+										            </div>
+
+										            <div class="modal-body">
+
+										             <p> Attendees can record VoiceGems for this event through a unique link, such as:
+										            	<br/><br/>
+										            	<i class="icon-caret-right"></i>&nbsp;&nbsp;www.name-coach.com/record/ExampleEventCode<br/>
+										              </p> 
+
+										       		<p> The link will be available once you create the Event Page, and you can just copy and paste the link into the web page for your event (if you have one), or an email to your attendees. </p> 
+										       		
+
+										       		<p>You can use this in addition to, or as an alternative to, inviting attendees by entering their email on the Event Page and pressing the 'Invite Attendee' button. </p>	<br/>								
+
+										 			<h4>So What's the Event Code? </h4>	<br/>
+													<p> It's the code that represents your event in the link.</p>
+
+													<p> If you want, you can choose an event code now and enter it in the field here. It should not have special characters or spaces. Pick something unique and descriptive. For example, if the event is in Boston on December 6th, you might choose 'BOSTONDEC6.' </p>
+
+													<p> <strong>If you leave this field blank, we will choose a unique 5-character code for you</strong> (which will appear in the event link). </p>
+
+										            </div>
+
+										            <div class="modal-footer">
+										              <button class="btn" data-dismiss="modal">Close</button>			
+										            </div>
+
+										         </div> <%# end modal %>
+
+				                 			<a data-toggle="modal" href="#info-code" ><i class="icon-info-sign "></i></a> &nbsp;&nbsp;
+
+				                 	      
+						                		  <% if only_sub_pages_left? %> 
+						                               <%= f.hidden_field :purchase_type, :value => 's' %>
+						                          <% end %> 
+
+						                           <% if only_purch_pages_left? %> 
+						                             	<%= f.hidden_field :purchase_type, :value => 'p' %>
+						                             	
+						                          <% end %> 
+
+				                 		 <% if no_pages_left? %>
+				                 		 	<%= f.submit "Create Event Page", class: "btn btn-primary", :disabled => true  %>
+				                 		 <% else %>	
+				                         	<%= f.submit "Create Event Page", class: "btn btn-primary"  %> 
+				                         <% end %>
+				                          &nbsp;&nbsp; 
+
+						                          <% if only_purch_pages_left? %> 
+						                             	<span class="help-block">(<%= current_user.purchased_events %> pages remaining)</span>
+						                          <% end %>  
+
+						                          <% if only_sub_pages_left? %> 
+						                                <span class="help-block">(<%= sub_pages_left %> pages remaining) </span>
+						                          <% end %> 
+
+						                          <% if no_pages_left? %> 
+						                                <span class="help-block">(0 pages remaining) </span>
+						                          <% end %> 	
+
+
+				                        <br/>
+				                        <span class="help-block">(e.g., "The Jones-Ravenwood Wedding")</span>
+
+				                     <% end %>
+				                
+				             </div> <%# end well %>
+				         </div> <%# end span12 %>
+				        
+				         
+
+	              </div> <%# end row %>
+
+	    	 <% end %> <%# end if purch_and_sub_pages_left else end %>
+
+				<hr/>
+
+				 <div class="row">
+				    <div class="span12">
+				      <div class="well">
+
+				            <h4><i class="icon-list icon-blue"></i></span>&nbsp;<strong>Event pages you administer: </strong></h4>
+				            <br/>
+				            <% if @user.adminevents.count == 0 %> 
+				            (no event pages created yet)
+				            <% else %> 
+						            <table class="table table-striped event">
+						              <% @user.adminevents.each do |e| %>
+						                <tr>  
+						                  <td><strong><%= link_to e.title, e %></strong> </td>
+						                  <td> <% unless e.date.nil? %><%= e.date.strftime("%b %d, %Y") %><% end %> </td> 
+						                  <td><a  href="<%= edit_event_path(e) %>"><span class="label label-info"><i class="icon-pencil icon-white"></i>&nbsp;edit event</span></a>	 </td> 
+						                   <td> 
+				                  			 <div id="<%= e.id %>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                          <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                            <h3>Admins<% if e.title %> for <%= e.title %><% end %></h3>
+                                                          </div>
+                                                          <div class="modal-body">
+
+                                                                <br/>
+                                                                  <table class="table table-condensed table-striped">
+                                                                    <thead>
+                                                                      <th>First Name</th>
+                                                                      <th>Last Name</th>
+                                                                      <th>Email</th>                                                                      
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <% e.admins.each do |a| %>
+                                                                      <tr>
+                                                                        <td> <%= a.first_name %> </td>
+                                                                        <td> <%= a.last_name %> </td>
+                                                                        <td> <%= a.email %> </td>
+                                                                      </tr>
+                                                                    <% end %>
+                                                                  </tbody> 
+                                                                  </table> 
+                                                               
+                                                          </div>
+
+                                                          <div class="modal-footer">
+                                                            <button class="btn" data-dismiss="modal">Close</button>
+                                                              
+                                                      
+                                                            </div>
+                                                        </div>
+
+                                                          
+                                                           
+                                                              <a data-toggle="modal" href="#<%= e.id %>" class="btn btn-info btn-small">See All Event Admins</a>
+                                                         
+                                                         
+                                                </td>
+						                  <td> <a href="<%= events_path%>/<%= e.id %>" class="btn btn-info btn-small">go <i class="icon-chevron-right icon-white"></i> </a>
+						                  </td>
+						                  
+
+						                </tr>
+						              <% end %>
+						            </table> 
+						    <% end %> 
+				      </div>
+				    </div>
+
+				  </div>   			               
+				      </div>
+
+	
+      <div class="tab-pane" id="nw">
+		 <%= render 'users/vgregularshow' %> 	               
+     </div>
+
+</div>
+
+</div><%# end wrap tabs %>
+  
+
+
+
+												          
+
+
+										        
+												    

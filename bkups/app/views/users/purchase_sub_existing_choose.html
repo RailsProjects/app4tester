@@ -1,0 +1,221 @@
+<div class="jumbotron">
+      <h1> Purchase Subscription</em> </h1>
+  </div>
+               
+             <% flash.each do |key, value| %>
+              <div class="alert alert-block alert-<%=key%>"> 
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= value %> 
+              </div>
+            <% end %>
+             
+<br/>
+<br/>
+
+<div class="container">
+       
+        
+<br/>
+
+
+<div class="row">
+
+        <div class="well span6 offset3">
+   
+        <hr/>
+        <div class="accordion" id="accordionsub">
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionsub" href="#collapsechange">
+                     <h3> <span class="help-block">Subscription Plan</span></h3>
+                    </a>
+                  </div>
+                  <div id="collapsechange" class="accordion-body collapse in">
+                      <div class="accordion-inner">
+
+                                <% if !@planobject.nil?  %>
+                                    
+                                    <h4> <%= @planobject.name.titleize %> ($<%= (@planobject.monthly_cost_cents)/100 %>.00/month)  </h4> 
+                                    <% if !@coupon.nil? && !@new_price.nil? %>
+                                    <h4> <icon class="icon-caret-right"></i>&nbsp;<em>Discount Applied (<%= @coupon.percent_off %>% off): now only $<%= number_with_precision((@new_price.to_f)/100, :precision => 2) %>/month! </em></h4>
+                                    <% end %>
+                                    <br/>
+                                    <h4><icon class="icon-ok-sign"></i> <%= @planobject.events_number %> Events / Year </h4>
+                                    <h4><icon class="icon-ok-sign"> Unlimited Name Recordings </h4> 
+                                    <% if has_not_trialed? %>
+                                      <h4><icon class="icon-ok-sign"> Free 14 Day Trial </h4> 
+                                      <% else %>
+                                      <br/>
+                                      <h5> You have previously tried our service. We hope you enjoyed your free trial, and thank you for choosing to subscribe again! </h5>
+                                    <% end %>
+                                
+
+                                
+                                <% else %>
+                                    Please choose a subscripton plan under 'Choose a Different Plan' below.
+
+                                <% end %>
+
+                            <!-- catch case in which @plan is empty and choose plan;-->    
+
+                      </div><%# end accordion inner %>
+                  </div><%# end collapsechange %>
+                </div><%# end accordion group %>
+
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionsub" href="#collapsechange2">
+                      <h5><span class="blue">Choose a Different Plan</span></h5>
+                    </a>
+                  </div>
+                  <div id="collapsechange2" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                          <%= form_for(:sub, url: changesub_existinguser_path) do |y| %>
+                                               <%= y.select :plan,  options_for_select([["Silver Plan (25 pages/yr, $35/mo)", 1], ["Gold Plan (50 pages/yr, $55/mo)", 2], ["Platinum Plan (100 pages/yr, $85/mo)", 3] ]) %>
+                                               <%= y.hidden_field :code, :value => @code %>
+                                               <%= y.submit "Choose This Plan", class: "btn btn-primary"  %> 
+                                             <% end %>  
+                      </div><%# end accordion inner %>
+                  </div><%# end collapsechange2 %>
+                </div><%# end accordigion group %>
+
+
+                 <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionsub" href="#collapsechange3">
+                      <h5><span class="blue">Promo Code?</span></h5>
+                    </a>
+                  </div>
+                  <div id="collapsechange3" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                          
+                                   Enter code here:
+                                   <%= form_for(:sub, url: sub_coupon_existing_user_path) do |y| %>
+                                               <%= y.text_field :code %>
+                                               <%= y.hidden_field :plan, :value => @plan %>
+                                               <%= y.submit "Apply Coupon", class: "btn btn-primary"  %> 
+                                             <% end %>  
+                        
+                      </div><%# end accordion inner %>
+                  </div><%# end collapsechange3 %>
+                </div><%# end accordion group %>
+                                        
+            
+                                        
+            </div>   <%# end accordion%>
+
+
+        <hr/> 
+
+        <br/>
+
+     <% if !@planobject.nil? %>  <%# won't ever be used b/c currently redirecting to purchase_sub_existing upon cc failure; but here just in case%>
+
+        <% if !current_user.customer_id.blank? %> 
+
+            <div class="accordion" id="accordioncheckout">
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordioncheckout" href="#collapsecurrent">
+                     <h3><span class="help-block">Checkout with Card on File</span></h3>
+                    </a>
+                  </div>
+                  <div id="collapsecurrent" class="accordion-body collapse in">
+                      <div class="accordion-inner">
+
+                          <p>Use <strong><%= @cardtype %></strong> ending in <strong><%= @last4 %></strong>.</p>
+                          <p><% if has_not_trialed? %> Your card will not be charged until the free trial period ends.<% end %> You may cancel your subscription any time.</p>
+
+                          <%= form_for(:sub, url: purchase_sub_existing_card_path) do |y| %>
+                                               <%= y.hidden_field :plan, :value => @plan %>
+                                               <%= y.hidden_field :code, :value => @code %>
+                                               <%= y.hidden_field :events_number, :value => @events_number %>
+                                               <%= y.hidden_field :new_price, :value => @new_price %>
+                                               <%= y.submit "Purchase Subscription!", class: "btn btn-primary", disable_with: 'Processing'  %> 
+                                             <% end %>  
+                          
+                      </div><%# end accordion inner %>
+                  </div><%# end collapsechange %>
+                </div><%# end accordion group %>
+
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordioncheckout" href="#collapsenew">
+                      <h5><span class="blue">Checkout with a Different Card</span></h5>
+                    </a>
+                  </div>
+                  <div id="collapsenew" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                          <%= label_tag :pay_with_card do %>
+                          <%= image_tag "visa.png" %>
+                          <%= image_tag "mastercard.png" %>
+                          <%= image_tag "discover.png" %>
+                          <%= image_tag "american_express.png" %>
+                          <%= image_tag "jcb.png" %>
+                          <%= image_tag "diners.png" %>
+                        <% end %>
+                            <br/>
+                            
+                            <form action="<%= purchase_sub_new_card_url %>" method="POST" id="payment-form">
+                                <input type="hidden" name="plan" value="<%= @plan %>">
+                                <input type="hidden" name="code" value="<%= @code %>">
+                                <input type="hidden" name="events_number" value="<%= @events_number %>">
+                                <input type="hidden" name="new_price" value="<%= @new_price %>">
+
+                                  <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
+                                        data-key="<%= ENV['PUBLISHABLE_KEY'] %>" data-panel-label="Purchase Subscription!" data-name="NameCoach" data-label="Enter New Card Details"
+                                    data-description="<%= Plan.find_by_my_plan_id(@plan).name %> subscription"
+                                    data-image="<%= image_path('darkerbuttont_fav_2.png')%>"> </script> <%= image_tag "lockoverlay.png" %>&nbsp;<span class="help-block">Secure Payment with Stripe <a href="https://stripe.com/help/security" target="_blank" ><i class="icon-question-sign "></i></a></span> 
+                                <br/>
+                                <br/>
+                                    
+                                <p><% if has_not_trialed? %> Your card will not be charged until the free trial period ends.<% end %> You may cancel your subscription any time.</p>
+                                
+                                <br/>
+                               
+                            </form>
+                      </div><%# end accordion inner %>
+                  </div><%# end collapsechange2 %>
+                </div><%# end accordigion group %>
+                                        
+            </div>   <%# end accordion%>
+
+
+        <% else %> <%# PAYMENT WHEN USER NOT A STRIPE CUSTOMER %>
+                      <%= label_tag :pay_with_card do %>
+                          <%= image_tag "visa.png" %>
+                          <%= image_tag "mastercard.png" %>
+                          <%= image_tag "discover.png" %>
+                          <%= image_tag "american_express.png" %>
+                          <%= image_tag "jcb.png" %>
+                          <%= image_tag "diners.png" %>
+                        <% end %>
+                            <br/>
+                            
+                            <form action="<%= purchase_sub_not_stripe_customer_url %>" method="POST" id="payment-form">
+                                <input type="hidden" name="plan" value="<%= @plan %>">
+                                <input type="hidden" name="code" value="<%= @code %>">
+                                <input type="hidden" name="events_number" value="<%= @events_number %>">
+                                <input type="hidden" name="new_price" value="<%= @new_price %>">
+
+                                  <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
+                                        data-key="<%= ENV['PUBLISHABLE_KEY'] %>" data-panel-label="Purchase Subscription!" data-name="NameCoach" data-label="Pay with Card"
+                                    data-description="<%= Plan.find_by_my_plan_id(@plan).name  %> subscription"
+                                    data-image="<%= image_path('darkerbuttont_fav_2.png')%>"> </script> <%= image_tag "lockoverlay.png" %>&nbsp;<span class="help-block">Secure Payment with Stripe <a href="https://stripe.com/help/security" target="_blank" ><i class="icon-question-sign "></i></a></span> 
+                                <br/>
+                                <br/>
+                                    
+                                <p><% if has_not_trialed? %> Your card will not be charged until the free trial period ends.<% end %> You may cancel your subscription any time.</p>
+                                
+                                <br/>
+                               
+                            </form>
+         <% end %>
+
+     <% end %>
+
+
+</div>
+</div>
+
+</div>

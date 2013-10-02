@@ -1,0 +1,252 @@
+<div class="jumbotron">
+			<h1> Name Page: <em> <%= @event.title %> </em> </h1>
+			<br/>
+			<h3>  <% if @event.date %><%= @event.date.strftime("%b %d, %Y")  %><% end %> </h3>
+	</div>
+
+             <% flash.each do |key, value| %>
+            	<div class="alert alert-block alert-<%=key%>"> 
+            	<button type="button" class="close" data-dismiss="alert">×</button>
+            	<%= value %> 
+            	</div>
+            <% end %>
+<br />
+<br/>
+
+<div class="container">
+
+
+<div class="row">
+
+ 	
+	<div class="span5 offset6">
+			<div class="well">
+
+
+										<h4><span class="blue"><i class="icon-user icon-white"></i></span>&nbsp;Admins<% if @event.title %> for <%= @event.title %><% end %>:</h4><br/>
+										<table class="table table-condensed">
+											<% @event.admins.each do |a| %>
+												<tr>
+													<td> <%= a.first_name %> </td>
+													<td> <%= a.last_name %> </td>
+													<td> <%= a.email %> </td>
+												</tr>
+											<% end %>
+										</table> 
+					
+
+
+											<%# this section allows admins to invite admins and see admins - need to allow non-admin users to also see admins, and only allow the correct admin to invite admins and see admin invites (so if regisetered as a user for one event and admin for another, cannot admin the first event - I think this is taken care of, test for this %>
+
+									
+			</div>
+	</div>
+
+	
+</div>
+
+
+
+
+<%# this first section uses @registeredpos and lists the registered practice objects %>
+
+
+            <ul id="myTab" class="nav nav-tabs">
+              <li class="active"><a href="#reg" data-toggle="tab"><strong>Recorded Names</strong></a></li>
+              <li><a href="#regunrec" data-toggle="tab"><strong>Unrecorded Names</strong></a></li>
+              <li><a href="#unreg" data-toggle="tab"><strong>Names Requested</strong></a></li>
+            </ul>
+
+            <div id="myTabContent" class="tab-content">
+
+              <div class="tab-pane active" id="reg">
+								               <table class="table">
+             	<caption><em>(students who have registered on this site and recorded their name)</em></caption>
+             </table>
+			<div class="row">
+				<div class="well span12 modal-header">
+					
+						
+				<div class="span3 offset1">
+						<a href="#" rel="tooltip" data-placement="right" title="Student's registered name and email address."><h4>Student Name</h4></a>
+					</div>
+						
+		
+						<div class="span3">
+						<a href="#" rel="tooltip" data-placement="right" title="Any notes student entered to help with pronouncing their name. This may have been left blank."><h4>Student's Notes</h4></a>
+						</div>
+			
+
+					<div class="span3">
+						<a href="#" rel="tooltip" data-placement="right" title="Name the student goes by, and their recording. Click the play button next to their name to hear it in their own voice. If an 'x' appears rather than the play button, the name recording has not been made or processed yet."><h4>Name Pronunciation</h4></a>
+						<em>(press play button to hear)</em>
+					</div>
+
+
+						
+
+				</div>	
+
+			</div>
+
+
+			<% @registeredandrecordedpos.each do |f| %>					    	
+			<div class="row">
+				<div class="well span12">
+					<div class="span3 offset1">
+						<%= f.user.first_name %> <%= f.user.last_name %> <br/>
+			
+					</div>
+	
+
+					<div class="span3">
+					 		<% if f.notes.blank?%>--<% else %><%= f.notes %><%end%>
+					</div>
+
+		
+	
+						<div class="span3">
+							<table>
+							 <tbody>
+							 	<tr>
+							 	<td class="rec-cell"> <audio src="https://s3-us-west-1.amazonaws.com/<%= ENV['BUCKET_NAME'] %>/<%= f.recording %>.mp3" /> 
+							 	</td>
+							 	<td> &nbsp;&nbsp;<strong><% if !f.phonetic.blank? %><%= f.phonetic %> <% else %><%= f.user.first_name %> <%= f.user.last_name %><% end %> </strong>
+							 	</td>
+							 	<tr>
+							 </tbody>
+							</table>
+						
+						
+					</div>
+			
+
+
+					
+				</div>		
+			</div>
+			<% end %>
+
+					<% if @registeredandrecordedpos.count == 0  %>
+							<div class=" well span6 offset3 cent">
+							<h3> No entries in this category </h3>
+							</div>
+				    <% end %>
+
+              </div>
+
+              <div class="tab-pane" id="regunrec">
+                
+
+										  <table class="table">
+				             	<caption><em>(students registered on this site who have not yet recorded their name)</em></caption>
+				             </table>
+							<div class="row">
+								<div class="well span12 modal-header">
+									
+										
+								<div class="span3 offset1">
+										<a href="#" rel="tooltip" data-placement="right" title="Student's registered name and email address."><h4>Student Name</h4></a>
+									</div>
+										
+						
+										<div class="span3">
+										<a href="#" rel="tooltip" data-placement="right" title="Any notes student entered to help with pronouncing their name. This may have been left blank."><h4>Student's Notes</h4></a>
+										</div>
+							
+
+									<div class="span3">
+										<a href="#" rel="tooltip" data-placement="right" title="Name the student goes by, and their recording. When the student voice-records their name, the play button will appear next to their name."><h4>Name Pronunciation</h4></a>
+										<em>(name not yet voice-recorded)</em>
+									</div>
+
+									
+
+								</div>	
+
+							</div>
+
+
+							<% @registeredandunrecordedpos.each do |f| %>					    	
+							<div class="row">
+								<div class="well span12">
+									
+									<div class="span3 offset1">
+											<%= f.user.first_name %> <%= f.user.last_name %> <br/>
+										
+									</div>
+					
+
+									<div class="span3">
+									 		<% if f.notes.blank?%>--<% else %><%= f.notes %><%end%>
+									</div>
+
+						
+					
+									<div class="span3">
+										<table>
+											 <tbody>
+											 	<tr>
+											 	<td class="rec-cell"> <audio src="https://s3-us-west-1.amazonaws.com/<%= ENV['BUCKET_NAME'] %>/<%= f.recording %>.mp3" /> 
+											 	</td>
+											 	<td> &nbsp;&nbsp;<strong><% if !f.phonetic.blank? %><%= f.phonetic %> <% else %><%= f.user.first_name %> <%= f.user.last_name %><% end %> </strong>
+											 	</td>
+											 	<tr>
+											 </tbody>
+											</table>				
+														
+									</div>
+
+									
+								</div>		
+							</div>
+							<% end %> 	
+
+
+							<% if @registeredandunrecordedpos.count == 0  %>
+							<div class=" well span6 offset3 cent">
+							<h3> No entries in this category </h3>
+							</div>
+				<% end %>	
+              </div>
+
+              <div class="tab-pane" id="unreg">
+						  <table class="table  table-striped table-condensed event">
+
+						    	<caption><em>(students invited to register on this site who have not yet done so)</em><br/><br/></caption>
+						    	<thead class="table-header">
+						    		<tr>
+						    			<td><h4>First Name</h4></td>
+						    			<td><h4>Last Name</h4></td>
+						    			
+						    
+						    			
+						   			 </tr>
+						    	</thead>
+
+						   		<tbody>
+						   			<% @unregisteredpos.each do |f| %>
+						    		<tr >
+						    			<td> <%= f.first_name %></td>
+						    			<td><%= f.last_name %></td>
+						    			
+						    		 </tr>
+						    		<% end %>
+						    	</tbody>
+
+    					</table>
+
+    					<% if @unregisteredpos.count == 0  %>
+							<div class=" well span6 offset3 cent">
+							<h3> No entries in this category </h3>
+							</div>
+				<% end %>	
+              </div>
+             
+            </div>
+   
+
+
+
+</div>
+

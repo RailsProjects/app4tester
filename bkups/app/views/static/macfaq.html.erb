@@ -1,0 +1,75 @@
+
+
+<!-- Page content ends -->
+<style>
+.hide {
+display: block !important;
+position: absolute;
+left: -10000px;
+}
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+
+<script>
+function callback(e){
+if(e.success && e.ref){
+setTimeout(function (){
+if(typeof e.ref.PercentLoaded !== "undefined" && e.ref.PercentLoaded()){
+document.getElementById("result").innerHTML = "flash enabled";
+} else {
+document.getElementById("result").innerHTML = "flash disabled";
+}
+}, 200);
+} else {
+document.getElementById("result").innerHTML = "no flash";
+}
+}
+swfobject.registerObject("swftest", "9.0.115", false, callback);
+</script>
+
+<h2 id="result"></h2>
+<div class="hide">
+<object id="swftest" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="10" height="10">
+<param name="movie" value="test.swf" />
+<!--[if !IE]>-->
+<object type="application/x-shockwave-flash" data="test.swf" width="10" height="10"></object>
+<!--<![endif]-->
+</object>
+</div>
+
+
+
+<!-- CTA Starts -->
+
+<div class="cta">
+  <div class="container">
+    <div class="row">
+      <div class="span5">
+        <div class="ctas">
+          <!-- Title and Para -->
+          <h5>Professional Product Ever Made in Internet</h5>
+          <p>Sed diam nisi, pulvinar vitae molestie vitae molestie hendreri hendrerit, venenatis eget mauris.</p>
+        </div>
+      </div>
+      <div class="span4">
+        <div class="ctas">
+          <!-- List -->
+          <ul>
+            <li>Very Cheap in Market. Check it today.</li>
+            <li>Professional and Powerful. Don't miss it.</li>
+            <li>1000% Guanrantee. No Worries. No Probs.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="span3">
+        <div class="ctas">
+          <!-- Button -->
+          <div class="button"><a href="#">Buy it Today for $99</a></div>
+          <p>limited period offer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA Ends -->

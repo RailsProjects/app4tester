@@ -1,0 +1,92 @@
+<div class="container" >
+        
+        <!-- jQuery is used only for this example; it isn't required to use Stripe -->
+       
+        
+
+<br/>
+
+
+<div class="row">
+
+        <div class="well span6 offset3">
+     
+        <hr/>
+         
+        <div class="accordion" id="accordionsub">
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionsub" href="#collapsechange">
+                     <h3> <span class="help-block">Subscription Plan</span></h3>
+                    </a>
+                  </div>
+                  <div id="collapsechange" class="accordion-body collapse in">
+                      <div class="accordion-inner">
+                        <h4> Basic ($35.00/month)  </h4>
+                        <h4> 25 Event Pages/ Year </h4>
+                        <h4> Unlimited Names per Event Page </h4> 
+                        <% if current_user.customer_id.blank? %>
+                        <h4> Free Trial Period: 21 days </h4> 
+                        <% else %>
+                        <br/>
+                        <h4> You have previously subscribed to our service. We hope you enjoyed your free trial, and thank you for choosing to subscribe again! </h4>
+                        <% end %>
+
+                      </div><%# end accordion inner %>
+                  </div><%# end collapsechange %>
+                </div><%# end accordigion group %>
+
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionsub" href="#collapsechange2">
+                      <h5><span class="blue">Edit Plan</span></h5>
+                    </a>
+                  </div>
+                  <div id="collapsechange2" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                          <%= form_for(:sub, url: changesub_path) do |y| %>
+                                               <%= y.select :plan,  options_for_select([["Basic Plan (25 pages/yr, $35/mo)", "basic"], ["Gold Plan (50 pages/yr, $55/mo)", "gold"], ["Pro Plan (100 pages/yr, $85/mo)", "pro"] ]) %>
+                                               <%= y.submit "Choose This Plan", class: "btn btn-primary"  %> 
+                                             <% end %>  
+                      </div><%# end accordion inner %>
+                  </div><%# end collapsechange2 %>
+                </div><%# end accordigion group %>
+                                        
+            </div>   <%# end accordion%>
+        <hr/>
+  
+        
+     
+
+        <br/>
+     <%= label_tag :pay_with_card do %>
+      <%= image_tag "visa.png" %>
+      <%= image_tag "mastercard.png" %>
+      <%= image_tag "discover.png" %>
+      <%= image_tag "american_express.png" %>
+      <%= image_tag "jcb.png" %>
+      <%= image_tag "diners.png" %>
+    <% end %>
+        <br/>
+        <form action="<%= stripereceiver_url %>" method="POST" id="payment-form">
+            <input type="hidden" name="plan" value="<%= @plan %>">
+              
+              <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
+                    data-key="<%= ENV['PUBLISHABLE_KEY'] %>" data-panel-label="Subscribe!" data-name="NameCoach"
+                data-description="1-year subscription"
+                data-image="<%= image_path('darkerbuttont_fav_2.png')%>"> </script> <%= image_tag "lockoverlay.png" %>&nbsp;<span class="help-block">Secure Payment with Stripe <a href="https://stripe.com/help/security" target="_blank" ><i class="icon-question-sign "></i></a></span>
+            <br/>
+            <br/>
+                
+            <% if current_user.customer_id.blank? %>
+            <p> Your card will not be charged until the free trial period ends. You may cancel your subscription any time. </p>
+            <% else %> 
+            <p> Your card will be charged now for the first month. You may cancel your subscription any time. </p>
+            <% end %>
+            <br/>
+           
+        </form>
+</div>
+</div>
+
+</div>

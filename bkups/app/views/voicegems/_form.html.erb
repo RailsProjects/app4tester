@@ -1,0 +1,24 @@
+<%= simple_form_for(@voicegem) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :user_id %>
+    <%= f.input :event_id %>
+    <%= f.input :first_name %>
+    <%= f.input :last_name %>
+    <%= f.input :email %>
+    <%= f.input :admin_notes %>
+    <%= f.input :vg_userinvite_id %>
+    <%= f.input :admin_id %>
+    <%= f.input :token %>
+    <%= f.input :recording %>
+    <%= f.input :request %>
+    <%= f.input :notes %>
+    <%= f.input :hidden %>
+    <%= f.input :length %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

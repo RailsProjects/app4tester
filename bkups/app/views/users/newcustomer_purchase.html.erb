@@ -1,0 +1,49 @@
+
+<div class="jumbotron">
+      <h1>Customer Signup</h1>
+      <br/>
+      <h3><span class="deco">&nbsp;<i class="icon-check-empty icon-white"></i>&nbsp;Step 1: New User Registration</span></h3>
+     
+      <h3>&nbsp;<i class="icon-check-empty icon-white"></i>&nbsp;Step 2: Purchase Event Pages </h3>
+  </div>
+
+<div class="container">
+
+<br/>
+<br/>
+
+<div class="row">
+      <div class="span5 offset3 home-block">
+        <div class="grey-box hero-block-2">
+      <h4> <span class="label label-info"> <i class="icon-user icon-white">&nbsp;</i> New User Registration </span> </h4>
+      * required
+          <%= simple_form_for(@user, url: newcustomercreate_purchase_path, :html => {:class => "form-horizontal"}) do |f| %>
+          <br/>
+          <%= f.error_notification %>
+          
+            
+             
+              <%= f.input :first_name, label: "First Name*" %>
+              <%= f.input :last_name, label: "Last Name*" %>
+              <%= f.input :email, label: "Email*" %>
+              <%= f.input :company, label: "Company/School Name" %>
+              <%= f.input :password, hint: "(minimum 6 characters)", label: "Create Password*" %>
+              <%= f.input :password_confirmation, label: "Confirm Password*" %>
+              <%= f.hidden_field :number, :value => @number %>
+
+            
+              <div class="form-actions">
+               
+              <%= f.button :submit, "Register!", class: "btn btn-large btn-primary" %>
+           
+              </div>
+<h6>By registering you agree to our <%= link_to "Terms and Conditions", terms_path, :target => "_blank" %>.</h6>
+          <% end %>
+        </div>
+        <div class="tp-bannershadow tp-shadow1"></div>
+      </div>
+
+
+</div>
+
+</div>

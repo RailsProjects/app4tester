@@ -1,0 +1,43 @@
+<h1>Listing practiceobjects</h1>
+
+<table class="table table-striped">
+  <tr>
+    <th>PO ID</th>
+    <th>User</th>
+    <th>Event</th>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Email</th>
+    <th>Admin notes</th>
+    <th>Userinvite</th>
+    <th>Admin</th>
+    <th>Token</th>
+    <th>Recording</th>
+    <th>Hidden</th>
+    <th></th>
+  </tr>
+
+<% @practiceobjects.each do |practiceobject| %>
+  <tr>
+     <td><%= practiceobject.id %></td>
+    <td><%= practiceobject.user_id %></td>
+    <td><%= practiceobject.event_id %></td>
+    <td><%= practiceobject.first_name %></td>
+    <td><%= practiceobject.last_name %></td>
+    <td><%= practiceobject.email %></td>
+    <td><%= practiceobject.admin_notes %></td>
+    <td><%= practiceobject.userinvite_id %></td>
+    <td><%= practiceobject.admin_id %></td>
+    <td><%= practiceobject.token %></td>
+    <td><%= practiceobject.recording %></td>
+    <td><%= practiceobject.hidden %></td>
+    <td><%= link_to 'Show', practiceobject %></td>
+    <td><%= link_to 'Edit', edit_practiceobject_path(practiceobject) %></td>
+    <td><%= link_to 'Destroy', practiceobject, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Practiceobject', new_practiceobject_path %>

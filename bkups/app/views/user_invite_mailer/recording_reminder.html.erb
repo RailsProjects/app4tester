@@ -1,0 +1,9 @@
+<p> Hi there <% if !@po.user.first_name.nil? %><%= @po.user.first_name %> <% end %>! </p>
+
+<p> The admin for the event <%= @po.event.title %> wanted to remind you to please record your name at NameCoach, to help ensure it's announced correctly! </p>
+
+</p> Please sign in: <%= link_to "sign in!", @url %></p>
+
+<p> Thank you!
+- The team at NameCoach </p>
+

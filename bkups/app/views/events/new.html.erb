@@ -1,0 +1,23 @@
+<h1>New Event</h1>
+
+<%= form_for(@event) do |f| %>
+  
+
+  
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="field">
+	<%= f.label :date %>
+	<%= f.datetime_select :date %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+
+<%= link_to 'Home Page', root_path %>

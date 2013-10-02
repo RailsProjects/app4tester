@@ -1,0 +1,195 @@
+<div class="jumbotron">
+      <h1><em>When it Needs to be Perfect...</em> </h1>
+  </div>
+             <% flash.each do |key, value| %>
+              <div class="alert alert-block alert-<%=key%>"> 
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= value %> 
+              </div>
+            <% end %>
+
+<br/>
+<br/>
+
+
+<div class="row">
+    <div class="span9 offset3">
+      <h2><center>You're thinking of a million things when planning your wedding. <br/> Let NameCoach take this important detail off your hands!</center> </h2>
+
+          </br>
+          <center><h4><em>DJ or Wedding Planner? Click <a href="<%= receptions_path %>" class="cent">here</a> to see how NameCoach can help.</em></h4></center>
+          <br/>
+          <div class="text-divider5">
+            <span></span>
+          </div>
+    </div>
+</div>
+
+<center><td><img src="<%= image_path('wedding_hands_header.png')%>"> </td></center> 
+
+
+<div class="row">
+    <div class="span9 offset3">
+      <p><h3>So what's the issue? Until now, reception MC's have been limited to: </h3></p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span8 offset4">
+        <p><i class="icon-ban-circle"></i>&nbsp;Trying to nail down tough pronunciations from the Bride, Groom or any other person at the last minute, often just a few minutes before the reception starts.  </p>
+         <p><i class="icon-ban-circle"></i>&nbsp;Or worse, only having written pronunciations to rely on.</p>
+        <p><i class="icon-ban-circle"></i>&nbsp;Despite best efforts, not having a truly effective method of getting the wedding party (and other) names all pronounced right.</p>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="span9 offset3">
+        <h4>A good MC/DJ can ensure your reception goes smoothly. But he or she won't have the tools to both easily and effectively handle this challenge, and mistakes happen all too often.</h4> <br/>
+
+        <div class="text-divider6">
+          <span></span>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="span9 offset3">
+      <h2>Our Unique Solution:</h2>
+    </div>
+ </div>
+
+ <div class="row biggertext">
+    <div class="span8 offset4">
+
+        
+        <div class="content process biggertext">
+
+          <div class="row">
+             <div class="span8">
+                 <div class="process-meta fl-left">
+                   <span>1</span>
+                 </div>
+               
+                  <br/>
+                 <span class="ph3">&nbsp;&nbsp;&nbsp;Share a Link</span>&nbsp;&nbsp;
+                  <i class="icon-caret-right"></i>&nbsp;&nbsp;<a href="<%= @url%>" target="_blank"><span class="biggerlink">Please record your name for the Jones-Ravenwood Wedding</span></a><br/>
+                  &nbsp;&nbsp;&nbsp;<span class="help-block">(or enter emails to request specific names from wedding party)<span>   
+              </div> 
+          </div>
+
+          <div class="row">
+             <div class="span8">
+                 <div class="process-meta fl-left">
+                   <span>2</span>
+                 </div>
+               
+                  <br/>
+                 <span class="ph3">&nbsp;&nbsp;&nbsp;Guests Voice-Record Names Online</span>&nbsp;&nbsp;
+                 <br/>
+                  &nbsp;&nbsp;&nbsp;<span class="help-block">(and can enter phonetic spellings)</span>   
+                
+              </div> 
+          </div>
+
+         <div class="row">
+             <div class="span9">
+                 <div class="process-meta fl-left">
+                   <span>3</span>
+                 </div>
+               
+                  <br/>
+                 <span class="ph3">&nbsp;&nbsp;&nbsp;MC's Hear (and Practice) Names with Ease</span>&nbsp;&nbsp;
+                  <i class="icon-caret-right"></i>&nbsp;&nbsp;<a href="<%= demo_wedding_page_path %>" target="_blank" class="biggerlink">Demo Name Page</a>
+              </div> 
+          </div>
+
+
+        </div>
+          
+    </div>  
+  </div> 
+     
+
+<div class="row">
+    <div class="span9 offset3">
+       <div class="text-divider5">
+            <span></span>
+        </div>
+      <br/>
+      <p> Recent surveys show that <strong>72% of all brides say they would have spent more time choosing their reception entertainment</strong>, and within one week of the reception, <strong>78% of brides say they would have made this their top priority.</strong>*  Name mispronunciation at such banner moments is a major source of this regret.</p>
+      
+    </div>
+</div>
+
+<br/>
+
+  <div class="row">
+
+      <div class="span7 offset3">
+         <!-- Testimonial #1 -->
+         <div class="test">
+            <strong>"I’m recommending NameCoach to couples to make sure this doesn’t happen to them.  My name can be difficult, but it seemed obvious that they would get it right at our wedding. Nope! My wife was understandably livid, and so was I. <span class="black">NameCoach seems like a perfect way to prevent a disappointment couples might not be wary of </span> - not just names of the bride and groom, but bridesmaids and groomsmen and in-laws.  The recordings allows MC’s to really learn how to say the names as much as they need to, no embarrassment, for them or for us!"</strong> 
+         </div>
+         <div class="test-arrow"></div>
+         <div class="tauth"><i class="icon-user"></i> Dr. Vijay Srinivasa, <span class="color">Cincinnati, OH</span></div>
+      </div>
+
+  </div>
+
+<div class="row">
+  <div class="span7 offset3">
+    <br/>
+    <h4><b>Avoid the same regrets. Use NameCoach to ensure these moments are truly perfect!<b/></h4>
+    <br/>
+  </div>
+</div>
+
+<div class="row">
+<div class="span5 offset4"><img src="<%= image_path('wedding_METJOURNAL2-articleLarges.jpg')%>"></div>
+<div class="row">
+
+<div class="row">
+  <div class="span6 offset4 hero-block-2">
+     <a href="<%= wed_new_customer_purchase_path %>" class="btn btn-warning btn-large span3"></i>Try it Today&nbsp;&nbsp;<i class="icon-chevron-right"></i><i class="icon-chevron-right"></i></a>&nbsp;&nbsp;<a href="<%= demo_wedding_page_path %>" target="_blank" class="btn btn-primary btn-large">See Demo Name Page</a> 
+  </div>
+</div>
+
+<br/>
+
+
+<div class="container">
+<div class = "row">
+  <div class="span6 offset3 home-block"  >
+          <div class="grey-box hero-block-2 biggertext">
+              <h2 class="light-blue">Wedding Reception Special Offer</h2>
+              <p>&nbsp;&nbsp;<i class="icon-ok light-blue"></i>&nbsp;&nbsp;Best-in-Class Interface, easy for you and your MC/DJ</p>
+              <p>&nbsp;&nbsp;<i class="icon-ok light-blue"></i>&nbsp;&nbsp;Free <em>NamePro</em> Service&nbsp;<i class="icon-info-sign light-blue" id= "popover_namepro" rel="popover" data-placement="top" data-content="Anyone who records on our site will be offered <strong>free lifetime access</strong> to our soon-to-be-released <em>NamePro</em> service.<br/><br/> <em>NamePro</em> allows individuals to publish their name recording in their email signatures and social media presence.<br/><br/>We want you and your guests to enjoy hearing your names pronounced correctly everywhere, long after the big day!<br/>" data-original-title="Lifetime <em>NamePro</em> Service"></i></p>
+              <p>&nbsp;&nbsp;<i class="icon-ok light-blue"></i>&nbsp;&nbsp;100-day, 100% money-back Satisfaction Guarantee</p>
+              <a href="<%= wed_new_customer_purchase_path %>" class="btn btn-warning"><i class="icon-shopping-cart"></i>Purchase Service for $<%= one_wed_price %></a>
+               <br/>
+              <span class="cent gray"><em></em></span>
+               <script>  
+                $(function ()  
+                { $("#popover_namepro").popover();  
+                });  
+               </script>
+          </div>
+          <div class="tp-bannershadow tp-shadow3"></div>
+      </div>
+</div>
+</div>
+
+<br/>
+<div class="sep"></div>
+<br/>
+
+
+
+
+<div class="row">
+  <div class="span8 offset3">
+    <h6>*These statistics were published in St. Louis Bride and Groom Magazine in 2003. Sources include: Simmons, 2001; USA Today, 2002; National Bridal Service, 2001; The Knot, 2002; Brides Magazine, 2001. *Reprinted from www.ADJA.org </h6>
+  </div>
+</div>

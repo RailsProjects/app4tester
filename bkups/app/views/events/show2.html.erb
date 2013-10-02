@@ -1,0 +1,148 @@
+<p id="notice"><%= notice %></p>
+
+<h1> Your Event </h1>
+<p>
+  <%= @event.id %>
+</p>
+
+<h2>
+  <%= @event.title %>
+</h2>
+
+<p>
+  <%= @event.date %>
+</p>
+
+<h3> Invite users here: </h3>
+<%= form_for(@practiceobject) do |f| %>
+  <% if @practiceobject.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@practiceobject.errors.count, "error") %> prohibited this practiceobject from being saved:</h2>
+
+      <ul>
+      <% @practiceobject.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<table>
+	<div><%= f.hidden_field :event_id %></div>
+ <tr>
+	<td>
+	  <div class="field">
+	    <%= f.label :first_name %><br />
+	    <%= f.text_field :first_name %>
+	  </div>
+	</td>
+	<td>
+	  <div class="field">
+	    <%= f.label :last_name %><br />
+	    <%= f.text_field :last_name %>
+	  </div>
+	 </td>
+	 <td>
+	  <div class="field">
+	    <%= f.label 'email (required)' %><br />
+	    <%= f.text_field :email %>
+	  </div>
+	 </td>
+	 <td>
+	  <div class="actions">
+	    <%= f.submit "Invite user" %>
+	  </div>
+	 </td>
+</tr>
+</table>
+
+<% end %>
+
+<h2> Your event attendees: </h2> 
+
+<table>
+		<%= form_for(@practiceobject) do |f| %>
+			<%= fields_for(@practiceobject.user) do |h| %> 
+				<tr>
+					<td>
+					  <div class="field">
+					    <%= f.label :first_name %><br />
+					   
+					  </div>
+					</td>
+					<td>
+					  <div class="field">
+					    
+					    <%= f.label :last_name %><br />
+					  </div>
+					 </td>
+
+								 
+								 <td>
+								  <div class="field">
+								    <%= h.label :phonetic %><br />
+								  </div>
+								</td>
+
+								 <td>
+								  <div class="field">
+								    <%= h.label :phonetic %><br />
+								  </div>
+								</td>
+
+								
+
+					 <td>
+					  <div class="field">
+					    <%= f.label :email %><br />
+					  </div>
+					 </td>
+					 
+				</tr>
+			<% end %>
+			<% end %>
+
+<% @event.practiceobjects.each do |f| %>
+    <%= form_for(f) do |e| %>
+			
+		 <tr>
+			<td>
+			  <div class="field">
+			   
+			    <%= e.text_field :first_name,:disabled => true %>
+			  </div>
+			</td>
+			<td>
+			  <div class="field">
+			    
+			    <%= e.text_field :last_name,:disabled => true %>
+			  </div>
+			 </td>
+			 <td>
+			  <div class="field">
+			   
+			    <%= e.text_field :email,:disabled => true %>
+			  </div>
+			 </td>
+			 <td>
+			  <div class="actions">
+			    <%= e.submit "Send reminder email" %>
+			  </div>
+			 </td>
+		</tr>
+	<% end %>
+<% end %>
+
+</table>
+
+<% fields_for f.user do |g| %>
+				<td>
+			  		<div class="field">
+			   		<%= g.text_field :notes,:disabled => true %>
+			  		</div>
+			 	</td>
+			 	<% end %>
+
+			 	<% if !f.user.nil? %>
+				<td> <%= f.user.notes %> </td>  
+			<% end %>

@@ -1,0 +1,115 @@
+            <% flash.each do |key, value| %>
+              <div class="alert alert-block alert-<%=key%>"> 
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= value %> 
+              </div>
+            <% end %>
+<br/><br/>
+<div class="container">
+
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit bg-purple">
+          <div class="row">
+              <div class="span5 offset3">
+                <a href="<%= eventcodesignup_path %>" class="btn btn-info"> Recording Your Name for an Event? <i class="icon-chevron-right icon-white"></i> </a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="<%= admincodesignup_path %>" class="btn btn-info"> Asked to Admin an Event? <i class="icon-chevron-right icon-white"></i> </a>
+              </div>
+          </div>
+
+          <br/><br/>
+
+          <div class="row">
+              <div class="span7">
+                   <h3 class="white">NameCoach adds high-touch value to the service you provide as a Wedding Planner or DJ, setting you apart in one critical way from all the rest... at <em>your</em> event, the names will be announced right! </h3> <br/>
+                   <div class="span5 offset1">
+                   <h4 class="white"><em>Attendees voice-record their name on an event page where the MC/DJ can hear it, making pronunciation easier than ever...</em></h4> <br/>
+                   </div>
+                      <div class="well span4 offset1">                             
+                      
+                            <table>
+                             <tbody>
+                              <tr>
+                              <td class="rec-cell"> <audio src="https://s3-us-west-1.amazonaws.com/namewaves/67.mp3" /> 
+                              </td>
+                              <td> &nbsp;&nbsp;<strong><span class="black"><%= User.find(67).phonetic %></span></strong>
+                              </td>
+                              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span class="black"><%= User.find(67).notes %></span> 
+                              </td>
+                              <tr>
+                             </tbody>
+                            </table> 
+
+                      
+                    </div>
+              </div> 
+              <div class="span3">
+                <br/>
+                <br/>
+                <a href="<%= newcustomer_path %>" class="btn btn-primary btn-large span3"> Start Your Free Trial Today! <i class="icon-chevron-right icon-white"></i> </a> <br/>
+                
+                <a href="<%= newcustomer_path %>" class="span3"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Planning your own wedding? </a> <br/>
+                
+                <hr/>
+              </div>
+          </div>
+        </div>
+
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="span4 offset1">
+          <h2 class="cent">What We Do</h2>
+          <p>People naturally want their weddings to be <strong><em>perfect</em></strong>. Mangled wedding party names is a top fear of your clients, but we all know pronouncing every name correctly can be... <em>tough</em>. <br/><br/>Friends and family might not say anything to you (and if they do, <a href="http://www.myweddingworkbookpro.com/blog/index.cfm/2011/7/27/DJ-threatened-by-mobster-for-mispronouncing-family-name--Wedisaster-Series-Pt-3" target="_blank">hopefully it's not this!</a>), but the collective dismay is always palpable. <br/><br/> Clients expect the best from wedding professionals, and <strong>NameCoach</strong> finally provides an <em><strong>easy</strong></em> way to deliver that high touch, leaving everyone more satisfied and happy to rave about your services.</p>
+          <p><a class="btn btn-right" href="#">View details &raquo;</a></p>
+        </div>
+
+        <div class="span5 offset1">
+          <h2 class="cent">How it Works</h2>
+                        <div id="myCarousel" class="carousel slide">
+                <div class="carousel-inner">
+                      <div class="item active">
+                        <div class="span4">
+
+                          <h4 class="cent">Step 1: Request names from event attendees.</h4> <br/>
+                          Enter their email address or give them a unique event code.
+                            <br/>
+                            <%= image_tag("invite_2.png", alt: "Rails") %>
+                        </div>
+                             
+                      </div>
+                      <div class="item">
+                          <div class="span4">
+
+                          <h4 class="cent">Step 2: Attendees voice-record their names.</h4> <br/>
+                          These automatically appear on your event page.
+                            <br/><br/>
+                            <%= image_tag("record_3.png", alt: "Rails") %>
+
+                        </div>
+                      </div>
+                      <div class="item">
+                         <div class="span4">
+
+                          <h4 class="cent">Step 3: The person announcing names can hear and practice them.</h4> <br/>
+                          You can also allow others to both request names and hear names.
+                            <br/><br/>
+                            <%= image_tag("event_3.png", alt: "Rails") %>
+                            
+                        </div>
+                      </div>
+                </div>
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+              </div>
+          <p><a class="btn btn-right" href="#">View details &raquo;</a></p>
+        </div>
+      </div>
+
+      <hr>
+
+       
+
+            
+    </div> <!-- /container -->
+
+   
+  

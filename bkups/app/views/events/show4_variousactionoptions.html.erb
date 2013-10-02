@@ -1,0 +1,421 @@
+
+<script>
+
+ $(document).ready(function() {
+  /* Activating Best In Place */
+  jQuery(".best_in_place").best_in_place();
+});
+</script>
+<%# checks to see if the current user is an admin for this event; prevents users who are admins for one event to access another event page for which they are just registered but not admins.  cant use current-user method here because that is for controllers, has redirects and stuff in it.. %>
+<% if !@event.adminkeys.find_by_user_id(current_user.id) %>
+	<p> non-admin event show page here </p>
+<% else %>   
+
+
+	<div class="jumbotron">
+			<h1> Name Practice Page: <em> <%= @event.title %> </em> </h1>
+			<br/>
+			<h3>  <%= @event.date.strftime("%b %d, %Y")  %> </h3>
+	</div>
+
+            <% flash.each do |key, value| %>
+              <%= content_tag(:div, value, class: "alert alert-#{key}") %>
+            <% end %>
+<br />
+<br/>
+
+<div class="container">
+
+
+<div class="row">
+
+ 	<div class="span7">
+			
+				<div class="well">
+					<h4> <span class="label label-info"><i class="icon-envelope icon-white"></i></span>&nbsp;Invite an event attendee to register and record their name: </h4>
+					<br />
+					<%= form_for(@practiceobject, :html => {:class => 'form-inline'}) do |f| %>
+
+									
+										   <%= f.hidden_field :event_id %>
+																			 									    
+										    <%= f.text_field :first_name, :placeholder => "First Name", :class => "span2" %>
+																							
+										  
+										    <%= f.text_field :last_name, :placeholder => "Last Name", :class => "span2" %>
+										
+																				 									    
+										    <%= f.text_field :email, :placeholder => "Email (required)", :class => "span2"  %>
+										
+										 									  
+										    <%= f.submit "Invite Attendee", class: "btn btn-primary" %>
+										  
+
+									<% end %>
+
+				</div>
+	</div>
+
+	<div class="span4 offset1">
+			<div class="well">
+
+
+										<h4><span class="label label-info"><i class="icon-user icon-white"></i></span>&nbsp;Admins<% if @event.title %> for <%= @event.title %><% end %>:</h4><br/>
+										<table class="table table-condensed">
+											<% @event.admins.each do |a| %>
+												<tr>
+													<td> <%= a.first_name %> </td>
+													<td> <%= a.last_name %> </td>
+													<td> <%= a.email %> </td>
+												</tr>
+											<% end %>
+										</table> 
+					
+
+
+											<%# this section allows admins to invite admins and see admins - need to allow non-admin users to also see admins, and only allow the correct admin to invite admins and see admin invites (so if regisetered as a user for one event and admin for another, cannot admin the first event - I think this is taken care of, test for this %>
+
+										<% if @event.adminkeys.find_by_user_id(current_user.id) %>
+
+													<div id="myModal2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										            <div class="modal-header">
+										              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+										              <h3 id="myModalLabel">Admin Invitations</h3>
+										            </div>
+										            <div class="modal-body">
+
+										            				<% if @event.admininvites.empty? %>
+										            				No other admins invited yet
+										            				<% else %>
+																			<table class="table table-condensed">
+																				<caption><em>Invitations Already Sent</em> </caption>
+																				<% @event.admininvites.each do |b| %>
+																						<tr>
+																							<td>  <%= b.first_name %>  </td>
+																							<td>  <%= b.last_name %>  </td>
+																							<td> <%= b.recipient_email %> </td>
+																							<td> sent <%= b.created_at.strftime("%b %d, %Y") %> </td>
+																						</tr>
+																				<% end %>
+																			</table> 
+																	<% end %>
+																			<br/>
+																			
+
+																			<hr />
+																			<br/>		
+
+																	   <%= form_for(@event.admininvites.build, :html => {:class => 'form-inline'}) do |f| %>
+
+																
+																	    <%= f.hidden_field :event_id %>
+																										 									    
+																	    <%= f.text_field :first_name, :placeholder => "First Name", :class => "span2" %>
+																														
+																	  
+																	    <%= f.text_field :last_name, :placeholder => "Last Name", :class => "span2" %>
+																	
+																											 									    
+																	    <%= f.text_field :recipient_email, :placeholder => "Email (required)", :class => "span2"  %>
+
+																			<div  style="text-align:center; margin:10px" >
+																	 						  
+																		    <%= f.submit "Invite Admin", class: "btn btn-primary"  %>
+																		  	</div>
+
+																		<% end %>
+										            </div>
+
+										            <div class="modal-footer">
+										              <button class="btn" data-dismiss="modal">Cancel</button>
+										                
+										        
+										              </div>
+										          </div>
+
+										          	<div  style="text-align:right" >
+												          <div class="bs-docs-example" style="padding-bottom: 24px;">
+												            <a data-toggle="modal" href="#myModal2" class="btn btn-info btn-small">Invite another admin</a>
+												          </div>
+												    </div>
+
+												
+
+										<% end %>
+
+
+
+			</div>
+	</div>
+
+	
+</div>
+
+
+
+
+<%# this first section uses @registeredpos and lists the registered practice objects %>
+
+
+            <ul id="myTab" class="nav nav-tabs">
+              <li class="active"><a href="#reg" data-toggle="tab"><strong>Attendees with Name Recorded</strong></a></li>
+              <li><a href="#regunrec" data-toggle="tab"><strong>Registered Attendees</strong></a></li>
+              <li><a href="#unreg" data-toggle="tab"><strong>Unregistered Attendees</strong></a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+              <div class="tab-pane fade in active" id="reg">
+								                <table class="table table-bordered table-striped table-condensed event ">
+								    	<caption><em>(attendees who have registered on this site and recorded their name)</em></caption>
+								    	<thead>
+								    		<tr >
+								    			<th><span class="label label-info">First Name</span></th>
+								    			<th><span class="label label-info">Last Name</span></th>
+								    			<th><span class="label label-info">Email</span></th>
+								    			<th><span class="label label-info">Attendee's Notes</span></th>
+								    			<th class="big-cell"><span class="label label-info">Name to be Announced (with recording)</span></th>
+
+								    			<th><span class="label label-default">Admin Notes</span></th>
+								    			<th><span class="label label-default">Actions</span> </th>
+								    			
+								   			 </tr>
+								    	</thead>
+
+								   		<tbody>
+								   			<% @registeredandrecordedpos.each do |f| %>
+								    		<tr >
+								    			<td> <%= f.first_name %> </td>
+								    			<td><%= f.last_name %></td>
+								    			<td><%= f.email %></td>
+								    			<td><%= f.user.notes %></td>
+								    			<td>
+
+															<div id="sm2-container">
+															  <!-- SM2 flash goes here -->
+															 </div>
+
+															 <ul class="graphic">
+
+  
+															 		 <li><a href="https://s3-us-west-1.amazonaws.com/<%= ENV['BUCKET_NAME'] %>/<%= f.user_id %>.mp3"><% if !f.user.phonetic.blank? %><%= f.user.phonetic %> <% else %><%= f.first_name %> <%= f.last_name %><% end %></a></li>
+															  
+															 </ul>
+								    			</td>
+
+
+
+												<td> <%= best_in_place f, :admin_notes, :type => :textarea, :ok_button => "Save Changes", :cancel_button => "Cancel", :nil => "click me to add content", :activator => idconcat(f.id)  %>  </td>
+								    			<td>
+								    						<br/>
+																<%= form_tag('/reminder', :method => 'post') do %>
+																	<%= hidden_field_tag(:x, f.id) %>
+																	
+																	<a href="#" rel="tooltip" data-placement="right" title="If you don't like this name recording, clicking here will ask the attendee to re-record"><button type="submit" class="btn btn-info btn-small"> Request Recording </button></a>		
+																    
+																    <br/><br/>
+
+
+																	<button class="btn btn-info btn-small" id="<%= f.id %>" href="#"> Edit Admin Notes </button>
+												
+															<% end %>
+														
+												</td>
+													
+								    		</tr>
+								    		<% end %>
+								    	</tbody>
+
+								    </table>
+              </div>
+
+              <div class="tab-pane fade" id="regunrec">
+                
+
+										     <table class="table table-bordered table-striped table-condensed event">
+										    	<caption><em>(attendees registered on this site who have not yet recorded their name)</em></caption>
+										    	<thead>
+										    		<tr >
+										    			<th><span class="label label-info">First Name</span></th>
+										    			<th><span class="label label-info">Last Name</span></th>
+										    			<th><span class="label label-info">Email</span></th>
+										    			<th><span class="label label-info">Attendee's Notes</span></th>
+										    			<th class="big-cell"><span class="label label-info">Name to be Announced (with recording)</span></th>
+
+										    			<th><span class="label label-default">Admin Notes</span></th>
+										    			<th><span class="label label-default">Actions</span> </th>
+										    			
+										   			 </tr>
+										    	</thead>
+
+										   		<tbody>
+										   			<% @registeredandunrecordedpos.each do |f| %>
+										    		<tr >
+										    			<td> <%= f.first_name %> </td>
+										    			<td><%= f.last_name %></td>
+										    			<td><%= f.email %></td>
+										    			<td><%= wrap(f.user.notes) %></td>
+										    			<td> <% if !f.user.phonetic.blank? %><%= f.user.phonetic %><br/>-name not recorded- <% else %>--not yet provided--<% end %>
+										    				</td>
+
+														<td><%= wrap(f.admin_notes) %></td>
+										    			<td>
+										    					    <div class="btn-group">
+																			    <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+																			    Action
+																			    <span class="caret"></span>
+																			    </a>
+																			    <ul class="dropdown-menu">
+																			    <!-- dropdown menu links -->
+																			    
+																				    <li>
+																				    	<button class="btn btn-info btn-small" id="<%= f.id %>" href="#"> Edit Admin Notes </button>
+																														 			
+																						
+																					</li>
+																					<%= form_tag('/reminder', :method => 'post') do %>
+																						<%= hidden_field_tag(:x, f.id) %>
+																							
+																							<a href="#" rel="tooltip" data-placement="right" title="Click to remind the attendee to record their name"><button type="submit" class="btn btn-info btn-small"> Request Recording </button></a>	
+																						<% end %>
+	                  																<li>
+	                  																	
+	                  																</li>
+	                  																
+																			    </ul>
+																	 </div>
+																						
+																						
+
+																
+														</td>
+
+										    		</tr>
+										    		<% end %>
+										    	</tbody>
+
+										    </table>
+              </div>
+
+              <div class="tab-pane fade" id="unreg">
+						                <table class="table table-bordered table-striped table-condensed event">
+
+						    	<caption><em>(attendees invited to register on this site who have not yet done so)</em></caption>
+						    	<thead>
+						    		<tr>
+						    			<th><span class="label label-info">First Name</span></th>
+						    			<th><span class="label label-info">Last Name</span></th>
+						    			<th><span class="label label-info">Email</span></th>
+						    			<th><span class="label label-default">Admin Notes</span></th>
+						    			<th><span class="label label-default">Actions</span> </th>
+						    			
+						   			 </tr>
+						    	</thead>
+
+						   		<tbody>
+						   			<% @unregisteredpos.each do |f| %>
+						    		<tr >
+						    			<td> <%= f.first_name %> </td>
+						    			<td><%= f.last_name %></td>
+						    			<td><%= f.email %></td>
+						    			<td><%= wrap(f.admin_notes) %></td>
+						    			<td>
+						    					
+											<%= form_for(f.userinvites.build, url: userinvites_path) do |u| %>
+												<%= u.hidden_field :practiceobject_id %>
+												<a href="#" rel="tooltip" data-placement="right" title="Click to remind the attendee to register on this site and record their name"><button type="submit" class="btn btn-info btn-small"> Send Reminder Email </button></a>										
+											 <% end %>
+
+												
+										</td>
+
+						    		</tr>
+						    		<% end %>
+						    	</tbody>
+
+    </table>
+
+
+              </div>
+             
+            </div>
+   
+
+
+
+</div>
+
+<% end %>
+
+
+
+
+<%= button_to "Go", e,
+      :class => "btn btn-primary btn-small", :method => :get %>
+<%= button_to raw("<i class=\"icon-search icon-white\">Add To Cart</i>"), 
+          line_items_path(product_id: product), 
+          class: "btn btn-success" %>
+
+
+<a data-toggle="modal" href="#myModal" class="btn btn-danger btn-large">Record Your Name <i class="icon-chevron-right icon-white"></i> </a>
+
+<a href="<%= e %>" class="btn btn-danger btn-small">go <i class="icon-chevron-right icon-white"></i> </a>
+
+
+<a id="<%= f.id %>" href="#"><span class="label label-info label-left"><i class="icon-pencil icon-white"></i>&nbsp;edit</span></a> 
+
+GOT THIS WORKING -  MAYBE USEFUL FOR OTHER BUTTON LINKS WHERE I NEED SOME ERB:
+<a href="<%= events_path%>/<%= e.id %>" class="btn btn-info btn-small">go <i class="icon-chevron-right icon-white"></i> </a>
+
+
+
+
+AN ATTEMPT AT THE REGULAR USER SHOW PAGE 'YOUR EVENTS' PART, WITH the admin list as a table within a table - can't get the borders to go away - oh, it was because inheritng borderd table class from parent table
+
+<% if @user.practiceevents.any? %>
+<div class="row">
+    <div class="span12">
+          <h4><span class="label label-info"><i class="icon-list icon-white"></i></span><strong> Event pages in which your <em>Namewave</em> appears: </strong></h4>
+           <table class="table table-bordered table-striped event ">
+                                <caption><em>(these are the events you are attending in which your name will be announced)</em></caption>
+                                <thead>
+                                  <tr >
+                                    <th><span class="label label-info">Event</span></th>
+                                    <th><span class="label label-info">Date</span></th>
+                                    <th><span class="label label-info">Admins for this event</span></th>                                                           
+                                   </tr>
+                                </thead>
+
+                                <tbody>
+                                      <% @user.practiceevents.each do |e| %>
+                                           
+                                        
+                                              <tr>
+                                                <td> <strong><%= link_to e.title, e %></strong><br/>
+                                                  <a href="<%= events_path%>/<%= e.id %>" class="btn btn-info btn-small">go <i class="icon-chevron-right icon-white"></i> </a>
+                                                 </td>
+                                                <td><% unless e.date.nil? %><%= e.date.strftime("%b %d, %Y") %><% end %></td>
+                                                <td>
+                                                    <table class="table table-condensed">
+                                                      <tbody>
+                                                        <% e.admins.each do |a| %>
+                                                         <tr>
+                                                            <td><%= a.first_name%></td>
+                                                            <td><%= a.last_name%></td>
+                                                            <td><%= a.email %></td>
+                                                        </tr>
+                                                        <% end %>
+                                                       </tbody> 
+                                                    </table>
+                                                </td>
+                                                                                                             
+
+                                              </tr>
+                                </tbody>
+                                <% end %>
+
+                              </table>
+
+
+    </div>
+</div>
+
+<% end %>

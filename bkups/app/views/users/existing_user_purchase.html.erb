@@ -1,0 +1,63 @@
+<div class="jumbotron">
+        <h1>Purchase Event Pages</h1>
+      
+</div>
+               
+
+             
+             <% flash.each do |key, value| %>
+              <div class="alert alert-block alert-<%=key%>"> 
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= value %> 
+              </div>
+            <% end %>
+
+<br/>
+<br/>
+
+<div class="container">
+
+  <div class="row">
+
+      <div class="span4 offset4">
+
+         <div class="row">
+            <% if customer_has_active_subscription? %> 
+            <p><icon class="icon-caret-right"></i>&nbsp;You have <%= @s.events_remaining %> event page<% if @s.events_remaining > 1 %>s<% end %> left on your <%= @s.plan_id %> plan through the year ending <%= @s_year.strftime("%b %d, %Y") %>.</p>
+            <% end %>
+            <% if current_user.purchased_events > 0 %>
+            <p><icon class="icon-caret-right"></i>&nbsp;You <% if customer_has_active_subscription? %>also <% end %>have <%= current_user.purchased_events %> purchased event page<% if current_user.purchased_events > 1 %>s<% end %> remaining.</p>
+            <% end %> 
+            <p>You may purchase <% if current_user.customer == true %>additional <% end %> event pages here.</p>
+
+         </div>
+
+         <hr/>
+
+         <div class="row">
+                           <div class="fltlft PlanBox3">
+                              <div class="PlanBoxHeading">Event Page Pricing </div>
+                              <div class="PlanBoxContent">
+                                <ul>
+                                  <li><strong>1 to 5</strong> Events: <strong>$<%= tier_one_price %> / Event</strong></li>
+                                  <li><strong>6 to 10</strong> Events: <strong>$<%= tier_two_price %> / Event</strong></li>
+                                  <li><strong>11+</strong> Events: <strong>$<%= tier_three_price %> / Event</strong></li>
+                                  <li>
+                                    Select number of events:
+                                        <%= form_for(:peu, url: existing_user_purchase_select_path) do |y| %>
+                                          <%= y.select :number, (1..24) %>
+                                          <%= y.submit "Go to Checkout", class: "btn-primary btn-large" %>
+                                        <% end %>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          
+         </div>
+
+      </div>
+      
+
+  </div>
+
+</div>

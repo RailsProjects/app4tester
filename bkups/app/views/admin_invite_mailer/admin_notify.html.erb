@@ -1,0 +1,10 @@
+<p> Hi there <%= @u.first_name %>! </p>
+
+<p> You've been invited to be an admin for the event <%= @ai.event.title %>. Since you've already registered on our site, you have already been given admin access to this event. </p>
+
+<p> This means you can use our site to ensure that attendees' names will be announced correctly.  You can listen to recordings of their names to practice them, and invite people to record their names.  </p>
+
+<p>  Please click on the link to <%= link_to "sign in", @url %>. If you have not yet set a password, you will need to do so by clicking on 'Reset Password.' </p>
+
+<p> Thank you!
+- The team at NameCoach </p>
