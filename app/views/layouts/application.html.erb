@@ -7,6 +7,16 @@
 
      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
   <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag 'mobile' if mobile_device? %>
+
+  <p> # link for mobile device to toggle btwn mobile and Full site
+    <% if mobile_device? %>
+      <%= link_to "Full Site", :mobile => 0 %>
+    <% else %>
+      <%= link_to "Mobile Site", :mobile => 1 %>
+    <% end %>
+  </p>
+
 
   <%= javascript_include_tag "application", "jquery.complete-placeholder.min.js" %>
   <%= csrf_meta_tags %>
@@ -46,21 +56,21 @@ _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
 </head>
 
 	<body>
-		
-		
+
+
 			<%= render 'layouts/header' %>
-		 
+
 
 
 			<%= yield %>
       <!-- Scroll to top -->
-<span class="totop"><a href="#"><i class="icon-chevron-up"></i></a></span> 
+<span class="totop"><a href="#"><i class="icon-chevron-up"></i></a></span>
 
 			<%= render 'layouts/footer' %>
-			
+
 			<%= debug(params) if Rails.env.development? %>
 
-		
+
 <!-- begin olark code -->
 <script data-cfasync="false" type='text/javascript'>/*<![CDATA[*/window.olark||(function(c){var f=window,d=document,l=f.location.protocol=="https:"?"https:":"http:",z=c.name,r="load";var nt=function(){
 f[z]=function(){
