@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
       session[:mobile_param] == "1" # then rtn that session if it's == 1 (mobile)
     else
   	  request.user_agent =~ /Mobile|webOS/  #chk user agent string against regex
+    end
   end
 
   helper_method :mobile_device?
