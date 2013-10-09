@@ -55,7 +55,7 @@ _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
       <!-- link for mobile device to toggle btwn mobile and full site -->
       <p>
         <% if mobile_device? %>
-          <!-- if mobile device use add link to full site-->
+          <!-- if mobile device use add link to full site, set mobile to 0 -->
           <%= link_to "Full Site", :mobile => 0 %>
         <% else %>
           <%= link_to "Mobile Site", :mobile => 1 %>
