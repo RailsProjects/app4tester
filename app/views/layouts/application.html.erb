@@ -9,14 +9,6 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= stylesheet_link_tag 'mobile' if mobile_device? %>
 
-  <p> # link for mobile device to toggle btwn mobile and Full site
-    <% if mobile_device? %>
-      <%= link_to "Full Site", :mobile => 0 %>
-    <% else %>
-      <%= link_to "Mobile Site", :mobile => 1 %>
-    <% end %>
-  </p>
-
 
   <%= javascript_include_tag "application", "jquery.complete-placeholder.min.js" %>
   <%= csrf_meta_tags %>
@@ -59,6 +51,17 @@ _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
 
 
 			<%= render 'layouts/header' %>
+
+      <!-- link for mobile device to toggle btwn mobile and full site -->
+      <p>
+        <% if mobile_device? %>
+          <!-- if mobile device use add link to full site-->
+          <%= link_to "Full Site", :mobile => 0 %>
+        <% else %>
+          <%= link_to "Mobile Site", :mobile => 1 %>
+        <% end %>
+      </p>
+
 
 
 

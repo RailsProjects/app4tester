@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
   private
 
   def mobile_device?
-    if session[:mobile_param]  # if session exists then
-      session[:mobile_param] == "1" # then rtn that session if it's == 1 (mobile)
+    if session[:mobile_param]  # if session exists then rtn that session if
+      session[:mobile_param] == "1" #  mobile param  == 1 (it's a mobile device)
     else
   	  request.user_agent =~ /Mobile|webOS/  #chk user agent string against regex
     end
